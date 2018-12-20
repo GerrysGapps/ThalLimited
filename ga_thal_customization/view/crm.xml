@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inherits_crm_case_form_view_leads" model="ir.ui.view">
+        <field name="name">crm.lead.form.lead</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_leads"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_set_lost']" position="replace">
+                <button name="%(crm.crm_lead_lost_action)d"
+                        string="Mark as Lost"
+                        type="action"
+                        attrs="{'invisible': ['&amp;', ('probability', '=', 0), ('active', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="lost_reason" attrs="{'invisible': [('active', '=', True)]}"/>
+                <field name="competitor" attrs="{'invisible': [('active', '=', True)]}"/>
+                <field name="lost_reason_description" attrs="{'invisible': [('active', '=', True)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="inherit_crm_lead_lost_form" model="ir.ui.view">
+        <field name="name">crm.lead.lost.form</field>
+        <field name="model">crm.lead.lost</field>
+        <field name="inherit_id" ref="crm.crm_lead_lost_view_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lost_reason_id']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='lost_reason_id']" position="after">
+                <field name="competitor"/>
+                <field name="description"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="inherit_crm_lead_form" model="ir.ui.view">
+        <field name="name">crm.lead.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_oppor"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lost_reason']" position="after">
+                <field name="competitor" attrs="{'invisible': [('active', '=', True)]}"/>
+                <field name="lost_reason_description" attrs="{'invisible': [('active', '=', True)]}"/>
+            </xpath>
+             <xpath expr="//button[@name='%(sale_crm.sale_action_quotations_new)d']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!--<xpath expr="//button[@name='%(sale_crm.sale_action_quotations_new)d']" position="attributes">-->
+                <!--<attribute name="string">New/Revise Quotation</attribute>-->
+            <!--</xpath>-->
+            <xpath expr="//button[@name='action_set_won_rainbowman']" position="before">
+                <button name="%(sale_crm.sale_action_quotations_new)d"
+                        string="Expected Revenue" class="oe_highlight"
+                        type="action"
+                        context="{'search_default_partner_id': partner_id,
+                                  'default_partner_id': partner_id,
+                                  'default_team_id': team_id,
+                                  'default_campaign_id': campaign_id,
+                                  'default_medium_id': medium_id,
+                                  'default_origin': name,
+                                  'default_source_id': source_id}"/>
+
+            </xpath>
+
+            <xpath expr="//form/sheet/div[4]" position="replace">
+                <div class="oe_title">
+                    <label for="name" class="oe_edit_only"/>
+                    <h1>
+                        <field name="name" placeholder="e.g. Product Pricing" postion="replace"/>
+                    </h1>
+                    <h2 class="o_row">
+                        <div>
+                            <label for="planned_revenue"/>
+                            <br/>
+                            <div class="o_row">
+                                <field name="company_currency" invisible="1"/>
+                                <field name="planned_revenue" widget="monetary"
+                                       options="{'currency_field': 'company_currency'}"/>
+                                <span class="oe_grey">at</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="probability"/>
+                            <br/>
+                            <div class="o_row">
+                                <field name="probability" widget="integer"/>
+                            </div>
+                        </div>
+                    </h2>
+                </div>
+                <div>
+                    <h2>
+                        <label for="actual_revenue"/>
+                        <br/>
+                        <div class="o_row">
+                            <field name="company_currency" invisible="1"/>
+                            <field name="actual_revenue" widget="monetary"
+                                   options="{'currency_field': 'company_currency'}"/>
+                        </div>
+                    </h2>
+                    <br/>
+                    <label for="revenue_percentage"/>
+                    <br/>
+                    <field name="revenue_percentage" widget="progressbar"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
