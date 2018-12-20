@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="inherit_crm_lead_form" model="ir.ui.view">
+        <field name="name">crm.lead.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_oppor"></field>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="placeholder">e.g. 021-99217251,+9299217251</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="attributes">
+                <attribute name="placeholder">e.g. 0302-2325272,+923022325272</attribute>
+            </xpath>
+             <xpath expr="//field[@name='website']" position="attributes">
+                <attribute name="placeholder">e.g. www.amazon.com,www.gerrys.net</attribute>
+            </xpath>
+             <xpath expr="//field[@name='email_from']" position="attributes">
+                <attribute name="placeholder">e.g. xyz@gmail.com</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="inherited_partner_form" model="ir.ui.view">
+        <field name="name">partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="placeholder">e.g. 021-99217251,+9299217251</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="attributes">
+                <attribute name="placeholder">e.g. 0302-2325272,+923022325272</attribute>
+            </xpath>
+             <xpath expr="//field[@name='website']" position="attributes">
+                <attribute name="placeholder">e.g. www.amazon.com,www.gerrys.net</attribute>
+            </xpath>
+             <xpath expr="//field[@name='email']" position="attributes">
+                <attribute name="placeholder">e.g. xyz@gmail.com</attribute>
+            </xpath>
+        </field>
+    </record>
+      <record id="inherits_crm_case_form_view_leads" model="ir.ui.view">
+        <field name="name">crm.lead.form.lead</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_leads"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="placeholder">e.g. 021-99217251,+9299217251</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="attributes">
+                <attribute name="placeholder">e.g. 0302-2325272,+923022325272</attribute>
+            </xpath>
+             <xpath expr="//field[@name='website']" position="attributes">
+                <attribute name="placeholder">e.g. www.amazon.com,www.gerrys.net</attribute>
+            </xpath>
+             <xpath expr="//field[@name='email_from']" position="attributes">
+                <attribute name="placeholder">e.g. xyz@gmail.com</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+
+
