@@ -107,7 +107,7 @@ class SaleOrder(models.Model):
             'domain': "[('id', 'in', %s)]" % revision_ids,
             'auto_search': True,
             'view_mode': 'form',
-            'res_id': self.id+1,
+            'res_id': self.current_revision_id.id,
             'target': 'current',
             'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}},
             'nodestroy': True,

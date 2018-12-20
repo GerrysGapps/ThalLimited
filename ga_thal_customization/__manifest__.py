@@ -9,9 +9,11 @@
     "author": "GAPPS",
     "website": "http://www.gerrys.net",
     "license": "AGPL-3",
-    "depends": ['base','account','ga_sale_order_approval','product','sale',"crm",'sale_crm','ga_competitor',
+    "depends": ['base','mail','contacts','ga_sale_order_approval','product','sale','sale_management',"crm",'sale_crm','ga_competitor','sale_order_revision',
     ],
     "data": [
+        "view/mail_data.xml",
+        "view/cron.xml",
         "security/ir.model.access.csv",
         "view/sale.xml",
         "view/view.xml",
@@ -19,5 +21,6 @@
         "view/groups.xml",
 
     ],
+'qweb': ['static/src/web.xml'],
     "installable": True,
 }
