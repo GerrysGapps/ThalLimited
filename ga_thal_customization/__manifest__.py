@@ -14,7 +14,7 @@
     "data": [
         "security/ir.model.access.csv",
         "view/sale.xml",
-        "view/view.xml",
+        #"view/view.xml",
         "view/crm.xml",
         "view/groups.xml",
 
