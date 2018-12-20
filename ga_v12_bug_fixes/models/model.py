@@ -17,4 +17,13 @@ class inheritSaleOrderline(models.Model):
 
 
 
+class InheritHrPayrollStructure(models.Model):
+    """
+    Salary structure used to defined
+    - Basic
+    - Allowances
+    - Deductions
+    """
+    _inherit = 'hr.payroll.structure'
 
+    parent_id = fields.Many2one('hr.payroll.structure', string='Parent', default=False)

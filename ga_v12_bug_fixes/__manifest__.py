@@ -10,11 +10,11 @@
     "website": "http://www.gerrys.net",
     "license": "AGPL-3",
     "depends": [
-        'base','sale','sale_crm'
+        'base','sale','sale_crm','hr_payroll'
     ],
     "data": [
         # "security/ir.model.access.csv",
-        #"view/view.xml",
+        "view/view.xml",
     ],
     "installable": True,
 }

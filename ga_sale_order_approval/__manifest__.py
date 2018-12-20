@@ -10,9 +10,10 @@
     "website": "http://www.gerrys.net",
     "license": "AGPL-3",
     "depends": [
-        'sale','product'
+        'sale','product','sale_order_revision'
     ],
     "data": [
+        "security/ir.model.access.csv",
         "view/view.xml",
         "view/groups.xml",
     ],

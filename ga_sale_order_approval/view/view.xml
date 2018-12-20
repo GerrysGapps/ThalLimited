@@ -10,54 +10,124 @@
             menu="False"
             print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
     />
+    <record id="inheritproduct_pricelist_item_form_view" model="ir.ui.view">
+            <field name="name">product.pricelist.item.form</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_form_view"></field>
+            <field name="arch" type="xml">
 
-    <record id="inherited_sale_approval_form" model="ir.ui.view">
-        <field name="name">sale.order</field>
+             <xpath expr="//field[@name='fixed_price']" position="after">
+                  <label for="min_price"/>
+                 <field name="min_price"/>
+                  <label for="max_price"/>
+                 <field name="max_price"/>
+             </xpath>
+            </field>
+        </record>
+
+<record id="inheritview_company_report_form" model="ir.ui.view">
+            <field name="name">res.company.report.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[1]" position="after">
+                    <page string="Approval Setting">
+                    <field name="approval_groups"  widget="one2many_list" >
+                        <tree string="Approval Levels" editable="bottom">
+                            <control>
+                              <create string="Add a Group"/>
+                            </control>
+                            <field name="group"/>
+                             <field name="sequence"/>
+                        </tree>
+                    </field>
+                    </page>
+                </xpath>
+            </field>
+</record>
+    <record id="inherit_revision_sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
-        <field name="priority">10</field>
+        <field name="inherit_id" ref="sale.view_order_form"></field>
+        <field name="priority">15</field>
         <field name="arch" type="xml">
+             <xpath expr="//div[@class='oe_title']" position="before">
+                 <div align="right">
+                <field name="approval_status" widget="statusbar" statusbar_visible="draft,Waiting For Approval,Ready To Send"/>
+                     <br/>
+                      <label for="approval_required" attrs="{'invisible': [('approval_required','=',0)]}"/>
+                     <field name="approval_required" attrs="{'invisible': [('approval_required','=',0)]}"/>
+                      <label style="margin-left:20px" attrs="{'invisible': [('approval_level_temp','=',0)]}" for="approval_level_temp"/>
+                     <field name="approval_level_temp"  attrs="{'invisible': [('approval_level_temp','=',0)]}"/>
+                 </div>
+            </xpath>
             <xpath expr="//field[@name='state']" position="after">
                 <field name="management_approved" invisible="1"/>
             </xpath>
-            <xpath expr="//button[@name='action_cancel']" position="after">
-                <button attrs="{'invisible': ['|',('state', 'not in', ['draft']),('management_approved', '=', True)]}"
-                        name="action_management_approved"
-                        string="Management Approval"
-                        type="object"
-                        class="btn-primary o_sale_print"/>
-            </xpath>
+
             <xpath expr="//button[@name='preview_sale_order']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('management_approved', '=', False)]}</attribute>
+                <attribute name="invisible">1</attribute>
             </xpath>
+
             <xpath expr="//button[@name='print_quotation'][1]" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('management_approved', '=', False)]}</attribute>
+                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//button[@name='print_quotation'][2]" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('management_approved', '=', False)]}</attribute>
+                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//button[@name='action_quotation_send'][1]" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('management_approved', '=', False)]}</attribute>
+                    <attribute name="invisible">1</attribute>
             </xpath>
-
             <xpath expr="//button[@name='action_quotation_send'][2]" position="attributes">
-                <attribute name="attrs">{'invisible': ['|','|',('management_approved', '=', False),('state', '!=',
-                    'draft'),('invoice_count','&gt;=',1)]}
-                </attribute>
+                   <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//button[@name='action_quotation_send'][3]" position="attributes">
-                <attribute name="attrs">{'invisible': ['|','|',('management_approved', '=', False),('state', '=',
-                    'draft'),('invoice_count','&gt;=',1)]}
-                </attribute>
+                    <attribute name="invisible">1</attribute>
             </xpath>
-
             <xpath expr="//button[@name='action_quotation_send'][4]" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('management_approved', '=', False)]}</attribute>
+                    <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm'][1]" position="attributes">
+                  <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm'][2]" position="attributes">
+                  <attribute name="invisible">1</attribute>
+            </xpath>
+             <xpath expr="//button[@name='action_cancel']" position="attributes">
+                  <attribute name="invisible">1</attribute>
             </xpath>
 
+          <xpath expr="//button[@name='create_revision']" position="after">
+                <button attrs="{'invisible': ['|',('approval_status', 'not in', ['draft']),('management_approved', '=', True)]}"
+                        name="action_send_for_approval"
+                        string="Send For Approval"
+                        type="object"
+                        class="btn-primary o_sale_print"/>
+                <button attrs="{'invisible': ['|',('approval_status', 'not in', ['Waiting For Approval']),('management_approved', '=', True)]}"
+                        name="action_management_approved"
+                        string="Approve"
+                        groups="ga_sale_order_approval.so_approval"
+                        type="object"
+                        class="btn-primary o_sale_print"/>
+                 <button string="Reject" name="reject_quotation" type="object"
+                            groups="ga_sale_order_approval.so_approval" attrs="{'invisible': [('approval_status', 'not in',['Waiting For Approval'])]}"/>
+                 <button name="print_quotation" string="Print" type="object" attrs="{'invisible': ['|',('management_approved', '=', False)]}" states="draft" class="btn-primary o_sale_print"/>
+                 <button name="print_quotation" string="Print" type="object" attrs="{'invisible': ['|',('management_approved', '=', False)]}"  states="sent,sale" class="o_sale_print"/>
+                 <button name="action_quotation_send" string="Email To Customer" attrs="{'invisible': ['|',('management_approved', '=', False)]}" type="object" states="draft" class="btn-primary"/>
+                 <button name="action_quotation_send" type="object" string="Send PRO-FORMA Invoice" groups="sale.group_proforma_sales" class="btn-primary" attrs="{'invisible': ['|','|',('management_approved', '=', False) ,('state', '!=', 'draft'), ('invoice_count','&gt;=',1)]}" context="{'proforma': True}"/>
+                 <button name="action_quotation_send" type="object" string="Send PRO-FORMA Invoice" groups="sale.group_proforma_sales" attrs="{'invisible': ['|','|',('management_approved', '=', False),('state', '=', 'draft'), ('invoice_count','&gt;=',1)]}" context="{'proforma': True}"/>
+                 <button name="action_quotation_send" string="Email To Customer" attrs="{'invisible': ['|',('management_approved', '=', False)]}" type="object" states="sent,sale"/>
+                 <button attrs="{'invisible': [('approval_status', 'not in', ['Ready To Send'])]}"
+                        name="send_requesttosap_func"
+                        string="Email To SAP Team"
+                        type="object"
+                        class="btn-primary o_sale_print"/>
+                 <button name="action_confirm" id="action_confirm" string="Convert To Sale" class="btn-primary" type="object" attrs="{'invisible': ['|',('management_approved', '=', False),('state', 'not in', ['sent'])]}"/>
+                 <button name="action_confirm" string="Convert To Sale" type="object" attrs="{'invisible': ['|',('management_approved', '=', False),('state', 'not in', ['draft','Ready To Send'])]}"/>
+                <button name="action_cancel" states="draft,sent,sale,waiting_for_approval,Ready To Send" type="object" string="Cancel"/>
+            </xpath>
         </field>
     </record>
-
     <record id="inherits_product_limit_template" model="ir.ui.view">
         <field name="name">product.template.form</field>
         <field name="model">product.template</field>
@@ -69,6 +139,30 @@
             </xpath>
         </field>
     </record>
+
+     <record id="quotation_reject_view_form" model="ir.ui.view">
+            <field name="name">quotation.rejection.form</field>
+            <field name="model">quotation.rejection</field>
+            <field name="arch" type="xml">
+                <form string="Rejection Reason">
+                    <group class="oe_title">
+                        <field name="description"/>
+                    </group>
+                    <footer>
+                        <button name="action_reject_reason_apply" string="Submit" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+      <record id="quotation_reject_action" model="ir.actions.act_window">
+            <field name="name">Quotation Rejection</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">quotation.rejection</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="quotation_reject_view_form"/>
+            <field name="target">new</field>
+        </record>
 
 
 </odoo>

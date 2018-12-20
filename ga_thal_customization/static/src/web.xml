@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template id="template" xml:space="preserve">
+        <t t-extend="FieldBinaryFileUploader.files">
+         <t t-jquery="a.oe_delete" t-operation="replace">
+         </t>
+        </t>
+       <t t-extend="mail.activity_items">
+         <t t-jquery="a.btn-danger" t-operation="replace">
+         </t>
+        </t>
+ </template>
+
