@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="Sidebar">
+        <t t-jquery=".dropdown-menu" t-operation="append">
+            <div t-if="section.name == 'files' and widget.items['files'].length > 0" class="dropdown-item o_sidebar_thumbnail_attachment">
+                Thumbnails
+                <span class="fa fa-image o_sidebar_thumbnail_icon"/>
+            </div>
+        </t>
+    </t>
+</templates>
