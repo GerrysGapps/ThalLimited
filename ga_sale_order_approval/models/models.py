@@ -43,30 +43,30 @@ class InheritSaleOrder(models.Model):
             # return 'You can only sale' + str(line.product_id.name) + ' within this price range ' +str(line.product_id.product_tmpl_id.min_sale_price)
             # + '-' + str(line.product_id.product_tmpl_id.max_sale_price)
 
-    @api.multi
-    def _action_confirm(self):
-        if not self.management_approved:
-            raise Warning(_('Management Approval Needed'))
-        res = super(InheritSaleOrder, self)._action_confirm()
-        return res
-
-    @api.model
-    def create(self, vals):
-        if 'order_line' in vals:
-            if self._check_approval_need_created(vals['order_line']):
-                vals['management_approved']= False
-            else:
-                vals['management_approved'] = True
-        created_id = super(InheritSaleOrder, self).create(vals)
-        return created_id
-
-    @api.multi
-    def write(self, vals):
-        write_id = super(InheritSaleOrder, self).write(vals)
-        if 'order_line' in vals:
-            if self._check_approval_need():
-                vals['management_approved']=False
-                self.write({'management_approved':False})
-            else:
-                self.write({'management_approved': True})
-        return write_id
+    # @api.multi
+    # def _action_confirm(self):
+    #     if not self.management_approved:
+    #         raise Warning(_('Management Approval Needed'))
+    #     res = super(InheritSaleOrder, self)._action_confirm()
+    #     return res
+    #
+    # @api.model
+    # def create(self, vals):
+    #     if 'order_line' in vals:
+    #         if self._check_approval_need_created(vals['order_line']):
+    #             vals['management_approved']= False
+    #         else:
+    #             vals['management_approved'] = True
+    #     created_id = super(InheritSaleOrder, self).create(vals)
+    #     return created_id
+    #
+    # @api.multi
+    # def write(self, vals):
+    #     write_id = super(InheritSaleOrder, self).write(vals)
+    #     if 'order_line' in vals:
+    #         if self._check_approval_need():
+    #             vals['management_approved']=False
+    #             self.write({'management_approved':False})
+    #         else:
+    #             self.write({'management_approved': True})
+    #     return write_id
