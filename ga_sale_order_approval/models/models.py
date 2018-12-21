@@ -189,7 +189,6 @@ class InheritSaleOrder(models.Model):
         if 'order_line' in vals:
             if self._check_approval_need_created(vals['pricelist_id'],vals['order_line']):
                 vals['management_approved'] = False
-                vals['approval_status'] = 'draft'
                 vals['approval_level'] = 0
             else:
                 vals['management_approved'] = True
