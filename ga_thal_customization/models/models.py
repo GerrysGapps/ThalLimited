@@ -169,28 +169,29 @@ class InheritSaleOrder(models.Model):
     def create(self, vals):
         'PACKING			:	EXPORT PACKING ONTO PALLETS'
         terms = \
-            "PACKING			:	EXPORT PACKING ONTO PALLETS \n" + \
-            "PAYMENT TERMS		 :	 TRANSFER IN ADVANCE IN ADVISING BANK\n" + \
-            'DELIVERY PERIOD	 :	 WITHIN 2 OR 3 WEEKS \n' + \
-            'BANK CHARGES		 :	 ALL BANK CHARGES OUT SIDE PAKISTAN INCLUDING \n' + \
+            "INCOTERMS : CFR\n" + \
+            "PACKING:EXPORT PACKING ONTO PALLETS \n" + \
+            "PAYMENT TERMS:TRANSFER IN ADVANCE IN ADVISING BANK\n" + \
+            'DELIVERY PERIOD:WITHIN 2 OR 3 WEEKS \n' + \
+            'BANK CHARGES:ALL BANK CHARGES OUT SIDE PAKISTAN INCLUDING \n' + \
             'REMITTANCE AND REIMBURSEMENT CHARGES ARE ON \n' + \
             'APPLICANT ACCOUNT. \n' + \
-            'ADVISING BANK		 :	“HABIB METROPOLITAN BANK LIMITED” \n' + \
+            'ADVISING BANK:“HABIB METROPOLITAN BANK LIMITED” \n' + \
             'SHAHRAH-E-FAISAL BRANCH, KARACHI – PAKISTAN,\n' + \
             'A/C. NO. : 0112-20311-119919 \n' + \
             '(SWIFT CODE NO: MPBLPKKA012)\n' + \
             'IBAN NO: PK10 MPBL 0112 0271 4011 9917 \n' + \
-            'INSURANCE		     :	TO BE ARRANGED BY THE BUYER \n' + \
-            'BENIFICIARY		 :	THAL LIMITED,\n' + \
+            'INSURANCE:TO BE ARRANGED BY THE BUYER \n' + \
+            'BENIFICIARY:THAL LIMITED,\n' + \
             'LAMINATES DIVISION \n' + \
-            'REMARKS			 :	ANY ATTESTATION OR INSPECTION IF REQUIRED WILL BE ON BUYER’S ACCOUNT \n' + \
+            'REMARKS:ANY ATTESTATION OR INSPECTION IF REQUIRED WILL BE ON BUYER’S ACCOUNT \n' + \
             '\t\t FOR : THAL LIMITED,\n' + \
             '\t\t LAMINATES DIVIION'
 
         if vals['pricelist_id']:
             pricelist = self.env['product.pricelist'].search([('id','=',vals['pricelist_id'])])
             if pricelist:
-                if 'PKR' not in pricelist.currency_id.name:
+                if 'PKR' not in pricelist.currency_id.name and 'BLD - Formite' in self.env.user.company_id.name:
                     vals['note'] = terms
                 else:
                     res_config = self.env['res.config.settings'].search([('company_id','=',self.env.user.company_id.id)],order='id DESC',limit=1)
@@ -217,21 +218,22 @@ class InheritSaleOrder(models.Model):
     @api.model
     def write(self, vals):
         terms = \
-            "PACKING			:	EXPORT PACKING ONTO PALLETS\n"+ \
-            "PAYMENT TERMS		 :	 TRANSFER IN ADVANCE IN ADVISING BANK\n" + \
-            'DELIVERY PERIOD	 :	 WITHIN 2 OR 3 WEEKS \n' + \
-            'BANK CHARGES		 :	 ALL BANK CHARGES OUT SIDE PAKISTAN INCLUDING \n' + \
+            "INCOTERMS : CFR\n"+\
+            "PACKING:EXPORT PACKING ONTO PALLETS \n" + \
+            "PAYMENT TERMS:TRANSFER IN ADVANCE IN ADVISING BANK\n" + \
+            'DELIVERY PERIOD:WITHIN 2 OR 3 WEEKS \n' + \
+            'BANK CHARGES:ALL BANK CHARGES OUT SIDE PAKISTAN INCLUDING \n' + \
             'REMITTANCE AND REIMBURSEMENT CHARGES ARE ON \n' + \
             'APPLICANT ACCOUNT. \n' + \
-            'ADVISING BANK		 :	“HABIB METROPOLITAN BANK LIMITED” \n' + \
+            'ADVISING BANK:“HABIB METROPOLITAN BANK LIMITED” \n' + \
             'SHAHRAH-E-FAISAL BRANCH, KARACHI – PAKISTAN,\n' + \
-            'A/C. NO. : 0112-20311-119919 \n' + \
+            'A/C. NO.: 0112-20311-119919 \n' + \
             '(SWIFT CODE NO: MPBLPKKA012)\n' + \
             'IBAN NO: PK10 MPBL 0112 0271 4011 9917 \n' + \
-            'INSURANCE		     :	TO BE ARRANGED BY THE BUYER \n' + \
-            'BENIFICIARY		 :	THAL LIMITED,\n' + \
+            'INSURANCE:TO BE ARRANGED BY THE BUYER \n' + \
+            'BENIFICIARY:THAL LIMITED,\n' + \
             'LAMINATES DIVISION \n' + \
-            'REMARKS			 :	ANY ATTESTATION OR INSPECTION IF REQUIRED WILL BE ON BUYER’S ACCOUNT \n' + \
+            'REMARKS:ANY ATTESTATION OR INSPECTION IF REQUIRED WILL BE ON BUYER’S ACCOUNT \n' + \
             '\t\t FOR : THAL LIMITED,\n' + \
             '\t\t LAMINATES DIVIION'
         write_id = super(InheritSaleOrder, self).write(vals)
@@ -250,7 +252,7 @@ class InheritSaleOrder(models.Model):
             if vals['pricelist_id']:
                 pricelist = self.env['product.pricelist'].search([('id', '=', vals['pricelist_id'])])
                 if pricelist:
-                    if 'PKR' not in pricelist.currency_id.name:
+                    if 'PKR' not in pricelist.currency_id.name and 'BLD - Formite' in self.env.user.company_id.name:
                         self.write({'note':terms})
                     else:
                         res_config = self.env['res.config.settings'].search([('company_id', '=', self.env.user.company_id.id)],order='id DESC',limit=1)
