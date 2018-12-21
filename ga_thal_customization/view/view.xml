@@ -12,6 +12,27 @@
         </field>
     </record>
     <template id="inheritexternal_layout_background" inherit_id="web.external_layout_background">
+
+
+
+        <!--<xpath expr="//t[1]" position="replace">-->
+         <!--&lt;!&ndash;<div class="text-left" style="border-top: 1px solid black;">&ndash;&gt;-->
+                <!--&lt;!&ndash;<ul class="list-inline mb4">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li t-if="company.phone" class="list-inline-item">Phone: <span t-field="company.phone"/></li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li t-if="company.email" class="list-inline-item">Email: <span t-field="company.email"/></li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li t-if="company.website" class="list-inline-item">Web: <span t-field="company.website"/></li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li t-if="company.vat" class="list-inline-item"><t t-esc="company.country_id.vat_label or 'Tax ID'"/>: <span t-field="company.vat"/></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<div name="financial_infos">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span t-field="company.report_footer"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<div t-if="report_type == 'pdf'" class="text-muted">&ndash;&gt;-->
+                    <!--&lt;!&ndash;Page: <span class="page"/> / <span class="topage"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--</xpath>-->
         <xpath expr="//div[@class='header']" position="replace">
             <div class="header">
                 <p tesc="company.id"></p>
@@ -30,6 +51,7 @@
     </template>
     <template id="sale_order_portal_inherit_template" inherit_id="sale.sale_order_portal_content">
         <xpath expr="//div[@id='introduction']/h2[1]" position="replace">
+            <t t-if="'BLD - Formite' in doc.user_id.company_id.name">
             <h2 class="my-0">
                 <t t-if="'PKR' in sale_order.pricelist_id.currency_id.name">
                     <span t-if="sale_order.state not in ['draft','sent']">Order #</span>
@@ -39,22 +61,48 @@
                     <span>Pro-Forma Invoice #</span>
                 </t>
                 <em t-esc="sale_order.name"/>
-
             </h2>
             <t t-if="'PKR' not in sale_order.pricelist_id.currency_id.name">
-                    <strong>POF SHIPMENT :</strong>
+                    <span>POF SHIPMENT :</span>
                     <span t-field="doc.port_of_shipment"></span>
                     <br/>
-                     <strong>POF DESTINATION :</strong>
+                     <span>POF DESTINATION :</span>
                    <span t-field="doc.port_of_dest"></span>
                      <br/>
-                    <strong>MODE OF SHIPMENT:</strong>
+                    <span>MODE OF SHIPMENT:</span>
                     <span t-field="doc.shipment_mode"/>
                 </t>
+            </t>
         </xpath>
     </template>
+
     <template id="sale_order_inherit_template" inherit_id="sale.report_saleorder_document">
+         <xpath expr="//t[1]/t[2]" position="replace">
+             <t t-if="doc.partner_id">
+              <h2>Customer Information </h2>
+               <span style="display:block;margin-top:-3px;" t-field="doc.partner_id.name"/>
+             <t t-if="doc.partner_id.street">
+                  <span style="display:block;margin-top:-3px;" t-field="doc.partner_id.street"/>
+             </t>
+                <t t-if="doc.partner_id.street2">
+                <span  style="display:block;margin-top:-3px;" t-field="doc.partner_id.street2"/>
+                </t>
+                 <t t-if="doc.partner_id.phone">
+                     <span  style="display:block;margin-top:-3px;"> <span>Phone :</span>   <span t-field="doc.partner_id.phone"/></span>
+                </t>
+                 <t t-if="doc.partner_id.mobile">
+                     <span  style="display:block;margin-top:-3px;"><span>Mobile :</span>   <span t-field="doc.partner_id.mobile"/> </span>
+                </t>
+                  <t t-if="doc.partner_id.city">
+                   <span  style="display:block;margin-top:-3px;" t-field="doc.partner_id.city"/>
+                </t>
+                 <t t-if="doc.partner_id.country_id">
+                   <span  style="display:block;margin-top:-3px;" t-field="doc.partner_id.country_id.name"/>
+                </t>
+             </t>
+        </xpath>
         <xpath expr="//div[@class='page']/h2[1]" position="replace">
+             <t t-if="'BLD - Formite' in doc.user_id.company_id.name">
             <h2>
                 <t t-if="'PKR' in doc.pricelist_id.currency_id.name">
                     <span t-if="doc.state not in ['draft','sent']">Order #</span>
@@ -66,15 +114,16 @@
                 <span t-field="doc.name"/>
             </h2>
             <t t-if="'PKR' not in doc.pricelist_id.currency_id.name">
-            <strong>POF SHIPMENT :</strong>
+            <span>POF SHIPMENT :</span>
                     <span t-field="doc.port_of_shipment"></span>
                     <br/>
-                     <strong>POF DESTINATION :</strong>
+                     <span>POF DESTINATION :</span>
                    <span t-field="doc.port_of_dest"></span>
                      <br/>
-                    <strong>MODE OF SHIPMENT:</strong>
+                    <span>MODE OF SHIPMENT:</span>
                     <span t-field="doc.shipment_mode"/>
             </t>
+             </t>
         </xpath>
     </template>
     <record id="inherited_partner_form" model="ir.ui.view">
