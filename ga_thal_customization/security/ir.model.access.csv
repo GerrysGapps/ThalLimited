@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_customer_category,access_customer_category,model_customer_category,base.group_user,1,1,1,1
+access_distribution_channel,access_distribution_channel,model_distribution_channel,base.group_user,1,1,1,1
+access_sales_office,access_sales_office,model_sale_office,base.group_user,1,1,1,1
+access_custom_bank,access_custom_bank,model_custom_bank,base.group_user,1,1,1,1
+access_port,access_port,model_custom_ports,base.group_user,1,1,1,1
+
+
