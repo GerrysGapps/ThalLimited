@@ -10,7 +10,7 @@ class SaleOrder(models.Model):
         result = super(SaleOrder, self).action_quotation_send()
         template_id = self.env['mail.template'].search([('company_id_ga', '=', self.env.user.company_id.id),('model_id.model', '=', 'sale.order'),
                                                         ('name', 'ilike', 'Send quotation')])
-        result['context']['template_id'] = template_id.id
+        result['context']['default_template_id'] = template_id.id
         return result
 
 
