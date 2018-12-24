@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+		<record id="inherit_mail_template_form_ga" model="ir.ui.view">
+			<field name="name">Inherited Email Template</field>
+			<field name="model">mail.template</field>
+			<field name="inherit_id" ref="mail.email_template_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='model']" position="after">
+					<field name="company_id_ga"/>
+				</xpath>
+			</field>
+		</record>		
+
+	</data>
+</odoo>
