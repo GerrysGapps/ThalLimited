@@ -1,6 +1,6 @@
 {
 	'name' : 'Auto Selector of Quotation Templates',
-	'version' : '1.2',
+	'version' : '1.3',
 	'depends' : ['base', 'sale', 'mail'],
 	'data' : ['views/mail_template_view.xml'],
 	'author' : 'Gerrys Apps',

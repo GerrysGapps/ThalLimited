@@ -8,7 +8,7 @@ class SaleOrder(models.Model):
     @api.multi
     def action_quotation_send(self):
         result = super(SaleOrder, self).action_quotation_send()
-        template_id = self.env['mail.template'].search([('company_id_ga', '=', self.env.uid.company_id),('model_id.model', '=', 'sale.order'),
+        template_id = self.env['mail.template'].search([('company_id_ga', '=', self.env.user.company_id),('model_id.model', '=', 'sale.order'),
                                                         ('name', 'ilike', 'Send quotation')])
         result['context']['template_id'] = template_id.id
         return result
