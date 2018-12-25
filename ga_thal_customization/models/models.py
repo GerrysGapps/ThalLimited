@@ -148,8 +148,8 @@ class InheritSaleOrder(models.Model):
 
     @api.multi
     def action_cancel(self):
+        res = super(InheritSaleOrder, self).action_cancel()
         if self.opportunity_id:
-            res = super(InheritSaleOrder, self).action_cancel()
             if self.type == 'Revised':
                 sale_order_object_actual = self.env['sale.order'].search(
                     [('opportunity_id', '=', self.opportunity_id.id),
