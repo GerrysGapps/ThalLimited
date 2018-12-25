@@ -108,7 +108,6 @@ class InheritSaleOrder(models.Model):
     def action_send_for_approval(self):
         self.sudo().write({'approval_status': 'Waiting For Approval'})
 
-
     @api.one
     def check_approval_limit(self,company_id):
         self.env.cr.execute("""select max(sequence) as max_limit from approval_groups where company_id=%s"""%(company_id))

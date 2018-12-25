@@ -9,8 +9,9 @@ class SaleOrder(models.Model):
     def action_quotation_send(self):
         result = super(SaleOrder, self).action_quotation_send()
         template_id = self.env['mail.template'].search([('company_id_ga', '=', self.env.user.company_id.id),('model_id.model', '=', 'sale.order'),
-                                                        ('name', 'ilike', 'Send quotation')])
-        result['context']['default_template_id'] = template_id.id
+                                                        ('name', 'ilike', 'Send quotation%')])
+        result['context']['default_template_id'] = template_id.id if template_id else result['context']['default_template_id']
+        print(result['context']['default_template_id'])
         return result
 
 
