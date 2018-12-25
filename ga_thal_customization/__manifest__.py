@@ -19,7 +19,6 @@
         "view/view.xml",
         "view/crm.xml",
         "view/groups.xml",
-        "view/dashboard.xml",
 
     ],
 'qweb': ['static/src/web.xml'],
