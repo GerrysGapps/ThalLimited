@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="advance_payment_wizard" model="ir.ui.view">
+        <field name="name">Advance Payment</field>
+        <field name="model">advance.payment.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Advance Payment">
+                <group>
+                    <field name="journal_id"
+                            domain="[('type','in',['bank', 'cash'])]"
+                            widget="selection" select="1"
+                            string="Payment Method"/>
+                    <field name="payment_ref"/>
+                    <group colspan="4" col="4">
+                        <field name="amount_total"/>
+                        <field name="tax"/>
+                        <field name="date"/>
+
+                    </group>
+                    <separator string="Operation" colspan="4"/>
+                    <group colspan="4" col="4">
+                        <field name="amount_advance"/>
+                        <field name="currency_id"/>
+                        <field name="type"/>
+                    </group>
+                </group>
+                <field name="writeoff_multi_acc_ids" nolabel="1" colspan="4" attrs="{'invisible': ['|',('type','=','Full Payment Without Write-Off'),('type','=','Partial Payment Without Write-Off')]}">
+                    <tree string="Multi write of accounts" editable="bottom">
+                        <field name="type" required="1"/>
+                        <field name="taxes" domain="[('sales_income_wht','=',type)]"/>
+                        <field name="writeoff_account_id"/>
+                        <field name="name" required="1"/>
+                        <field name="amt_percent" sum="Total %"/>
+                        <field name="amount_payment" sum="Total Amount"/>
+                        <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button name="sale_make_advance_payment" string="Register Payment" type="object" class="btn-primary"/>
+                    <button special="cancel" string="Cancel" class="btn-default"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_advance_payment_wizard" model="ir.actions.act_window">
+        <field name="name">Advance Payment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">advance.payment.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Partner Screen -->
+        <record id="view_partner_inherit" model="ir.ui.view">
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr='//notebook' position="inside">
+                    <page string="Tax Exemption"
+                          groups="account.group_account_manager">
+                        <group>
+                            <field name="income_tax_withheld"
+                                   domain="[('sales_income_wht','=','income_WHT')]"
+                                   string="Income Tax Withheld before Expiry"/>
+                            <field name="till_date" string="Exemption Expiry Date"/>
+                            <field name="use_after_expiry"
+                                   domain="[('sales_income_wht','=','income_WHT')]"
+                                   string="Income Tax Withheld after Expiry"/>
+                        </group>
+                    </page>
+
+                </xpath>
+
+            </field>
+
+        </record>
+
+
+    </data>
+</openerp>
