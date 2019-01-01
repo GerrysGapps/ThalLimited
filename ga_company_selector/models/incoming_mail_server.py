@@ -1,6 +1,6 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-
+import re
 
 class IncomingMailServer(models.AbstractModel):
     _inherit = "mail.thread"

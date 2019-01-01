@@ -62,7 +62,7 @@ class InheritCRM(models.Model):
         if self.email_from:
             # if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$",self.email_from) != None:
             #     return True
-            if '@' in self.email and '.' in self.email:
+            if '@' in self.email_from and '.' in self.email_from:
                 return True
             else:
                 raise ValidationError("Invalid Email")
