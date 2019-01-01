@@ -1,30 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- dashboard action -->
-    <record id="inheritcrm_opportunity_action_dashboard" model="ir.actions.act_window">
-        <field name="name">Pipeline Analysis</field>
-        <field name="res_model">crm.lead</field>
-        <field name="view_mode">dashboard,pivot,graph,cohort</field>
-        <field name="search_view_id" ref="crm_enterprise.crm_opportunity_view_search"/>
-        <field name="context"
-               eval="{'search_default_opportunity': True, 'time_ranges': {'field':'create_date', 'range':'last_365_days'}, 'list_view_id': ref('crm.crm_case_tree_view_oppor'), 'form_view_id': ref('crm.crm_case_form_view_oppor')}"/>
-    </record>
-    <record id="inheritcrm_opportunity_view_dashboard" model="ir.ui.view">
-        <field name="name">crm.lead.view.dashboard</field>
-        <field name="model">crm.lead</field>
-        <field name="mode">primary</field>
-        <field name="arch" type="xml">
-            <dashboard>
-                <view type="graph" ref="crm_enterprise.crm_opportunity_view_graph"/>
-            </dashboard>
-        </field>
-    </record>
-    <record id="crm_opportunity_action_dashboard_dashboard" model="ir.actions.act_window.view">
-        <field name="sequence" eval="1"/>
-        <field name="view_mode">dashboard</field>
-        <field name="view_id" ref="inheritcrm_opportunity_view_dashboard"/>
-        <field name="act_window_id" ref="inheritcrm_opportunity_action_dashboard"/>
-    </record>
 
     <record id="inheritcrm_opportunity_view_search" model="ir.ui.view">
         <field name="name">crm.lead.search.lead</field>
@@ -202,8 +177,5 @@
             </xpath>
         </field>
     </record>
-
-    <menuitem id="crm_dashboard_menu" name="DashBoard"
-              parent="crm.crm_menu_report" action="inheritcrm_opportunity_action_dashboard" sequence="6"/>
 
 </odoo>
