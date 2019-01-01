@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <record id="inheritcrm_opportunity_view_search" model="ir.ui.view">
+            <field name="name">crm.lead.search.lead</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm_enterprise.crm_opportunity_view_search"></field>
+          <field name="arch" type="xml">
+         <xpath expr="//filter[@name='my']" position="after">
+             <filter string="Last 7 Days" name="last7days"
+              domain="[('create_date','&gt;=', ((context_today()-datetime.timedelta(days=6)).strftime('%Y-%m-%d'))),('create_date','&lt;=', ((context_today()).strftime('%Y-%m-%d')))]"/>
+                    <filter string="Last 30 Days" name="last30days"
+              domain="[('create_date','&gt;=', ((context_today()-datetime.timedelta(days=29)).strftime('%Y-%m-%d'))),('create_date','&lt;=', ((context_today()).strftime('%Y-%m-%d')))]"/>
+                             <filter string="Last 365 Days" name="last365days"
+              domain="[('create_date','&gt;=', ((context_today()-datetime.timedelta(days=364)).strftime('%Y-%m-%d'))),('create_date','&lt;=', ((context_today()).strftime('%Y-%m-%d')))]"/>
+         </xpath>
+          </field>
+     </record>
+
+    <record id="inheritview_crm_case_opportunities_filter" model="ir.ui.view">
+            <field name="name">crm.lead.search.lead</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"></field>
+          <field name="arch" type="xml">
+         <xpath expr="//filter[@name='assigned_to_me']" position="after">
+             <filter string="Last 7 Days" name="last7days"
+              domain="[('create_date','&gt;=', ((context_today()-datetime.timedelta(days=6)).strftime('%Y-%m-%d'))),('create_date','&lt;=', ((context_today()).strftime('%Y-%m-%d')))]"/>
+                    <filter string="Last 30 Days" name="last30days"
+              domain="[('create_date','&gt;=', ((context_today()-datetime.timedelta(days=29)).strftime('%Y-%m-%d'))),('create_date','&lt;=', ((context_today()).strftime('%Y-%m-%d')))]"/>
+                             <filter string="Last 365 Days" name="last365days"
+              domain="[('create_date','&gt;=', ((context_today()-datetime.timedelta(days=364)).strftime('%Y-%m-%d'))),('create_date','&lt;=', ((context_today()).strftime('%Y-%m-%d')))]"/>
+         </xpath>
+          </field>
+     </record>
+    <record id="inheritview_crm_case_leads_filter" model="ir.ui.view">
+            <field name="name">crm.lead.search.lead</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_leads_filter"></field>
+          <field name="arch" type="xml">
+         <xpath expr="//filter[@name='assigned_to_me']" position="after">
+             <filter string="Last 7 Days" name="last7days"
+              domain="[('create_date','&gt;=', ((context_today()-datetime.timedelta(days=6)).strftime('%Y-%m-%d'))),('create_date','&lt;=', ((context_today()).strftime('%Y-%m-%d')))]"/>
+                    <filter string="Last 30 Days" name="last30days"
+              domain="[('create_date','&gt;=', ((context_today()-datetime.timedelta(days=29)).strftime('%Y-%m-%d'))),('create_date','&lt;=', ((context_today()).strftime('%Y-%m-%d')))]"/>
+                             <filter string="Last 365 Days" name="last365days"
+              domain="[('create_date','&gt;=', ((context_today()-datetime.timedelta(days=364)).strftime('%Y-%m-%d'))),('create_date','&lt;=', ((context_today()).strftime('%Y-%m-%d')))]"/>
+         </xpath>
+          </field>
+     </record>
+
+
     <record id="inherits_crm_case_form_view_leads" model="ir.ui.view">
         <field name="name">crm.lead.form.lead</field>
         <field name="model">crm.lead</field>
