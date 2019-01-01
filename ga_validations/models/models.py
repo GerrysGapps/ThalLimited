@@ -16,7 +16,9 @@ class InheritCustomer(models.Model):
     @api.constrains('email')
     def _check_email_validation(self):
         if self.email:
-            if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$",self.email) != None:
+            # if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", self.email_from) != None:
+            #     return True
+            if '@' in self.email and '.' in self.email:
                 return True
             else:
                 raise ValidationError("Invalid Email")
@@ -58,7 +60,9 @@ class InheritCRM(models.Model):
     @api.constrains('email_from')
     def _check_email_validation(self):
         if self.email_from:
-            if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$",self.email_from) != None:
+            # if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$",self.email_from) != None:
+            #     return True
+            if '@' in self.email and '.' in self.email:
                 return True
             else:
                 raise ValidationError("Invalid Email")
