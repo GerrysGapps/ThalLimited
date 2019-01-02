@@ -81,7 +81,7 @@ class inheritSaleOrderline(models.Model):
         if not self.product_uom or not self.product_id:
             self.price_unit = 0.0
             return
-        
+
 class InheritSaleOrder(models.Model):
     _inherit = "sale.order"
 
