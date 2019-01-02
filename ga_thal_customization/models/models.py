@@ -73,6 +73,14 @@ class InheritProducttemplate(models.Model):
     old_material_no = fields.Char('Old Material No')
     default_code = fields.Char('Product Code', index=True)
 
+class inheritSaleOrderline(models.Model):
+    _inherit = 'sale.order.line'
+
+    @api.onchange('product_uom', 'product_uom_qty')
+    def product_uom_change(self):
+        if not self.product_uom or not self.product_id:
+            self.price_unit = 0.0
+            return
 
 class InheritSaleOrder(models.Model):
     _inherit = "sale.order"
