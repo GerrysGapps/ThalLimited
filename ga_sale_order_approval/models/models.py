@@ -106,8 +106,7 @@ class InheritSaleOrder(models.Model):
 
     @api.multi
     def action_send_for_approval(self):
-        self.write({'approval_status': 'Waiting For Approval'})
-
+        self.sudo().write({'approval_status': 'Waiting For Approval'})
 
     @api.one
     def check_approval_limit(self,company_id):
