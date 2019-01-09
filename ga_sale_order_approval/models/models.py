@@ -149,38 +149,41 @@ class InheritSaleOrder(models.Model):
 
     @api.multi
     def _check_approval_need(self):
-        status =False
+        status = False
         for line in self.order_line:
             if self.pricelist_id:
-                product_pricelist_records = self.env['product.pricelist.item'].search(
-                    [('pricelist_id', '=', self.pricelist_id.id),
-                     ('product_tmpl_id', '=', line.product_id.product_tmpl_id.id)])
-                if len(product_pricelist_records)>0:
-                    for product_obj in product_pricelist_records:
-                        if (line.price_unit < product_obj.min_price or
-                                line.price_unit > product_obj.max_price):
-                           status = True
-                else:
-                    raise Warning(_('Please Define '+ str(line.product_id.product_tmpl_id.name) + ' in Pricelist'))
+                if line.product_id:
+                    product_pricelist_records = self.env['product.pricelist.item'].search(
+                        [('pricelist_id', '=', self.pricelist_id.id),
+                         ('product_tmpl_id', '=', line.product_id.product_tmpl_id.id)])
+                    if len(product_pricelist_records) > 0:
+                        for product_obj in product_pricelist_records:
+                            if (line.price_unit < product_obj.min_price or
+                                    line.price_unit > product_obj.max_price):
+                                status = True
+                    else:
+                        raise Warning(_('Please Define ' + str(line.product_id.product_tmpl_id.name) + ' in Pricelist'))
         return status
 
     @api.multi
-    def _check_approval_need_created(self,pricelist_id ,lines):
+    def _check_approval_need_created(self, pricelist_id, lines):
         status = False
         for line in lines:
             if pricelist_id:
-                product_product = self.env['product.product'].search([('id','=',line[2]['product_id'])])
-                product_template = self.env['product.template'].search([('id','=',product_product.product_tmpl_id.id)])
-                product_pricelist_records = self.env['product.pricelist.item'].search(
-                    [('pricelist_id', '=', pricelist_id),
-                     ('product_tmpl_id', '=',  product_template.id)])
-                if product_pricelist_records:
-                    for product_obj in product_pricelist_records:
-                        if (line[2]['price_unit'] < product_obj.fixed_price or
-                                line[2]['price_unit'] > product_obj.max_price):
-                           status =True
-                else:
-                    raise Warning( _('Please Define ' +product_template.name + ' in Pricelist'))
+                if line[2]['product_id']:
+                    product_product = self.env['product.product'].search([('id', '=', line[2]['product_id'])])
+                    product_template = self.env['product.template'].search(
+                        [('id', '=', product_product.product_tmpl_id.id)])
+                    product_pricelist_records = self.env['product.pricelist.item'].search(
+                        [('pricelist_id', '=', pricelist_id),
+                         ('product_tmpl_id', '=', product_template.id)])
+                    if product_pricelist_records:
+                        for product_obj in product_pricelist_records:
+                            if (line[2]['price_unit'] < product_obj.fixed_price or
+                                    line[2]['price_unit'] > product_obj.max_price):
+                                status = True
+                    else:
+                        raise Warning(_('Please Define ' + product_template.name + ' in Pricelist'))
         return status
 
     @api.model
