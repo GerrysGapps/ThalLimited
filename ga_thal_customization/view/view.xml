@@ -76,8 +76,18 @@
         </xpath>
     </template>
 
+    <template id="report_saleorder_document_inherit_sale_management" inherit_id="sale_management.report_saleorder_document_inherit_sale_management">
+    <xpath expr="//h4[1]" position="replace">
+            <h4>
+                <span>Other Available Products You Can Choose</span>
+            </h4>
+    </xpath>
+    </template>
     <template id="sale_order_inherit_template" inherit_id="sale.report_saleorder_document">
          <xpath expr="//t[1]/t[2]" position="replace">
+             <t  t-if="doc.approval_status in ['Waiting For Approval']">
+                  <p align="center" style="color:red;font-weight:bold;font-size:30px">Quotation Approval Required</p>
+             </t>
              <t t-if="doc.partner_id">
               <h2>Customer Information </h2>
                <span style="display:block;margin-top:-3px;" t-field="doc.partner_id.name"/>
@@ -172,7 +182,7 @@
         <field name="priority">10</field>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='create_revision']" position="attributes">
-                <attribute name="states">draft,sent,cancel,waiting_for_approval,ready_to_sent,rejected</attribute>
+                <attribute name="states">draft,sent,cancel,rejected</attribute>
             </xpath>
               <xpath expr="//field[@name='commitment_date']" position="after">
                    <field name="port_of_shipment"/>
