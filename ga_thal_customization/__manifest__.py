@@ -19,6 +19,8 @@
         "view/view.xml",
         "view/crm.xml",
         "view/groups.xml",
+        "report/report.xml",
+        "report/view.xml",
 
     ],
 'qweb': ['static/src/web.xml'],

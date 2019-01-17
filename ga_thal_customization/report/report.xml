@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<report
+        id="report_topmanagement"
+        model="topmanagement.report"
+        string="Top Management Report"
+        report_type="qweb-pdf"
+        name="ga_thal_customization.report_top_management"
+        file="ga_thal_customization.report_top_management"
+    />
+</odoo>

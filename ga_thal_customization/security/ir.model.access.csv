@@ -4,5 +4,9 @@ access_distribution_channel,access_distribution_channel,model_distribution_chann
 access_sales_office,access_sales_office,model_sale_office,base.group_user,1,1,1,1
 access_custom_bank,access_custom_bank,model_custom_bank,base.group_user,1,1,1,1
 access_port,access_port,model_custom_ports,base.group_user,1,1,1,1
+access_top_management,access_topmanagement,model_topmanagement_report,base.group_user,1,1,1,1
+
+
+
 
 
