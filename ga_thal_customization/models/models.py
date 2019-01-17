@@ -10,6 +10,10 @@ import datetime
 from odoo.tools.misc import clean_context
 
 
+class testit(models.Model):
+    _name = 'testingit'
+
+
 class TopmanagementReport(models.TransientModel):
     _name = 'topmanagement.report'
 
@@ -21,10 +25,16 @@ class TopmanagementReport(models.TransientModel):
         # template = self.env['mail.template'].search([('name','=','Send report')])
         # template.send_mail(self.id, force_send=True)
 
+    @api.multi
+    def get_partner_name(self,partner_id):
+        if partner_id:
+            partner = self.env['res.partner'].search([('id','=',partner_id)])
+            return partner.name
+
     @api.model
     def get_details(self):
         report_data_list = []
-        companies = self.env['res.company'].search([('id', '>', 0)])
+        companies = self.env['res.company'].search([('name', 'in', ['BLD - Formite','PPD - Carrier Bags','PPD - Cement & Allied'])])
         for company in companies:
             report_data_dict = {}
             report_data_dict['company'] = company.name
@@ -107,23 +117,24 @@ class TopmanagementReport(models.TransientModel):
                 report_data_dict['conversion_ratio'] = 0
 
             self.env.cr.execute(
-                """select count(crm.id),sum(planned_revenue) as Current,sum(actual_revenue) as Initial, p.name from crm_lead crm INNER JOIN res_users res 
+                """select count(crm.id),sum(planned_revenue) as Current,sum(actual_revenue) as Initial, p.id from crm_lead crm INNER JOIN res_users res 
                  ON crm.user_id= res.id  INNER JOIN res_partner p on res.partner_id = p.id 
                where crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
                     company.id, 'opportunity', 'pending',
                     fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
-                    fields.Datetime.to_string(datetime.datetime.now()))+" group by p.name ")
+                    fields.Datetime.to_string(datetime.datetime.now()))+" group by p.id")
             get_all_sales_data = self.env.cr.dictfetchall()
 
+            print('............1',get_all_sales_data)
             self.env.cr.execute(
-                """select count(crm.id),sum(planned_revenue) as Current,sum(actual_revenue) as Initial, p.name from crm_lead crm INNER JOIN res_users res 
+                """select count(crm.id),sum(planned_revenue) as Current,sum(actual_revenue) as Initial,p.id from crm_lead crm INNER JOIN res_users res 
                  ON crm.user_id= res.id  INNER JOIN res_partner p on res.partner_id = p.id 
                where crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
                     company.id, 'opportunity', 'won',
                     fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
-                    fields.Datetime.to_string(datetime.datetime.now())) + " group by p.name ")
+                    fields.Datetime.to_string(datetime.datetime.now())) + " group by p.id ")
             get_all_sales_data_won = self.env.cr.dictfetchall()
-
+            print('.............2',get_all_sales_data_won)
             self.env.cr.execute(
                 """select count(lost_reason.id),lost_reason.name as lost_reason,sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead crm INNER JOIN crm_lost_reason lost_reason ON crm.lost_reason=lost_reason.id where
                 crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
@@ -146,16 +157,21 @@ class TopmanagementReport(models.TransientModel):
                     sale_person_wise_lost['lost_reason'] = record_sale_person_lost['lost_reason']
                     list_sales_person_lost.append(sale_person_wise_lost)
 
-            if len(get_all_sales_data)>0:
+            if len(get_all_sales_data_won)>0:
                 for record_sale_person_won in get_all_sales_data_won:
                     sale_person_wise_won = {}
                     sale_person_wise_won['current_expected_revenue'] = record_sale_person_won['current']
                     sale_person_wise_won['initial_expected_revenue'] =record_sale_person_won['initial']
                     sale_person_wise_won['difference_amount'] = record_sale_person_won['current'] - record_sale_person_won['initial']
                     sale_person_wise_won['count_opportunity'] = record_sale_person_won['count']
-                    sale_person_wise_won['sale_person_name'] = record_sale_person_won['name']
-                    list_sales_person_won.append(sale_person_wise_won)
+                    sale_person_wise_won['sale_person_name'] =self.get_partner_name(record_sale_person_won['id'])
 
+                    if len(get_all_sales_data)>0:
+                        for search_data in get_all_sales_data:
+                            if search_data['id']==record_sale_person_won['id']:
+                                sale_person_wise_won['open_lead_count'] = search_data['count']
+                                sale_person_wise_won['open_lead_revenue'] =search_data['initial']
+                    list_sales_person_won.append(sale_person_wise_won)
             if len(get_all_sales_data)>0:
                 for record_sale_person in get_all_sales_data:
                     sale_person_wise = {}
@@ -163,7 +179,7 @@ class TopmanagementReport(models.TransientModel):
                     sale_person_wise['initial_expected_revenue'] = record_sale_person['initial']
                     sale_person_wise['difference_amount'] = record_sale_person['current'] - record_sale_person['initial']
                     sale_person_wise['count_opportunity'] = record_sale_person['count']
-                    sale_person_wise['sale_person_name'] = record_sale_person['name']
+                    sale_person_wise['sale_person_name'] = self.get_partner_name(record_sale_person['id'])
                     list_sales_person.append(sale_person_wise)
             report_data_dict['sale_person_wise_open_lead'] = list_sales_person
             report_data_dict['sale_person_wise_won_lead'] = list_sales_person_won

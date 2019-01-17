@@ -7,20 +7,20 @@
             <div class="row">
                 <p align="center" style="font-weight:bold;font-size:30px;color:#800080">WEEKLY CRM REPORT</p>
                 <t t-foreach="doc.get_details()" t-as="line">
-                    <h1 style="font-weight:bold;" t-esc="line['company']"></h1>
+                    <h1 align="center" style="font-weight:bold;" t-esc="line['company']"></h1>
                       <table BORDERCOLOR="#{'#00000'}"
                            border="1" cellpadding="0" cellspacing="0"
-                           width="800px">
+                           width="1200px">
                         <tbody>
                             <tr t-attf-style="background-color:white">
-                                <td class="text-left" width="400px" style="padding:5px">
-                                  <span>LEAD CREATED :</span>
+                                <td class="text-left" width="480px" style="padding:5px">
+                                  <span>Leads Created :</span>
                                 </td>
                                <td class="text-center" width="200px" style="padding:5px">
                                     <span t-esc="line['total_lead_count']"></span>
                                 </td>
-                                  <td class="text-left" width="400px" style="padding:5px">
-                                  <span>LEAD CONVERTED TO OPPORTUNITIES:</span>
+                                  <td class="text-left" width="480px" style="padding:5px">
+                                  <span>Lead Converted To Opportunities:</span>
                                 </td>
                                <td class="text-center" width="200px" style="padding:5px">
                                    <span t-esc="line['converted_opportunity_count']"></span>
@@ -28,14 +28,14 @@
 
                             </tr>
                              <tr t-attf-style="background-color:white">
-                                <td class="text-left" width="400px" style="padding:5px">
-                                  <span>OPEN OPPORTUNITIES:</span>
+                                <td class="text-left" width="480px" style="padding:5px">
+                                  <span>Open Opportunties:</span>
                                 </td>
                                <td class="text-center" width="200px" style="padding:5px">
                                     <span t-esc="line['open_opportunity_count']"></span>
                                 </td>
-                                  <td class="text-left" width="400px" style="padding:5px">
-                                  <span>LEAD CONVERSION RATIO :</span>
+                                  <td class="text-left" width="480px" style="padding:5px">
+                                  <span>Lead Conversion % :</span>
                                 </td>
                                <td class="text-center" width="200px"  style="padding:5px">
                                    <span t-esc="line['conversion_ratio']"></span>
@@ -43,14 +43,14 @@
 
                             </tr>
                               <tr t-attf-style="background-color:white">
-                              <td class="text-left" width="400px" style="padding:5px">
-                                 <span>WON OPPORTUNITIES:</span>
+                              <td class="text-left" width="480px" style="padding:5px">
+                                 <span>Won Opportunities:</span>
                                 </td>
                                <td class="text-center" width="200px" style="padding:5px">
                                       <span t-esc="line['won_opportunity_count']"></span>
                                 </td>
-                                    <td class="text-left" width="400px" style="padding:5px">
-                                  <span>LOST OPPORTUNITIES</span>
+                                    <td class="text-left" width="480px" style="padding:5px">
+                                  <span>Lost Opportunities</span>
                                 </td>
                                <td class="text-center" width="200px" style="padding:5px">
                                     <span t-esc="line['lost_opportunity_count']"></span>
@@ -58,97 +58,105 @@
                               </tr>
                         </tbody>
                     </table>
-                    <h2>BY SALE PERSONS </h2>
-                     <h2>OPEN LEADS</h2>
+                     <!--<h2>Open Leads By Sale Person</h2>-->
 
-                    <table BORDERCOLOR="#{'#ffffff'}"
-                           border="1" cellpadding="0" cellspacing="0"
-                           class="table table-bordered"
-                           style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
-                           width="100%">
-                        <thead>
-                            <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
-                                <td align="left"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">SALE PERSON
-                                </td>
-                                <td align="left"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">OPEN LEAD COUNT
-                                </td>
-                                <td align="left"
-                                     t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">EXPECTED REVENUE
-                                </td>
-                                <td align="left"
-                                   t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">ACTUAL REVENUE
-                                </td>
-                                <td align="left"
-                                    t-attf-style="font-weight:bold;color:white;"
-                                    width="20%">DIFFERENCE
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-if="line['sale_person_wise_open_lead']">
-                                <t t-as="data" t-foreach="line['sale_person_wise_open_lead']">
-                                    <tr t-attf-style="background-color:white">
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                            <span t-esc="data['sale_person_name']"/>
-                                        </td>
+                    <!--<table BORDERCOLOR="#{'#ffffff'}"-->
+                           <!--border="1" cellpadding="0" cellspacing="0"-->
+                           <!--class="table table-bordered"-->
+                           <!--style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"-->
+                           <!--width="100%">-->
+                        <!--<thead>-->
+                            <!--<tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">-->
+                                <!--<td align="left"-->
+                                    <!--t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"-->
+                                    <!--width="20%">SALE PERSON-->
+                                <!--</td>-->
+                                <!--<td align="left"-->
+                                    <!--t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"-->
+                                    <!--width="20%">OPEN LEAD COUNT-->
+                                <!--</td>-->
+                                <!--<td align="left"-->
+                                     <!--t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"-->
+                                    <!--width="20%">EXPECTED REVENUE-->
+                                <!--</td>-->
+                                <!--<td align="left"-->
+                                   <!--t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"-->
+                                    <!--width="20%">ACTUAL REVENUE-->
+                                <!--</td>-->
+                                <!--<td align="left"-->
+                                    <!--t-attf-style="font-weight:bold;color:white;"-->
+                                    <!--width="20%">DIFFERENCE-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                        <!--</thead>-->
+                        <!--<tbody>-->
+                            <!--<t t-if="line['sale_person_wise_open_lead']">-->
+                                <!--<t t-as="data" t-foreach="line['sale_person_wise_open_lead']">-->
+                                    <!--<tr t-attf-style="background-color:white">-->
+                                        <!--<td class="text-left" style="padding:5px"-->
+                                        <!--&gt;-->
+                                            <!--<span t-esc="data['sale_person_name']"/>-->
+                                        <!--</td>-->
 
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                            <span t-esc="data['count_opportunity']"/>
-                                        </td>
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                            <span t-esc="data['initial_expected_revenue']"/>
-                                        </td>
+                                        <!--<td class="text-left" style="padding:5px"-->
+                                        <!--&gt;-->
+                                            <!--<span t-esc="data['count_opportunity']"/>-->
+                                        <!--</td>-->
+                                        <!--<td class="text-left" style="padding:5px"-->
+                                        <!--&gt;-->
+                                            <!--<span t-esc="data['initial_expected_revenue']"/>-->
+                                        <!--</td>-->
 
-                                        <td class="text-left" width="6%" style="padding:5px"
-                                        >
-                                            <span t-esc="data['current_expected_revenue']"/>
-                                        </td>
-                                         <td class="text-left" width="6%" style="padding:5px"
-                                        >
-                                            <span t-esc="data['difference_amount']"/>
-                                        </td>
+                                        <!--<td class="text-left" width="6%" style="padding:5px"-->
+                                        <!--&gt;-->
+                                            <!--<span t-esc="data['current_expected_revenue']"/>-->
+                                        <!--</td>-->
+                                         <!--<td class="text-left" width="6%" style="padding:5px"-->
+                                        <!--&gt;-->
+                                            <!--<span t-esc="data['difference_amount']"/>-->
+                                        <!--</td>-->
 
-                                    </tr>
-                                </t>
-                            </t>
-                        </tbody>
-                    </table>
-                     <h2>WON LEADS </h2>
+                                    <!--</tr>-->
+                                <!--</t>-->
+                            <!--</t>-->
+                        <!--</tbody>-->
+                    <!--</table>-->
+                     <h2>Leads By Sale Person </h2>
                      <table BORDERCOLOR="#{'#ffffff'}"
                            border="1" cellpadding="0" cellspacing="0"
                            class="table table-bordered"
-                           style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
-                           width="100%">
+                           style="max-width:100%; width:100%; border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
+                           >
                         <thead>
                             <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color:#595858; color: white};">
                                 <td align="left"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">SALE PERSON
+                                    t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Sale Person
                                 </td>
                                 <td align="left"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">WON LEAD COUNT
+                                    t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Open Lead
                                 </td>
                                 <td align="left"
-                                     t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">EXPECTED REVENUE
+                                     t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Open Lead Revenue
                                 </td>
                                 <td align="left"
-                                   t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">EXPECTED REVENUE
+                                   t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Won Lead
                                 </td>
                                 <td align="left"
-                                    t-attf-style="font-weight:bold;color:white;"
-                                    width="20%">DIFFERENCE
+                                   t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Won Lead Expect Revenue
+                                </td>
+
+                                <td align="left"
+                                   t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Won Lead Actual Revenue
+                                </td>
+                                <td align="left"
+                                    t-attf-style="width:10%; font-weight:bold;color:white;"
+                                    >Difference Won Lead
                                 </td>
                             </tr>
                         </thead>
@@ -163,6 +171,16 @@
 
                                         <td class="text-left" style="padding:5px"
                                         >
+                                            <span t-esc="data['open_lead_count']"/>
+                                        </td>
+
+                                        <td class="text-left" style="padding:5px"
+                                        >
+                                            <span t-esc="data['open_lead_revenue']"/>
+                                        </td>
+
+                                        <td class="text-left" style="padding:5px"
+                                        >
                                             <span t-esc="data['count_opportunity']"/>
                                         </td>
                                         <td class="text-left" style="padding:5px"
@@ -184,7 +202,7 @@
                             </t>
                         </tbody>
                     </table>
-                     <h2>LEADS LOST BY REASONS </h2>
+                     <h2>Leads Lost By Reasons </h2>
                      <table BORDERCOLOR="#{'#ffffff'}"
                            border="1" cellpadding="0" cellspacing="0"
                            class="table table-bordered"
@@ -206,7 +224,7 @@
                                 </td>
                                 <td align="left"
                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">EXPECTED REVENUE
+                                    width="20%">ACTUAL REVENUE
                                 </td>
                                 <td align="left"
                                     t-attf-style="font-weight:bold;color:white;"
