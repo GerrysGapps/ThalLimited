@@ -140,8 +140,8 @@ class TopmanagementReport(models.TransientModel):
                     sale_person_wise_lost = {}
                     sale_person_wise_lost['current_expected_revenue'] = record_sale_person_lost['current']
                     sale_person_wise_lost['initial_expected_revenue'] =record_sale_person_lost['initial']
-                    sale_person_wise_lost['difference_amount'] =record_sale_person_lost['initial'] - \
-                                                               record_sale_person_lost['current']
+                    sale_person_wise_lost['difference_amount'] = record_sale_person_lost['current']- \
+                                                                record_sale_person_lost['initial']
                     sale_person_wise_lost['count_opportunity'] =record_sale_person_lost['count']
                     sale_person_wise_lost['lost_reason'] = record_sale_person_lost['lost_reason']
                     list_sales_person_lost.append(sale_person_wise_lost)
@@ -151,7 +151,7 @@ class TopmanagementReport(models.TransientModel):
                     sale_person_wise_won = {}
                     sale_person_wise_won['current_expected_revenue'] = record_sale_person_won['current']
                     sale_person_wise_won['initial_expected_revenue'] =record_sale_person_won['initial']
-                    sale_person_wise_won['difference_amount'] = record_sale_person_won['initial'] -record_sale_person_won['current']
+                    sale_person_wise_won['difference_amount'] = record_sale_person_won['current'] - record_sale_person_won['initial']
                     sale_person_wise_won['count_opportunity'] = record_sale_person_won['count']
                     sale_person_wise_won['sale_person_name'] = record_sale_person_won['name']
                     list_sales_person_won.append(sale_person_wise_won)
@@ -161,7 +161,7 @@ class TopmanagementReport(models.TransientModel):
                     sale_person_wise = {}
                     sale_person_wise['current_expected_revenue'] = record_sale_person['current']
                     sale_person_wise['initial_expected_revenue'] = record_sale_person['initial']
-                    sale_person_wise['difference_amount'] = record_sale_person['initial'] -record_sale_person['current']
+                    sale_person_wise['difference_amount'] = record_sale_person['current'] - record_sale_person['initial']
                     sale_person_wise['count_opportunity'] = record_sale_person['count']
                     sale_person_wise['sale_person_name'] = record_sale_person['name']
                     list_sales_person.append(sale_person_wise)
