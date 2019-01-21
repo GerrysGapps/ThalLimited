@@ -16,8 +16,8 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='email_from']" position="after">
-                    <field name="incoming_mail_server" readonly="1" groups="base.group_no_one"/>
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="incoming_mail_server" groups="base.group_no_one"/>
                 </xpath>
             </field>
         </record>
