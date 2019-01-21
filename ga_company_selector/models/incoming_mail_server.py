@@ -14,7 +14,7 @@ class IncomingMailServer(models.AbstractModel):
 
     @api.multi
     def _extract_email(self, email):
-        email = re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", email)
+        email = re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", email, re.IGNORECASE)
         return email[0]
 
     @api.model
