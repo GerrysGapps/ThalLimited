@@ -53,13 +53,15 @@ class InheritLead(models.Model):
                     if  all_leads_pending_obj.company_id:
                         if  all_leads_pending_obj.company_id.name == 'BLD - Formite':
                             template = self.env.ref('ga_thal_customization.threedays_companyA_template', False)
+                            template.send_mail(all_leads_pending_obj.id, force_send=True)
                         if  all_leads_pending_obj.company_id.name == 'PPD - Carrier Bags':
                             template = self.env.ref('ga_thal_customization.threedays_companyB_template',
                                                     False)
+                            template.send_mail(all_leads_pending_obj.id, force_send=True)
                         if  all_leads_pending_obj.company_id.name == 'PPD - Cement & Allied':
                             template = self.env.ref('ga_thal_customization.threedays_companyC_template',
                                                     False)
-                        template.send_mail(all_leads_pending_obj.id, force_send=True)
+                            template.send_mail(all_leads_pending_obj.id, force_send=True)
                 # getting data from lead which is res_id in activity mail
                 # check if 7 days passes
                 filter_lists_7days = self.env['mail.activity'].search([('res_model', '=', 'crm.lead'), (
@@ -71,13 +73,15 @@ class InheritLead(models.Model):
                         if  all_leads_pending_obj.company_id.name == 'BLD - Formite':
                             template = self.env.ref('ga_thal_customization.sevendays_companyA_template',
                                                     False)
+                            template.send_mail(all_leads_pending_obj.id, force_send=True)
                         if  all_leads_pending_obj.company_id.name == 'PPD - Carrier Bags':
                             template = self.env.ref('ga_thal_customization.sevendays_companyB_template',
                                                     False)
+                            template.send_mail(all_leads_pending_obj.id, force_send=True)
                         if  all_leads_pending_obj.company_id.name == 'PPD - Cement & Allied':
                             template = self.env.ref('ga_thal_customization.sevendays_companyC_template',
                                                     False)
-                        template.send_mail(all_leads_pending_obj.id, force_send=True)
+                            template.send_mail(all_leads_pending_obj.id, force_send=True)
 
                 # check if 15 days passes
                 filter_lists_15days = self.env['mail.activity'].search([('res_model', '=', 'crm.lead'), (
@@ -89,13 +93,15 @@ class InheritLead(models.Model):
                         if all_leads_pending_obj.company_id.name == 'BLD - Formite':
                             template = self.env.ref('ga_thal_customization.fiftendays_companyA_template',
                                                     False)
+                            template.send_mail(all_leads_pending_obj.id, force_send=True)
                         if all_leads_pending_obj.company_id.name == 'PPD - Carrier Bags':
                             template = self.env.ref('ga_thal_customization.fiftendays_companyB_template',
                                                     False)
+                            template.send_mail(all_leads_pending_obj.id, force_send=True)
                         if all_leads_pending_obj.company_id.name == 'PPD - Cement & Allied':
                             template =self.env.ref('ga_thal_customization.fiftendays_companyC_template',
                                                                False)
-                        template.send_mail(all_leads_pending_obj.id, force_send=True)
+                            template.send_mail(all_leads_pending_obj.id, force_send=True)
 
     @api.one
     @api.depends('actual_revenue', 'planned_revenue')
