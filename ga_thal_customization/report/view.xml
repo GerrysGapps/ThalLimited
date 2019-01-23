@@ -2,12 +2,12 @@
 <odoo>
     <template id="report_topmanagment_document">
         <div class="header">
-            <div>
-                <img t-att-src="'/ga_thal_customization/static/src/img/al.png'"/>
-            </div>
-            <p align="center" style="font-weight:bold;font-size:30px;color:#800080">WEEKLY CRM REPORT</p>
+
+            <p align="center" style="font-weight:bold;font-size:40px;color:#003366">THAL LIMITED</p>
+            <p align="center" style="font-weight:bold;font-size:28px;color:#800080">WEEKLY CRM REPORT</p>
         </div>
         <div class="page">
+
             <div class="oe_structure"/>
             <div class="row">
                 <span style="font-weight:bold;font-size:25px">Previous Summary</span>
