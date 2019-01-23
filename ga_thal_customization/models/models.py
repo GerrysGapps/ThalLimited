@@ -9,11 +9,6 @@ from odoo.exceptions import Warning
 import datetime
 from odoo.tools.misc import clean_context
 
-
-class testit(models.Model):
-    _name = 'testingit'
-
-
 class TopmanagementReport(models.TransientModel):
     _name = 'topmanagement.report'
 
