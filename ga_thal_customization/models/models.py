@@ -22,11 +22,10 @@ class TopmanagementReport(models.TransientModel):
         # template.send_mail(self.id, force_send=True)
 
     @api.multi
-    def get_partner_name(self,partner_id):
+    def get_partner_name(self, partner_id):
         if partner_id:
-            partner = self.env['res.partner'].search([('id','=',partner_id)])
+            partner = self.env['res.partner'].search([('id', '=', partner_id)])
             return partner.name
-
 
     @api.model
     def get_leads_count_prev(self, company_id):
@@ -37,7 +36,7 @@ class TopmanagementReport(models.TransientModel):
         self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
             company_id) + " and type ='opportunity' and date_conversion<" + "'" + fields.Datetime.to_string(
             datetime.date.today() - datetime.timedelta(
-                6)) +"'")
+                6)) + "'")
         converted_opportunity_count = self.env.cr.dictfetchall()
         return converted_opportunity_count[0]['count']
 
@@ -46,7 +45,7 @@ class TopmanagementReport(models.TransientModel):
         self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
             company_id) + " and type='lead' and won_status='pending' and create_date<" + "'" + fields.Datetime.to_string(
             datetime.date.today() - datetime.timedelta(
-                6)) +"'")
+                6)) + "'")
         open_lead_count = self.env.cr.dictfetchall()
         return open_lead_count[0]['count']
 
@@ -104,14 +103,85 @@ class TopmanagementReport(models.TransientModel):
         lead_lost = self.env.cr.dictfetchall()
         return lead_lost[0]['count']
 
-
     @api.model
     def get_datetime_report(self):
-        return 'From '+ str((datetime.datetime.now() - datetime.timedelta(6)).date()) +' To '+ str(datetime.datetime.now().date())
+        return 'From ' + str((datetime.datetime.now() - datetime.timedelta(6)).date()) + ' To ' + str(
+            datetime.datetime.now().date())
 
     @api.model
-    def get_leads_count(self,company_id):
-        return self.get_converted_opportunity(company_id)+self.get_available_leads(company_id)
+    def get_leads_count(self, company_id):
+        return self.get_converted_opportunity(company_id) + self.get_available_leads(company_id)
+
+    @api.model
+    def get_overdue_activity_three_days(self, company_id):
+        self.env.cr.execute(
+            "select count(crm.id)from mail_activity mail_act INNER JOIN crm_lead crm on mail_act.res_id=crm.id where crm.company_id=" + str(
+                company_id) + " and mail_act.date_deadline=" + "'" + fields.Datetime.to_string(
+                datetime.datetime.now() - datetime.timedelta(3)) + "'")
+        overdue_count_crm = self.env.cr.dictfetchall()
+        self.env.cr.execute(
+            "select count(sale.id)from mail_activity mail_act INNER JOIN sale_order sale "
+            "on mail_act.res_id=sale.id where sale.company_id=" + str(
+                company_id) + " and mail_act.date_deadline=" + "'" + fields.Datetime.to_string(
+                datetime.datetime.now() - datetime.timedelta(3)) + "'")
+        overdue_sale = self.env.cr.dictfetchall()
+        count = 0
+        if len(overdue_count_crm)>0:
+            count+=overdue_count_crm[0]['count']
+        if len(overdue_sale)>0:
+            count+=overdue_sale[0]['count']
+        return count
+
+    @api.model
+    def get_overdue_activity_seven_days(self, company_id):
+        self.env.cr.execute(
+            "select count(crm.id)from mail_activity mail_act INNER JOIN crm_lead crm on mail_act.res_id=crm.id where crm.company_id=" + str(
+                company_id) + " and mail_act.date_deadline=" + "'" + fields.Datetime.to_string(
+                datetime.datetime.now() - datetime.timedelta(7)) + "'")
+        overdue_count_crm = self.env.cr.dictfetchall()
+        self.env.cr.execute(
+            "select count(sale.id)from mail_activity mail_act INNER JOIN sale_order sale "
+            "on mail_act.res_id=sale.id where sale.company_id=" + str(
+                company_id) + " and mail_act.date_deadline=" + "'" + fields.Datetime.to_string(
+                datetime.datetime.now() - datetime.timedelta(7)) + "'")
+        overdue_sale = self.env.cr.dictfetchall()
+        count = 0
+        if len(overdue_count_crm) > 0:
+            count += overdue_count_crm[0]['count']
+        if len(overdue_sale) > 0:
+            count += overdue_sale[0]['count']
+        return count
+
+    @api.model
+    def get_overdue_activity_fifteen_days(self, company_id):
+        self.env.cr.execute(
+            "select count(crm.id)from mail_activity mail_act INNER JOIN crm_lead crm on mail_act.res_id=crm.id where crm.company_id=" + str(
+                company_id) + " and mail_act.date_deadline=" + "'" + fields.Datetime.to_string(
+                datetime.datetime.now() - datetime.timedelta(15)) + "'")
+        overdue_count_crm = self.env.cr.dictfetchall()
+        self.env.cr.execute(
+            "select count(sale.id)from mail_activity mail_act INNER JOIN sale_order sale "
+            "on mail_act.res_id=sale.id where sale.company_id=" + str(
+                company_id) + " and mail_act.date_deadline=" + "'" + fields.Datetime.to_string(
+                datetime.datetime.now() - datetime.timedelta(15)) + "'")
+        overdue_sale = self.env.cr.dictfetchall()
+        count = 0
+        if len(overdue_count_crm) > 0:
+            count += overdue_count_crm[0]['count']
+        if len(overdue_sale) > 0:
+            count += overdue_sale[0]['count']
+        return count
+
+    @api.model
+    def get_opportunities_count(self, company_id):
+        self.env.cr.execute(
+            "select count(id) from crm_lead  where company_id=" + str(
+                company_id) + " and type ='opportunity' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
+                datetime.datetime.now() - datetime.timedelta(
+                    6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
+                datetime.datetime.now()) + "'")
+        opportunity_count = self.env.cr.dictfetchall()
+        return opportunity_count[0]['count']
 
     @api.model
     def get_converted_opportunity(self, company_id):
@@ -124,7 +194,7 @@ class TopmanagementReport(models.TransientModel):
         return converted_opportunity_count[0]['count']
 
     @api.model
-    def get_open_leads(self,company_id):
+    def get_open_leads(self, company_id):
         self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
             company_id) + " and type='lead' and won_status='pending' and create_date>=" + "'" + fields.Datetime.to_string(
             datetime.date.today() - datetime.timedelta(
@@ -144,7 +214,7 @@ class TopmanagementReport(models.TransientModel):
         return lost_opportunity_count[0]['count']
 
     @api.model
-    def get_open_opportunities(self,company_id):
+    def get_open_opportunities(self, company_id):
         self.env.cr.execute(
             "select count(id) from crm_lead  where company_id=" + str(
                 company_id) + " and type ='opportunity' and won_status = 'pending' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
@@ -155,7 +225,7 @@ class TopmanagementReport(models.TransientModel):
         return open_opportunity_count[0]['count']
 
     @api.model
-    def get_won_opportunities(self,company_id):
+    def get_won_opportunities(self, company_id):
         self.env.cr.execute(
             "select count(id) from crm_lead  where company_id=" + str(
                 company_id) + " and type ='opportunity' and won_status = 'won' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
@@ -163,7 +233,7 @@ class TopmanagementReport(models.TransientModel):
                     6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
                 datetime.datetime.now()) + "'")
         won_opportunity_count = self.env.cr.dictfetchall()
-        return  won_opportunity_count[0]['count']
+        return won_opportunity_count[0]['count']
 
     @api.model
     def get_won_opportunities_intial_current_revenue(self, company_id):
@@ -208,14 +278,13 @@ class TopmanagementReport(models.TransientModel):
         lost_count = self.env.cr.dictfetchall()
         return lost_count
 
-
     @api.model
     def get_won_opportunities_intial_current_revenue_prev(self, company_id):
         self.env.cr.execute(
             "select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  where company_id=" + str(
                 company_id) + " and type ='opportunity' and won_status = 'won' and date_last_stage_update<" + "'" + fields.Datetime.to_string(
                 datetime.datetime.now() - datetime.timedelta(
-                    6)) + "'" )
+                    6)) + "'")
         won_count = self.env.cr.dictfetchall()
         return won_count
 
@@ -230,7 +299,7 @@ class TopmanagementReport(models.TransientModel):
         return open_count
 
     @api.model
-    def get_available_leads(self,company_id):
+    def get_available_leads(self, company_id):
         self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
             company_id) + " and type='lead' and create_date>=" + "'" + fields.Datetime.to_string(
             datetime.date.today() - datetime.timedelta(
@@ -239,9 +308,9 @@ class TopmanagementReport(models.TransientModel):
         return total_lead_count[0]['count']
 
     @api.model
-    def get_lead_conversion_percentage(self,company_id):
-        if self.get_leads_count(company_id)>0:
-            return round((self.get_converted_opportunity(company_id)/self.get_leads_count(company_id))*100,2)
+    def get_lead_conversion_percentage(self, company_id):
+        if self.get_leads_count(company_id) > 0:
+            return round((self.get_converted_opportunity(company_id) / self.get_leads_count(company_id)) * 100, 2)
         else:
             return 0
 
@@ -257,7 +326,8 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_details(self):
         report_data_list = []
-        companies = self.env['res.company'].search([('name', 'in', ['BLD - Formite','PPD - Carrier Bags','PPD - Cement & Allied'])])
+        companies = self.env['res.company'].search(
+            [('name', 'in', ['BLD - Formite', 'PPD - Carrier Bags', 'PPD - Cement & Allied'])])
         for company in companies:
             report_data_dict = {}
             report_data_dict['company'] = company.name
@@ -268,7 +338,7 @@ class TopmanagementReport(models.TransientModel):
                where crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
                     company.id, 'opportunity', 'pending',
                     fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
-                    fields.Datetime.to_string(datetime.datetime.now()))+" group by p.id")
+                    fields.Datetime.to_string(datetime.datetime.now())) + " group by p.id")
             get_all_sales_data = self.env.cr.dictfetchall()
             self.env.cr.execute(
                 """select count(crm.id),sum(planned_revenue) as Current,sum(actual_revenue) as Initial,p.id from crm_lead crm INNER JOIN res_users res 
@@ -302,7 +372,7 @@ class TopmanagementReport(models.TransientModel):
                     sale_person_wise_lost_lead['current_expected_revenue'] = record_sale_person_lost_lead['current']
                     sale_person_wise_lost_lead['initial_expected_revenue'] = record_sale_person_lost_lead['initial']
                     sale_person_wise_lost_lead['difference_amount'] = record_sale_person_lost_lead['current'] - \
-                                                                 record_sale_person_lost_lead['initial']
+                                                                      record_sale_person_lost_lead['initial']
                     sale_person_wise_lost_lead['count_opportunity'] = record_sale_person_lost_lead['count']
                     sale_person_wise_lost_lead['lost_reason'] = record_sale_person_lost_lead['lost_reason']
                     list_sales_person_lost_lead.append(sale_person_wise_lost_lead)
@@ -311,35 +381,37 @@ class TopmanagementReport(models.TransientModel):
                 for record_sale_person_lost in get_all_sales_lost:
                     sale_person_wise_lost = {}
                     sale_person_wise_lost['current_expected_revenue'] = record_sale_person_lost['current']
-                    sale_person_wise_lost['initial_expected_revenue'] =record_sale_person_lost['initial']
-                    sale_person_wise_lost['difference_amount'] = record_sale_person_lost['current']- \
-                                                                record_sale_person_lost['initial']
-                    sale_person_wise_lost['count_opportunity'] =record_sale_person_lost['count']
+                    sale_person_wise_lost['initial_expected_revenue'] = record_sale_person_lost['initial']
+                    sale_person_wise_lost['difference_amount'] = record_sale_person_lost['current'] - \
+                                                                 record_sale_person_lost['initial']
+                    sale_person_wise_lost['count_opportunity'] = record_sale_person_lost['count']
                     sale_person_wise_lost['lost_reason'] = record_sale_person_lost['lost_reason']
                     list_sales_person_lost.append(sale_person_wise_lost)
 
-            if len(get_all_sales_data_won)>0:
+            if len(get_all_sales_data_won) > 0:
                 for record_sale_person_won in get_all_sales_data_won:
                     sale_person_wise_won = {}
                     sale_person_wise_won['current_expected_revenue'] = record_sale_person_won['current']
-                    sale_person_wise_won['initial_expected_revenue'] =record_sale_person_won['initial']
-                    sale_person_wise_won['difference_amount'] = record_sale_person_won['current'] - record_sale_person_won['initial']
+                    sale_person_wise_won['initial_expected_revenue'] = record_sale_person_won['initial']
+                    sale_person_wise_won['difference_amount'] = record_sale_person_won['current'] - \
+                                                                record_sale_person_won['initial']
                     sale_person_wise_won['count_opportunity'] = record_sale_person_won['count']
-                    sale_person_wise_won['sale_person_name'] =self.get_partner_name(record_sale_person_won['id'])
+                    sale_person_wise_won['sale_person_name'] = self.get_partner_name(record_sale_person_won['id'])
 
-                    if len(get_all_sales_data)>0:
+                    if len(get_all_sales_data) > 0:
                         for search_data in get_all_sales_data:
-                            if search_data['id']==record_sale_person_won['id']:
+                            if search_data['id'] == record_sale_person_won['id']:
                                 sale_person_wise_won['open_lead_count'] = search_data['count']
-                                sale_person_wise_won['open_lead_revenue'] =search_data['initial']
+                                sale_person_wise_won['open_lead_revenue'] = search_data['initial']
                                 sale_person_wise_won['open_lead_expected_revenue'] = search_data['current']
                     list_sales_person_won.append(sale_person_wise_won)
-            if len(get_all_sales_data)>0:
+            if len(get_all_sales_data) > 0:
                 for record_sale_person in get_all_sales_data:
                     sale_person_wise = {}
                     sale_person_wise['current_expected_revenue'] = record_sale_person['current']
                     sale_person_wise['initial_expected_revenue'] = record_sale_person['initial']
-                    sale_person_wise['difference_amount'] = record_sale_person['current'] - record_sale_person['initial']
+                    sale_person_wise['difference_amount'] = record_sale_person['current'] - record_sale_person[
+                        'initial']
                     sale_person_wise['count_opportunity'] = record_sale_person['count']
                     sale_person_wise['sale_person_name'] = self.get_partner_name(record_sale_person['id'])
                     list_sales_person.append(sale_person_wise)
