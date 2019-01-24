@@ -21,6 +21,8 @@
         "view/groups.xml",
         "report/report.xml",
         "report/view.xml",
+        "report/formite.xml",
+        "report/carrier_cement.xml",
 
     ],
 'qweb': ['static/src/web.xml'],
