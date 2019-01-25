@@ -126,10 +126,10 @@ class TopmanagementReport(models.TransientModel):
                 datetime.datetime.now() - datetime.timedelta(3)) + "'")
         overdue_sale = self.env.cr.dictfetchall()
         count = 0
-        if len(overdue_count_crm)>0:
-            count+=overdue_count_crm[0]['count']
-        if len(overdue_sale)>0:
-            count+=overdue_sale[0]['count']
+        if len(overdue_count_crm) > 0:
+            count += overdue_count_crm[0]['count']
+        if len(overdue_sale) > 0:
+            count += overdue_sale[0]['count']
         return count
 
     @api.model
@@ -201,6 +201,19 @@ class TopmanagementReport(models.TransientModel):
                 6)) + "'" + " and create_date<=" + "'" + fields.Datetime.to_string(datetime.datetime.now()) + "'")
         open_lead_count = self.env.cr.dictfetchall()
         return open_lead_count[0]['count']
+
+    #This function is used to calculate lost leads/opportunities except 'Spam Email'
+    @api.model
+    def get_lost_count(self, company_id, type, won_status):
+        start_date = fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))
+        end_date = fields.Datetime.to_string(datetime.datetime.now())
+
+        self.env.cr.execute("""select count(*) from crm_lead as crml 
+        inner join crm_lost_reason as clr on crml.lost_reason=clr.id 
+        where clr.name!='Spam Email' and crml.company_id=%s and crml.type='%s' and crml.won_status='%s'
+        and crml.date_last_stage_update between '%s' and '%s'""" % (company_id, type, won_status, start_date, end_date))
+
+        return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
     def get_lost_opportunities(self, company_id):
@@ -424,15 +437,12 @@ class TopmanagementReport(models.TransientModel):
             return report_data_list
 
 
-
-
 class InheritCustomer(models.Model):
     _inherit = 'res.partner'
 
-    suppliers = fields.One2many('current.supplier','partner_id')
-    outlet_location  =fields.One2many('outlet.location','partner_id')
+    suppliers = fields.One2many('current.supplier', 'partner_id')
+    outlet_location = fields.One2many('outlet.location', 'partner_id')
     num_of_outlets = fields.Integer('No. Of Outlets')
-
 
     customer_code = fields.Char('Customer Code')
     customer_category = fields.Selection(
@@ -511,7 +521,6 @@ class inheritSaleOrderline(models.Model):
 class InheritSaleOrder(models.Model):
     _inherit = "sale.order"
 
-
     # date_order = fields.Datetime(string='Order Date', required=True, readonly=True, index=True,
     #                              states={'draft': [('readonly', False)], 'sent': [('readonly', False)]}, copy=False,
     #                              default=fields.Datetime.now.date())
@@ -526,7 +535,8 @@ class InheritSaleOrder(models.Model):
     type = fields.Char('Type')
     credit_limit = fields.Boolean('Within Credit Limit ?')
     can_we_deliver = fields.Boolean('Can We Deliver ?')
-    quotation_type = fields.Selection([('Direct Quotation', 'Direct Quotation'), ('Indirect Quotation', 'Indirect Quotation')],
+    quotation_type = fields.Selection(
+        [('Direct Quotation', 'Direct Quotation'), ('Indirect Quotation', 'Indirect Quotation')],
         string='Quotation Type', default='Direct Quotation')
 
     @api.multi
