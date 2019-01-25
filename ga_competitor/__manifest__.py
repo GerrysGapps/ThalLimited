@@ -10,7 +10,7 @@
     "website": "http://www.gerrys.net",
     "license": "AGPL-3",
     "depends": [
-        'base','sale','sale_crm'
+        'base','sale','sale_crm','sale_management','crm'
     ],
     "data": [
         "security/ir.model.access.csv",
