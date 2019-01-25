@@ -3,7 +3,7 @@
     <record id="custom_quotation" model="ir.ui.view">
         <field name="name">Sale Order</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="crm_enterprise.crm_opportunity_view_search"/>
+        <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="quotation_type" groups="base.group_no_one"/>
