@@ -526,7 +526,7 @@ class InheritSaleOrder(models.Model):
     type = fields.Char('Type')
     credit_limit = fields.Boolean('Within Credit Limit ?')
     can_we_deliver = fields.Boolean('Can We Deliver ?')
-    qutotation_type = fields.Selection([('Direct Quotation', 'Direct Quotation'), ('Indirect Quotation', 'Indirect Quotation')],
+    quotation_type = fields.Selection([('Direct Quotation', 'Direct Quotation'), ('Indirect Quotation', 'Indirect Quotation')],
         string='Quotation Type', default='Direct Quotation')
 
     @api.multi
