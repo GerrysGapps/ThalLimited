@@ -689,20 +689,6 @@
                                         >
                                             <span t-esc="data['count_opportunity']"/>
                                         </td>
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                            <span t-esc="round(data['initial_expected_revenue'],2)"/>
-                                        </td>
-
-                                        <td class="text-left" width="6%" style="padding:5px"
-                                        >
-                                            <span t-esc="round(data['current_expected_revenue'],2)"/>
-                                        </td>
-                                        <td class="text-left" width="6%" style="padding:5px"
-                                        >
-                                            <span t-esc="data['difference_amount']"/>
-                                        </td>
-
                                     </tr>
                                 </t>
                             </t>

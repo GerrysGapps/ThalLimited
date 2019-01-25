@@ -160,29 +160,6 @@
                         </group>
                     </group>
                 </page>
-                <page string="Outlet Locations">
-                    <group>
-                        <field name="outlet_location" nolabel="1">
-                            <tree  editable="bottom">
-                             <field name="city"/>
-                                 <field name="region"/>
-                                 <field name="no_of_outlets"/>
-                                 <field name="tentative_opening_date"/>
-                            </tree>
-                        </field>
-                    </group>
-                </page>
-                 <page string="Current Suppliers">
-                    <group>
-                        <field name="suppliers" nolabel="1">
-                            <tree  editable="bottom">
-                             <field name="competitor"/>
-                                 <field name="city"/>
-                                 <field name="description"/>
-                            </tree>
-                        </field>
-                    </group>
-                </page>
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <group>
@@ -195,7 +172,6 @@
                 <field name="ntn_no"/>
                 <field name="srtn"/>
                 <field name="cnic_no"/>
-                <field name="num_of_outlets"/>
             </xpath>
         </field>
     </record>
