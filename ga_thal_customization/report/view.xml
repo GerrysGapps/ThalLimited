@@ -46,7 +46,7 @@
                             <t t-foreach="doc.get_details()" t-as="line">
 
                                 <td align="center" width="200px" style="padding:5px">
-                                 <span t-esc="doc.get_leads_count_prev(line['company_id'])"></span>
+                                 <span t-esc="doc.get_open_leads_prev(line['company_id'])"></span>
                                 </td>
                             </t>
                         </tr>
@@ -92,7 +92,7 @@
                             <t t-foreach="doc.get_details()" t-as="line">
 
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_leads_count(line['company_id'])"></span>
+                                    <span t-esc="doc.get_open_leads(line['company_id'])"></span>
                                 </td>
                             </t>
                         </tr>
