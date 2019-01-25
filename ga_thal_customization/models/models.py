@@ -201,9 +201,7 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_open_leads(self, company_id):
         self.env.cr.execute("select count(id) from crm_lead  where active='True' and company_id=" + str(
-            company_id) + " and type='lead' and won_status='pending' and create_date>=" + "'" + fields.Datetime.to_string(
-            datetime.date.today() - datetime.timedelta(
-                6)) + "'" + " and create_date<=" + "'" + fields.Datetime.to_string(datetime.datetime.now()) + "'")
+            company_id) + " and type='lead' and won_status='pending'")
         open_lead_count = self.env.cr.dictfetchall()
         return open_lead_count[0]['count']
 
@@ -224,10 +222,7 @@ class TopmanagementReport(models.TransientModel):
     def get_open_opportunities(self, company_id):
         self.env.cr.execute(
             "select count(id) from crm_lead  where company_id=" + str(
-                company_id) + " and type ='opportunity' and won_status = 'pending' and active='True' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now() - datetime.timedelta(
-                    6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now()) + "'")
+                company_id) + " and type ='opportunity' and won_status = 'pending' and active='True'")
         open_opportunity_count = self.env.cr.dictfetchall()
         return open_opportunity_count[0]['count']
 
