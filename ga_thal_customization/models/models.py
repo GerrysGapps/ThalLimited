@@ -193,15 +193,6 @@ class TopmanagementReport(models.TransientModel):
         converted_opportunity_count = self.env.cr.dictfetchall()
         return converted_opportunity_count[0]['count']
 
-    @api.model
-    def get_open_leads(self, company_id):
-        self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
-            company_id) + " and type='lead' and won_status='pending' and create_date>=" + "'" + fields.Datetime.to_string(
-            datetime.date.today() - datetime.timedelta(
-                6)) + "'" + " and create_date<=" + "'" + fields.Datetime.to_string(datetime.datetime.now()) + "'")
-        open_lead_count = self.env.cr.dictfetchall()
-        return open_lead_count[0]['count']
-
     #This function is used to calculate lost leads/opportunities except 'Spam Email'
     @api.model
     def get_lost_count(self, company_id, type, won_status):
@@ -215,38 +206,28 @@ class TopmanagementReport(models.TransientModel):
 
         return self.env.cr.dictfetchall()[0]['count']
 
+    # This function is used to calculate won opportunities
     @api.model
-    def get_lost_opportunities(self, company_id):
-        self.env.cr.execute(
-            "select count(id) from crm_lead  where company_id=" + str(
-                company_id) + " and type ='opportunity' and won_status = 'lost' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now() - datetime.timedelta(
-                    6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now()) + "'")
-        lost_opportunity_count = self.env.cr.dictfetchall()
-        return lost_opportunity_count[0]['count']
+    def get_won_count(self, company_id, type, won_status):
+        start_date = fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))
+        end_date = fields.Datetime.to_string(datetime.datetime.now())
 
-    @api.model
-    def get_open_opportunities(self, company_id):
-        self.env.cr.execute(
-            "select count(id) from crm_lead  where company_id=" + str(
-                company_id) + " and type ='opportunity' and won_status = 'pending' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now() - datetime.timedelta(
-                    6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now()) + "'")
-        open_opportunity_count = self.env.cr.dictfetchall()
-        return open_opportunity_count[0]['count']
+        self.env.cr.execute("""select count(*) from crm_lead
+            where company_id=%s and type='%s' and won_status='%s'
+            and date_last_stage_update between '%s' and '%s'""" % (
+            company_id, type, won_status, start_date, end_date))
+        return self.env.cr.dictfetchall()[0]['count']
 
+    # This function is used to calculate won leads/opportunities
     @api.model
-    def get_won_opportunities(self, company_id):
-        self.env.cr.execute(
-            "select count(id) from crm_lead  where company_id=" + str(
-                company_id) + " and type ='opportunity' and won_status = 'won' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now() - datetime.timedelta(
-                    6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now()) + "'")
-        won_opportunity_count = self.env.cr.dictfetchall()
-        return won_opportunity_count[0]['count']
+    def get_open_count(self, company_id, type, won_status):
+        start_date = fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))
+        end_date = fields.Datetime.to_string(datetime.datetime.now())
+        self.env.cr.execute("""select count(*) from crm_lead
+                where company_id=%s and type='%s' and won_status='%s'
+                and date_last_stage_update between '%s' and '%s'""" % (
+            company_id, type, won_status, start_date, end_date))
+        return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
     def get_won_opportunities_intial_current_revenue(self, company_id):
@@ -326,15 +307,6 @@ class TopmanagementReport(models.TransientModel):
             return round((self.get_converted_opportunity(company_id) / self.get_leads_count(company_id)) * 100, 2)
         else:
             return 0
-
-    @api.model
-    def get_lost_leads(self, company_id):
-        self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
-            company_id) + " and type='lead' and won_status='lost' and create_date>=" + "'" + fields.Datetime.to_string(
-            datetime.date.today() - datetime.timedelta(
-                6)) + "'" + " and create_date<=" + "'" + fields.Datetime.to_string(datetime.datetime.now()) + "'")
-        lead_lost = self.env.cr.dictfetchall()
-        return lead_lost[0]['count']
 
     @api.model
     def get_details(self):
