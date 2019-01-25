@@ -78,7 +78,7 @@
                                 <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
 
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_lost_leads(line['company_id'])"></span>
+                                    <span t-esc="doc.get_lost_count(line['company_id'],'lead','lost')"/>
                                 </td>
                                 </t>
                             </t>
@@ -173,7 +173,7 @@
                                 <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
 
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_lost_opportunities(line['company_id'])"></span>
+                                    <span t-esc="doc.get_lost_count(line['company_id'],'opportunity','lost')"/>
                                 </td>
                                 </t>
                             </t>

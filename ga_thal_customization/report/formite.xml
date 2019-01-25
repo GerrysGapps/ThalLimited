@@ -77,7 +77,7 @@
                             <t t-foreach="doc.get_details()" t-as="line">
                                  <t t-if="line['company']=='BLD - Formite'">
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_lost_leads(line['company_id'])"></span>
+                                    <span t-esc="doc.get_lost_count(line['company_id'],'lead','lost')"></span>
                                 </td>
                                  </t>
                             </t>
@@ -172,7 +172,7 @@
                                  <t t-if="line['company']=='BLD - Formite'">
 
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_lost_opportunities(line['company_id'])"></span>
+                                    <span t-esc="doc.get_lost_count(line['company_id'],'opportunity','lost')"></span>
                                 </td>
                                  </t>
                             </t>
