@@ -5,7 +5,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="crm_enterprise.crm_opportunity_view_search"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='fiscal_position_id']" position="after">
+            <xpath expr="//field[@name='company_id']" position="after">
                 <field name="quotation_type" groups="base.group_no_one"/>
             </xpath>
         </field>
