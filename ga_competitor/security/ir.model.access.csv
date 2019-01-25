@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_competitor,access_competitor,model_competitor,base.group_user,1,1,1,1
+access_outlet_location,access_outlet_location,model_outlet_location,,1,1,1,1
+access_current_supplier,access_current_supplier,model_current_supplier,,1,1,1,1

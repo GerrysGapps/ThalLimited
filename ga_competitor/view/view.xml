@@ -1,6 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
+		 <record id="inherit_crm_lead_form" model="ir.ui.view">
+        <field name="name">crm.lead.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_oppor"></field>
+        <field name="arch" type="xml">
+			 <xpath expr="//sheet/notebook/page[@name='lead']" position="after">
+                <page string="KEY FEATURES OF BUSINESS">
+                    <group>
+                        <field name="key_feature_business" nolabel="1" />
+                    </group>
+                </page>
+                  <page string="CHALLNAGES IF ANY" >
+                    <group>
+                        <field name="challanges" nolabel="1"/>
+                    </group>
+                </page>
+                  <page string="BUSINESS Updates">
+                    <group>
+                        <field name="business_updates" nolabel="1"/>
+                    </group>
+                </page>
+              </xpath>
+        </field>
+    </record>
+		<record id="inherited_partner_form" model="ir.ui.view">
+        <field name="name">partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']" position="after">
+                <page string="Outlet Locations">
+                    <group>
+                        <field name="outlet_location" nolabel="1">
+                            <tree  editable="bottom">
+                             <field name="city"/>
+                                 <field name="region"/>
+                                 <field name="no_of_outlets"/>
+                                 <field name="tentative_opening_date"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+                 <page string="Current Suppliers">
+                    <group>
+                        <field name="suppliers" nolabel="1">
+                            <tree  editable="bottom">
+                             <field name="competitor"/>
+                                 <field name="city"/>
+                                 <field name="description"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+		 <record id="inherited_crm_case_form_view_leads" model="ir.ui.view">
+        <field name="name">crm.lead.form.lead</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_leads"></field>
+        <field name="arch" type="xml">
+              <xpath expr="//sheet/notebook/page[@name='extra']" position="after">
+                <page string="KEY FEATURES OF BUSINESS">
+                    <group>
+                        <field name="key_feature_business" nolabel="1" />
+                    </group>
+                </page>
+                  <page string="CHALLNAGES IF ANY" >
+                    <group>
+                        <field name="challanges" nolabel="1"/>
+                    </group>
+                </page>
+                  <page string="BUSINESS Updates">
+                    <group>
+                        <field name="business_updates" nolabel="1"/>
+                    </group>
+                </page>
+              </xpath>
+        </field>
+    </record>
 
 		<record id="view_competitor_form" model="ir.ui.view">
 			<field name="name">competitor.form</field>
