@@ -34,7 +34,7 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_converted_opportunity_prev(self, company_id):
         self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
-            company_id) + "and crm.active='True' and type ='opportunity' and date_conversion<" + "'" + fields.Datetime.to_string(
+            company_id) + " and type ='opportunity' and date_conversion<" + "'" + fields.Datetime.to_string(
             datetime.date.today() - datetime.timedelta(
                 6)) + "'")
         converted_opportunity_count = self.env.cr.dictfetchall()
@@ -43,7 +43,7 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_open_leads_prev(self, company_id):
         self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
-            company_id) + "and crm.active='True' and type='lead' and won_status='pending' and create_date<" + "'" + fields.Datetime.to_string(
+            company_id) + " and type='lead' and won_status='pending' and create_date<" + "'" + fields.Datetime.to_string(
             datetime.date.today() - datetime.timedelta(
                 6)) + "'")
         open_lead_count = self.env.cr.dictfetchall()
@@ -98,7 +98,7 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_lost_leads_prev(self, company_id):
         self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
-            company_id) + " and type='lead' and crm.active='True' and won_status='lost' and create_date<" + "'" + fields.Datetime.to_string(
+            company_id) + " and type='lead' and won_status='lost' and create_date<" + "'" + fields.Datetime.to_string(
             datetime.date.today() - datetime.timedelta(6)) + "'")
         lead_lost = self.env.cr.dictfetchall()
         return lead_lost[0]['count']
