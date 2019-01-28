@@ -201,8 +201,8 @@ class TopmanagementReport(models.TransientModel):
 
         self.env.cr.execute("""select count(*) from crm_lead as crml 
         inner join crm_lost_reason as clr on crml.lost_reason=clr.id 
-        where clr.name!='Spam Email' and crml.company_id=%s and crml.type='%s' and crml.won_status='%s'
-        and crml.date_last_stage_update between '%s' and '%s'""" % (company_id, type, won_status, start_date, end_date))
+        where crml.company_id=%s and crml.type='%s' and crml.won_status='%s'
+        and crml.date_action_last between '%s' and '%s'""" % (company_id, type, won_status, start_date, end_date))
 
         return self.env.cr.dictfetchall()[0]['count']
 
