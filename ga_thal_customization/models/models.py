@@ -201,8 +201,8 @@ class TopmanagementReport(models.TransientModel):
 
         self.env.cr.execute("""select count(*) from crm_lead as crml 
         inner join crm_lost_reason as clr on crml.lost_reason=clr.id 
-        where crml.company_id=%s and crml.type='%s' and crml.won_status='%s'
-        and crml.date_action_last between '%s' and '%s'""" % (company_id, type, won_status, start_date, end_date))
+        where clr.name!='Spam Email' and crml.company_id=%s and crml.type='%s' and crml.won_status='%s'
+        and crml.date_last_stage_update between '%s' and '%s'""" % (company_id, type, won_status, start_date, end_date))
 
         return self.env.cr.dictfetchall()[0]['count']
 
@@ -239,8 +239,6 @@ class TopmanagementReport(models.TransientModel):
                             and date_last_stage_update between '%s' and '%s'""" % (
                 company_id, type, won_status,user_id, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
-
-
 
     @api.model
     def get_won_opportunities_intial_current_revenue(self, company_id, user_id=False):
@@ -614,7 +612,7 @@ class InheritSaleOrder(models.Model):
             'type': 'ir.actions.report',
             'report_name': 'ga_thal_customization.report_top_management',
             'report_file': 'ga_thal_customization.report_top_management',
-            'report_type': 'qweb-pdf'
+            'report_type': 'qweb-html'
         }
 
     def send_requesttosap_func(self):
