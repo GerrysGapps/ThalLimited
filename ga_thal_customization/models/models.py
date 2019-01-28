@@ -208,41 +208,67 @@ class TopmanagementReport(models.TransientModel):
 
     # This function is used to calculate won opportunities
     @api.model
-    def get_won_count(self, company_id, type, won_status):
+    def get_won_count(self, company_id, type, won_status, user_id=False):
         start_date = fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))
         end_date = fields.Datetime.to_string(datetime.datetime.now())
 
-        self.env.cr.execute("""select count(*) from crm_lead
-            where company_id=%s and type='%s' and won_status='%s'
-            and date_last_stage_update between '%s' and '%s'""" % (
-            company_id, type, won_status, start_date, end_date))
+        if not user_id:
+            self.env.cr.execute("""select count(*) from crm_lead
+                where company_id=%s and type='%s' and won_status='%s'
+                and date_last_stage_update between '%s' and '%s'""" % (
+                company_id, type, won_status, start_date, end_date))
+        else:
+            self.env.cr.execute("""select count(*) from crm_lead
+                            where company_id=%s and user_id=%s and type='%s' and won_status='%s'
+                            and date_last_stage_update between '%s' and '%s'""" % (company_id, user_id,type, won_status, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
     # This function is used to calculate won leads/opportunities
     @api.model
-    def get_open_count(self, company_id, type, won_status):
+    def get_open_count(self, company_id, type, won_status, user_id=False):
         start_date = fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))
         end_date = fields.Datetime.to_string(datetime.datetime.now())
-        self.env.cr.execute("""select count(*) from crm_lead
-                where company_id=%s and type='%s' and won_status='%s'
-                and date_last_stage_update between '%s' and '%s'""" % (
-            company_id, type, won_status, start_date, end_date))
+        if not user_id:
+            self.env.cr.execute("""select count(*) from crm_lead
+                    where company_id=%s and type='%s' and won_status='%s'
+                    and date_last_stage_update between '%s' and '%s'""" % (
+                company_id, type, won_status, start_date, end_date))
+        else:
+            self.env.cr.execute("""select count(*) from crm_lead
+                            where company_id=%s and type='%s' and won_status='%s' and user_id=%s
+                            and date_last_stage_update between '%s' and '%s'""" % (
+                company_id, type, won_status,user_id, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
+
+
     @api.model
-    def get_won_opportunities_intial_current_revenue(self, company_id):
-        self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
-        where active='True' and company_id=%s and type='opportunity' and won_status='won' and date_last_stage_update between '%s' and '%s'
-        """%(company_id, fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),fields.Datetime.to_string(datetime.datetime.now())))
+    def get_won_opportunities_intial_current_revenue(self, company_id, user_id=False):
+        if not user_id:
+            self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
+            where active='True' and company_id=%s and type='opportunity' and won_status='won' and date_last_stage_update between '%s' and '%s'
+            """%(company_id, fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),fields.Datetime.to_string(datetime.datetime.now())))
+        else:
+            self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
+                       where active='True' and user_id=%s and company_id=%s and type='opportunity' and won_status='won' and date_last_stage_update between '%s' and '%s'
+                       """ % (user_id, company_id, fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
+                              fields.Datetime.to_string(datetime.datetime.now())))
         won_revenue = self.env.cr.dictfetchall()
         return won_revenue
 
     @api.model
-    def get_open_opportunities_intial_current_revenue(self, company_id):
-        self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
-                where active='True' and company_id=%s and type='opportunity' and won_status='pending' and date_last_stage_update between '%s' and '%s'
-                """ % (company_id, fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
-                       fields.Datetime.to_string(datetime.datetime.now())))
+    def get_open_opportunities_intial_current_revenue(self, company_id, user_id=False):
+        if not user_id:
+            self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
+                    where active='True' and company_id=%s and type='opportunity' and won_status='pending' and date_last_stage_update between '%s' and '%s'
+                    """ % (company_id, fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
+                           fields.Datetime.to_string(datetime.datetime.now())))
+        else:
+            self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
+                                where active='True' and user_id=%s and company_id=%s and type='opportunity' and won_status='pending' and date_last_stage_update between '%s' and '%s'
+                                """ % (user_id,company_id, fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
+            fields.Datetime.to_string(datetime.datetime.now())))
+
         open_revenue = self.env.cr.dictfetchall()
         return open_revenue
 
@@ -300,6 +326,73 @@ class TopmanagementReport(models.TransientModel):
             return round((self.get_converted_opportunity(company_id) / self.get_leads_count(company_id)) * 100, 2)
         else:
             return 0
+
+    @api.model
+    def get_companies(self):
+        self.env.cr.execute("""select id,name from res_company where name in ('BLD - Formite', 'PPD - Carrier Bags', 'PPD - Cement & Allied')""")
+        companies = self.env.cr.dictfetchall()
+        return companies
+
+    @api.model
+    def count_lost_lead_opportunity_by_reason(self,company_id,type):
+        self.env.cr.execute(
+            """select count(lost_reason.id) as total,lost_reason.name as lost_reason, sum(planned_revenue) as current,sum(actual_revenue) as initial from crm_lead crm INNER JOIN crm_lost_reason lost_reason ON crm.lost_reason=lost_reason.id where
+            crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_action_last between '%s' and '%s' group by lost_reason.name""" % (
+                company_id, type, 'lost',
+                fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
+                fields.Datetime.to_string(datetime.datetime.now())))
+        return self.env.cr.dictfetchall()
+
+    @api.model
+    def get_open_opportunity_details(self, company_id, type, won_status):
+        start_date = fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))
+        end_date = fields.Datetime.to_string(datetime.datetime.now())
+        self.env.cr.execute("""select count(*) from crm_lead
+                    where company_id=%s and type='%s' and won_status='%s'
+                    and date_last_stage_update between '%s' and '%s'""" % (
+            company_id, type, won_status, start_date, end_date))
+        return self.env.cr.dictfetchall()[0]['count']
+
+    @api.model
+    def get_sales_person_name(self, partner_id):
+        if partner_id:
+            partner = self.env['res.partner'].search([('id', '=', partner_id)])
+            return partner.name
+
+    @api.model
+    def get_opportunities_by_sales_person(self,company_id):
+        data = []
+        self.env.cr.execute("""select rp.name,ru.id,ru.company_id,ru.partner_id from res_users  as ru inner join res_partner as rp on ru.partner_id = rp.id
+        where ru.sale_team_id is not null and ru.active='True' and rp.company_id=%s"""%(company_id))
+        sale_persons = self.env.cr.dictfetchall()
+
+        for sale_person in sale_persons:
+            res = {}
+
+            open_count = self.get_open_count(company_id, 'opportunity', 'pending',sale_person['id'])
+            open_ini_revenue = self.get_open_opportunities_intial_current_revenue(company_id, sale_person['id'])[0]['initial'] or 0.0
+            open_curr_revenue = self.get_open_opportunities_intial_current_revenue(company_id, sale_person['id'])[0]['current'] or 0.0
+
+            won_count = self.get_won_count(company_id, 'opportunity', 'won', sale_person['id'])
+            won_ini_revenue = self.get_won_opportunities_intial_current_revenue(company_id, sale_person['id'])[0]['initial'] or 0.0
+            won_curr_revenue = self.get_won_opportunities_intial_current_revenue(company_id, sale_person['id'])[0]['current'] or 0.0
+
+            res['sale_person'] = sale_person['name']
+
+            res['open_opportunities'] = open_count
+            res['open_opportunities_initial_revenue'] = open_ini_revenue
+            res['open_opportunities_current_revenue'] = open_curr_revenue
+
+            res['won_opportunities'] = won_count
+            res['won_opportunities_initial_revenue'] = won_ini_revenue
+            res['won_opportunities_current_revenue'] = won_curr_revenue
+            res['difference_of_won'] = won_curr_revenue - won_ini_revenue
+
+            if open_count >0 or won_count>0 or open_ini_revenue>0 or open_curr_revenue>0 or won_ini_revenue>0 or won_curr_revenue>0:
+                data.append(res)
+        return data
+
+
 
     @api.model
     def get_details(self):
@@ -513,6 +606,15 @@ class InheritSaleOrder(models.Model):
             'view_type': 'form',
             'view_mode': 'form',
             'target': 'new',
+        }
+
+    @api.multi
+    def print_report(self):
+        return {
+            'type': 'ir.actions.report',
+            'report_name': 'ga_thal_customization.report_top_management',
+            'report_file': 'ga_thal_customization.report_top_management',
+            'report_type': 'qweb-pdf'
         }
 
     def send_requesttosap_func(self):
