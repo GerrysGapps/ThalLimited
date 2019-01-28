@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='company_id']" position="after">
                 <field name="quotation_type" groups="base.group_no_one"/>
-                <!--<button type="object" name="print_report" string="Print Report"/>-->
+                <button type="object" name="print_report" string="Print Report"/>
             </xpath>
         </field>
     </record>
