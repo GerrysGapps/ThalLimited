@@ -335,14 +335,14 @@ class TopmanagementReport(models.TransientModel):
             get_all_sales_data_won = self.env.cr.dictfetchall()
             self.env.cr.execute(
                 """select count(lost_reason.id),lost_reason.name as lost_reason,sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead crm INNER JOIN crm_lost_reason lost_reason ON crm.lost_reason=lost_reason.id where
-                crm.company_id='%s' and crm.active='True' and lost_reason.name!='Spam Email' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
+                crm.company_id='%s' and lost_reason.name!='Spam Email' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
                     company.id, 'opportunity', 'lost',
                     fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
                     fields.Datetime.to_string(datetime.datetime.now())) + " group by lost_reason.name ")
             get_all_sales_lost = self.env.cr.dictfetchall()
             self.env.cr.execute(
                 """select count(lost_reason.id),lost_reason.name as lost_reason,sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead crm INNER JOIN crm_lost_reason lost_reason ON crm.lost_reason=lost_reason.id where
-                crm.company_id='%s' and crm.type='%s' and crm.active='True' and lost_reason.name!='Spam Email' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
+                crm.company_id='%s' and crm.type='%s' and lost_reason.name!='Spam Email' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
                     company.id, 'lead', 'lost',
                     fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
                     fields.Datetime.to_string(datetime.datetime.now())) + " group by lost_reason.name ")
