@@ -231,36 +231,29 @@ class TopmanagementReport(models.TransientModel):
 
     @api.model
     def get_won_opportunities_intial_current_revenue(self, company_id):
-        self.env.cr.execute(
-            "select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  where company_id=" + str(
-                company_id) + " and type ='opportunity' and won_status = 'won' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now() - datetime.timedelta(
-                    6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now()) + "'")
-        won_count = self.env.cr.dictfetchall()
-        return won_count
+        self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
+        where active='True' and company_id=%s and type='opportunity' and won_status='won' and date_last_stage_update between '%s' and '%s'
+        """%(company_id, fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),fields.Datetime.to_string(datetime.datetime.now())))
+        won_revenue = self.env.cr.dictfetchall()
+        return won_revenue
 
     @api.model
     def get_open_opportunities_intial_current_revenue(self, company_id):
-        self.env.cr.execute(
-            "select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  where company_id=" + str(
-                company_id) + " and type ='opportunity' and won_status = 'pending' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now() - datetime.timedelta(
-                    6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now()) + "'")
-        open_count = self.env.cr.dictfetchall()
-        return open_count
+        self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
+                where active='True' and company_id=%s and type='opportunity' and won_status='pending' and date_last_stage_update between '%s' and '%s'
+                """ % (company_id, fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
+                       fields.Datetime.to_string(datetime.datetime.now())))
+        open_revenue = self.env.cr.dictfetchall()
+        return open_revenue
 
     @api.model
     def get_lost_opportunities_intial_current_revenue(self, company_id):
-        self.env.cr.execute(
-            "select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead where company_id=" + str(
-                company_id) + " and type ='opportunity' and won_status = 'won' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now() - datetime.timedelta(
-                    6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now()) + "'")
-        lost_opportunity_count = self.env.cr.dictfetchall()
-        return lost_opportunity_count
+        self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
+                        where active='True' and company_id=%s and type='opportunity' and won_status='lost' and date_last_stage_update between '%s' and '%s'
+                        """ % (company_id, fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
+                               fields.Datetime.to_string(datetime.datetime.now())))
+        lost_revenue = self.env.cr.dictfetchall()
+        return lost_revenue
 
     @api.model
     def get_lost_opportunities_intial_current_revenue_prev(self, company_id):
