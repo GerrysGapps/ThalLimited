@@ -2,7 +2,7 @@
 <odoo>
 <report
         id="report_topmanagement"
-        model="sale.order"
+        model="topmanagement.report"
         string="Top Management Report"
         report_type="qweb-pdf"
         name="ga_thal_customization.report_top_management"
@@ -10,7 +10,7 @@
     />
     <report
         id="report_formite"
-        model="sale.order"
+        model="topmanagement.report"
         string="Formite Report"
         report_type="qweb-pdf"
         name="ga_thal_customization.report_formite"
@@ -18,7 +18,7 @@
     />
     <report
         id="report_carrierbag_cement"
-        model="sale.order"
+        model="topmanagement.report"
         string="Carrier Bag and Cement Allied Report"
         report_type="qweb-pdf"
         name="ga_thal_customization.report_carrierbag_cement"
