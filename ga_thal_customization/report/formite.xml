@@ -104,7 +104,7 @@
                                  <t t-if="line['company']=='BLD - Formite'">
 
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_open_leads(line['company_id'])"></span>
+                                    <span t-esc="doc.get_open_count(line['company_id'],'lead','pending')"></span>
                                 </td>
                                  </t>
                             </t>
@@ -159,7 +159,7 @@
                                  <t t-if="line['company']=='BLD - Formite'">
 
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_won_opportunities(line['company_id'])"></span>
+                                    <span t-esc="doc.get_won_count(line['company_id'],'opportunity','won')"></span>
                                 </td>
                                  </t>
                             </t>
@@ -185,7 +185,7 @@
                                  <t t-if="line['company']=='BLD - Formite'">
 
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_open_opportunities(line['company_id'])"></span>
+                                    <span t-esc="doc.get_open_count(line['company_id'],'opportunity','pending')"></span>
                                 </td>
                                  </t>
                             </t>

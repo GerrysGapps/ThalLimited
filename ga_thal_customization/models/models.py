@@ -10,7 +10,7 @@ import datetime
 from odoo.tools.misc import clean_context
 
 
-class TopmanagementReport(models.TransientModel):
+class TopmanagementReport(models.Model):
     _name = 'topmanagement.report'
 
     datetime = fields.Datetime()
@@ -34,7 +34,7 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_converted_opportunity_prev(self, company_id):
         self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
-            company_id) + " and type ='opportunity' and date_conversion<" + "'" + fields.Datetime.to_string(
+            company_id) + "and crm.active='True' and type ='opportunity' and date_conversion<" + "'" + fields.Datetime.to_string(
             datetime.date.today() - datetime.timedelta(
                 6)) + "'")
         converted_opportunity_count = self.env.cr.dictfetchall()
@@ -43,7 +43,7 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_open_leads_prev(self, company_id):
         self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
-            company_id) + " and type='lead' and won_status='pending' and create_date<" + "'" + fields.Datetime.to_string(
+            company_id) + "and crm.active='True' and type='lead' and won_status='pending' and create_date<" + "'" + fields.Datetime.to_string(
             datetime.date.today() - datetime.timedelta(
                 6)) + "'")
         open_lead_count = self.env.cr.dictfetchall()
@@ -98,7 +98,7 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_lost_leads_prev(self, company_id):
         self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
-            company_id) + " and type='lead' and won_status='lost' and create_date<" + "'" + fields.Datetime.to_string(
+            company_id) + " and type='lead' and crm.active='True' and won_status='lost' and create_date<" + "'" + fields.Datetime.to_string(
             datetime.date.today() - datetime.timedelta(6)) + "'")
         lead_lost = self.env.cr.dictfetchall()
         return lead_lost[0]['count']
@@ -193,15 +193,6 @@ class TopmanagementReport(models.TransientModel):
         converted_opportunity_count = self.env.cr.dictfetchall()
         return converted_opportunity_count[0]['count']
 
-    @api.model
-    def get_open_leads(self, company_id):
-        self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
-            company_id) + " and type='lead' and won_status='pending' and create_date>=" + "'" + fields.Datetime.to_string(
-            datetime.date.today() - datetime.timedelta(
-                6)) + "'" + " and create_date<=" + "'" + fields.Datetime.to_string(datetime.datetime.now()) + "'")
-        open_lead_count = self.env.cr.dictfetchall()
-        return open_lead_count[0]['count']
-
     #This function is used to calculate lost leads/opportunities except 'Spam Email'
     @api.model
     def get_lost_count(self, company_id, type, won_status):
@@ -215,38 +206,28 @@ class TopmanagementReport(models.TransientModel):
 
         return self.env.cr.dictfetchall()[0]['count']
 
+    # This function is used to calculate won opportunities
     @api.model
-    def get_lost_opportunities(self, company_id):
-        self.env.cr.execute(
-            "select count(id) from crm_lead  where company_id=" + str(
-                company_id) + " and type ='opportunity' and won_status = 'lost' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now() - datetime.timedelta(
-                    6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now()) + "'")
-        lost_opportunity_count = self.env.cr.dictfetchall()
-        return lost_opportunity_count[0]['count']
+    def get_won_count(self, company_id, type, won_status):
+        start_date = fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))
+        end_date = fields.Datetime.to_string(datetime.datetime.now())
 
-    @api.model
-    def get_open_opportunities(self, company_id):
-        self.env.cr.execute(
-            "select count(id) from crm_lead  where company_id=" + str(
-                company_id) + " and type ='opportunity' and won_status = 'pending' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now() - datetime.timedelta(
-                    6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now()) + "'")
-        open_opportunity_count = self.env.cr.dictfetchall()
-        return open_opportunity_count[0]['count']
+        self.env.cr.execute("""select count(*) from crm_lead
+            where company_id=%s and type='%s' and won_status='%s'
+            and date_last_stage_update between '%s' and '%s'""" % (
+            company_id, type, won_status, start_date, end_date))
+        return self.env.cr.dictfetchall()[0]['count']
 
+    # This function is used to calculate won leads/opportunities
     @api.model
-    def get_won_opportunities(self, company_id):
-        self.env.cr.execute(
-            "select count(id) from crm_lead  where company_id=" + str(
-                company_id) + " and type ='opportunity' and won_status = 'won' and date_last_stage_update>=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now() - datetime.timedelta(
-                    6)) + "'" + " and date_last_stage_update<=" + "'" + fields.Datetime.to_string(
-                datetime.datetime.now()) + "'")
-        won_opportunity_count = self.env.cr.dictfetchall()
-        return won_opportunity_count[0]['count']
+    def get_open_count(self, company_id, type, won_status):
+        start_date = fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))
+        end_date = fields.Datetime.to_string(datetime.datetime.now())
+        self.env.cr.execute("""select count(*) from crm_lead
+                where company_id=%s and type='%s' and won_status='%s'
+                and date_last_stage_update between '%s' and '%s'""" % (
+            company_id, type, won_status, start_date, end_date))
+        return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
     def get_won_opportunities_intial_current_revenue(self, company_id):
@@ -328,15 +309,6 @@ class TopmanagementReport(models.TransientModel):
             return 0
 
     @api.model
-    def get_lost_leads(self, company_id):
-        self.env.cr.execute("select count(id) from crm_lead  where company_id=" + str(
-            company_id) + " and type='lead' and won_status='lost' and create_date>=" + "'" + fields.Datetime.to_string(
-            datetime.date.today() - datetime.timedelta(
-                6)) + "'" + " and create_date<=" + "'" + fields.Datetime.to_string(datetime.datetime.now()) + "'")
-        lead_lost = self.env.cr.dictfetchall()
-        return lead_lost[0]['count']
-
-    @api.model
     def get_details(self):
         report_data_list = []
         companies = self.env['res.company'].search(
@@ -348,7 +320,7 @@ class TopmanagementReport(models.TransientModel):
             self.env.cr.execute(
                 """select count(crm.id),sum(planned_revenue) as Current,sum(actual_revenue) as Initial, p.id from crm_lead crm INNER JOIN res_users res 
                  ON crm.user_id= res.id  INNER JOIN res_partner p on res.partner_id = p.id 
-               where crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
+               where crm.company_id='%s' and crm.active='True' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
                     company.id, 'opportunity', 'pending',
                     fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
                     fields.Datetime.to_string(datetime.datetime.now())) + " group by p.id")
@@ -356,21 +328,21 @@ class TopmanagementReport(models.TransientModel):
             self.env.cr.execute(
                 """select count(crm.id),sum(planned_revenue) as Current,sum(actual_revenue) as Initial,p.id from crm_lead crm INNER JOIN res_users res 
                  ON crm.user_id= res.id  INNER JOIN res_partner p on res.partner_id = p.id 
-               where crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
+               where crm.company_id='%s' and crm.active='True' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
                     company.id, 'opportunity', 'won',
                     fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
                     fields.Datetime.to_string(datetime.datetime.now())) + " group by p.id ")
             get_all_sales_data_won = self.env.cr.dictfetchall()
             self.env.cr.execute(
                 """select count(lost_reason.id),lost_reason.name as lost_reason,sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead crm INNER JOIN crm_lost_reason lost_reason ON crm.lost_reason=lost_reason.id where
-                crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
+                crm.company_id='%s' and crm.active='True' and lost_reason.name!='Spam Email' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
                     company.id, 'opportunity', 'lost',
                     fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
                     fields.Datetime.to_string(datetime.datetime.now())) + " group by lost_reason.name ")
             get_all_sales_lost = self.env.cr.dictfetchall()
             self.env.cr.execute(
                 """select count(lost_reason.id),lost_reason.name as lost_reason,sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead crm INNER JOIN crm_lost_reason lost_reason ON crm.lost_reason=lost_reason.id where
-                crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
+                crm.company_id='%s' and crm.type='%s' and crm.active='True' and lost_reason.name!='Spam Email' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
                     company.id, 'lead', 'lost',
                     fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
                     fields.Datetime.to_string(datetime.datetime.now())) + " group by lost_reason.name ")
