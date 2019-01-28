@@ -249,7 +249,7 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_lost_opportunities_intial_current_revenue(self, company_id):
         self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
-                        where active='True' and company_id=%s and type='opportunity' and won_status='lost' and date_last_stage_update between '%s' and '%s'
+                        where active='False' and company_id=%s and type='opportunity' and won_status='lost' and date_last_stage_update between '%s' and '%s'
                         """ % (company_id, fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
                                fields.Datetime.to_string(datetime.datetime.now())))
         lost_revenue = self.env.cr.dictfetchall()
@@ -313,18 +313,18 @@ class TopmanagementReport(models.TransientModel):
             self.env.cr.execute(
                 """select count(crm.id),sum(planned_revenue) as Current,sum(actual_revenue) as Initial, p.id from crm_lead crm INNER JOIN res_users res 
                  ON crm.user_id= res.id  INNER JOIN res_partner p on res.partner_id = p.id 
-               where crm.company_id='%s' and crm.active='True' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
+               where crm.company_id='%s' and crm.active='True' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s' group by p.id""" % (
                     company.id, 'opportunity', 'pending',
                     fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
-                    fields.Datetime.to_string(datetime.datetime.now())) + " group by p.id")
+                    fields.Datetime.to_string(datetime.datetime.now())))
             get_all_sales_data = self.env.cr.dictfetchall()
             self.env.cr.execute(
                 """select count(crm.id),sum(planned_revenue) as Current,sum(actual_revenue) as Initial,p.id from crm_lead crm INNER JOIN res_users res 
                  ON crm.user_id= res.id  INNER JOIN res_partner p on res.partner_id = p.id 
-               where crm.company_id='%s' and crm.active='True' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s'""" % (
+               where crm.company_id='%s' and crm.active='True' and crm.type='%s' and crm.won_status='%s' and crm.date_last_stage_update between '%s' and '%s' group by p.id""" % (
                     company.id, 'opportunity', 'won',
                     fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
-                    fields.Datetime.to_string(datetime.datetime.now())) + " group by p.id ")
+                    fields.Datetime.to_string(datetime.datetime.now())))
             get_all_sales_data_won = self.env.cr.dictfetchall()
             self.env.cr.execute(
                 """select count(lost_reason.id),lost_reason.name as lost_reason,sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead crm INNER JOIN crm_lost_reason lost_reason ON crm.lost_reason=lost_reason.id where
