@@ -10,7 +10,7 @@ import datetime
 from odoo.tools.misc import clean_context
 
 
-class TopmanagementReport(models.Model):
+class TopmanagementReport(models.TransientModel):
     _name = 'topmanagement.report'
 
     datetime = fields.Datetime()
