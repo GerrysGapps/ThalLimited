@@ -202,7 +202,20 @@ class TopmanagementReport(models.TransientModel):
         self.env.cr.execute("""select count(*) from crm_lead as crml 
         inner join crm_lost_reason as clr on crml.lost_reason=clr.id 
         where clr.name!='Spam Email' and crml.company_id=%s and crml.type='%s' and crml.won_status='%s'
-        and crml.date_last_stage_update between '%s' and '%s'""" % (company_id, type, won_status, start_date, end_date))
+        and crml.date_closed between '%s' and '%s'""" % (company_id, type, won_status, start_date, end_date))
+
+        return self.env.cr.dictfetchall()[0]['count']
+
+    @api.model
+    def get_lost_count_spam_email(self, company_id, type, won_status):
+        start_date = fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))
+        end_date = fields.Datetime.to_string(datetime.datetime.now())
+
+        self.env.cr.execute("""select count(*) from crm_lead as crml 
+           inner join crm_lost_reason as clr on crml.lost_reason=clr.id 
+           where clr.name='Spam Email' and crml.company_id=%s and crml.type='%s' and crml.won_status='%s'
+           and crml.date_closed between '%s' and '%s'""" % (
+        company_id, type, won_status, start_date, end_date))
 
         return self.env.cr.dictfetchall()[0]['count']
 
@@ -335,7 +348,7 @@ class TopmanagementReport(models.TransientModel):
     def count_lost_lead_opportunity_by_reason(self,company_id,type):
         self.env.cr.execute(
             """select count(lost_reason.id) as total,lost_reason.name as lost_reason, sum(planned_revenue) as current,sum(actual_revenue) as initial from crm_lead crm INNER JOIN crm_lost_reason lost_reason ON crm.lost_reason=lost_reason.id where
-            crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_action_last between '%s' and '%s' group by lost_reason.name""" % (
+            crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_closed between '%s' and '%s' group by lost_reason.name""" % (
                 company_id, type, 'lost',
                 fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
                 fields.Datetime.to_string(datetime.datetime.now())))
