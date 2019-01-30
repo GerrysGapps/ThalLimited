@@ -282,23 +282,23 @@
                         </tr>
                         <tr t-attf-style="background-color:white;background-color:yellow;">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Overdue > 3 days</span>
+                                <span>Overdue 3-7 days</span>
                             </td>
                             <t t-foreach="doc.get_details()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_overdue_activity_three_days(line['company_id'])"></span>
+                                    <span t-esc="doc.get_overdue_activity(line['company_id'],3,7)"></span>
                                 </td>
                             </t>
                         </tr>
 
                         <tr t-attf-style="background-color:white;background-color:yellow;">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Overdue > 7 days</span>
+                                <span>Overdue 7-15 days</span>
                             </td>
                             <t t-foreach="doc.get_details()" t-as="line">
 
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_overdue_activity_seven_days(line['company_id'])"></span>
+                                    <span t-esc="doc.get_overdue_activity(line['company_id'],7,15)"></span>
                                 </td>
                             </t>
                         </tr>
@@ -309,7 +309,7 @@
                             <t t-foreach="doc.get_details()" t-as="line">
 
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_overdue_activity_fifteen_days(line['company_id'])"></span>
+                                    <span t-esc="doc.get_overdue_activity(line['company_id'],15,0)"></span>
                                 </td>
                             </t>
                         </tr>
