@@ -268,6 +268,11 @@ class TopmanagementReport(models.TransientModel):
 
     # This function is used to calculate won leads/opportunities
     @api.model
+    def get_total_open_count(self, company_id, type,won_status):
+        self.env.cr("""select count(*) from crm_lead where company_id=%s and type='%s' and won_status='%s'"""%(company_id,type,won_status))
+        return self.env.cr.dictfetchall()[0]['count']
+
+    @api.model
     def get_open_count(self, company_id, type, won_status, user_id=False):
         start_date = fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))
         end_date = fields.Datetime.to_string(datetime.datetime.now())
