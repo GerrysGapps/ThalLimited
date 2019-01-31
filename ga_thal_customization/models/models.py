@@ -297,9 +297,7 @@ class TopmanagementReport(models.TransientModel):
         self.env.cr.execute(
             """select count(lost_reason.id) as total,lost_reason.name as lost_reason, sum(planned_revenue) as current,sum(actual_revenue) as initial from crm_lead crm INNER JOIN crm_lost_reason lost_reason ON crm.lost_reason=lost_reason.id where
             crm.company_id='%s' and crm.type='%s' and crm.won_status='%s' and crm.date_closed between '%s' and '%s' group by lost_reason.name""" % (
-                company_id, type, 'lost',
-                fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6)),
-                fields.Datetime.to_string(datetime.datetime.now())))
+                company_id, type, 'lost', start_date, end_date))
         return self.env.cr.dictfetchall()
 
     @api.model
