@@ -15,11 +15,13 @@
                        width="1200px">
                     <thead>
                         <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color:#595858; color: white};">
-                            <td align="center" t-attf-style="width:100px; font-weight:bold;color:white;border-right:1px solid white;">
+                            <td align="center"
+                                t-attf-style="width:100px; font-weight:bold;color:white;border-right:1px solid white;">
                                 Description
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <td align="center" t-attf-style="width:60px; font-weight:bold;color:white;border-right:1px solid white;">
+                                <td align="center"
+                                    t-attf-style="width:60px; font-weight:bold;color:white;border-right:1px solid white;">
                                     <span t-esc="line['name']"/>
                                 </td>
                             </t>
@@ -38,17 +40,17 @@
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_open_leads_opportunities_prev(line['id'],'lead')" />
+                                    <span t-esc="doc.get_open_leads_opportunities_prev(line['id'],'lead')"/>
                                 </td>
                             </t>
                         </tr>
-                         <tr t-attf-style="background-color:white">
+                        <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Total Leads Created (Current Week)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_leads_created_current_week(line['id'])" />
+                                    <span t-esc="doc.get_leads_created_current_week(line['id'])"/>
                                 </td>
                             </t>
                         </tr>
@@ -160,7 +162,7 @@
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
-                                     <span t-esc="doc.get_total_open_count(line['id'],'opportunity','pending')"/>
+                                    <span t-esc="doc.get_total_open_count(line['id'],'opportunity','pending')"/>
                                 </td>
                             </t>
                         </tr>
@@ -175,7 +177,7 @@
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
-                                   <span t-esc="round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0)"/>
+                                    <span t-esc="round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0)"/>
                                 </td>
                             </t>
                         </tr>
@@ -228,7 +230,7 @@
                             <t t-foreach="doc.get_companies()" t-as="line">
 
                                 <td align="center" width="200px" style="padding:5px">
-                                   <span t-esc="round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0)"/>
+                                    <span t-esc="round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0)"/>
                                 </td>
                             </t>
                         </tr>
@@ -329,7 +331,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!--<span t-esc="doc.get_opportunities_by_sales_person(line['id'])"/>-->
                             <t t-foreach="doc.get_opportunities_by_sales_person(line['id'])" t-as="data">
                                 <tr t-attf-style="background-color:white">
                                     <td class="text-left" style="padding:5px">
@@ -386,19 +387,15 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             <t t-foreach="doc.count_lost_lead_opportunity_by_reason(line['id'],'lead')" t-as="data">
-
                                 <tr t-attf-style="background-color:white">
                                     <td class="text-left" style="padding:5px">
                                         <span t-esc="data['lost_reason']"/>
                                     </td>
-
                                     <td class="text-left" style="padding:5px">
                                         <span t-esc="data['total']"/>
                                     </td>
                                 </tr>
-
                             </t>
                         </tbody>
                     </table>
@@ -434,7 +431,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-foreach="doc.count_lost_lead_opportunity_by_reason(line['id'],'opportunity')" t-as="data">
+                            <t t-foreach="doc.count_lost_lead_opportunity_by_reason(line['id'],'opportunity')"
+                               t-as="data">
                                 <tr t-attf-style="background-color:white">
                                     <td class="text-left" style="padding:5px">
                                         <span t-esc="data['lost_reason']"/>
