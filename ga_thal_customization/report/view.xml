@@ -317,7 +317,7 @@
                                 </td>
                                 <td align="center"
                                     t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Won Opportunities Initial Expect Revenue
+                                >Won Opportunities Initial Expected Revenue
                                 </td>
 
                                 <td align="center"
@@ -441,12 +441,11 @@
                                     <td class="text-left" style="padding:5px">
                                         <span t-esc="data['total']"/>
                                     </td>
+                                     <td class="text-left" width="6%" style="padding:5px">
+                                        <span t-esc="round(data['initial'],2)"/>
+                                    </td>
                                     <td class="text-left" style="padding:5px">
                                         <span t-esc="round(data['current'],2)"/>
-                                    </td>
-
-                                    <td class="text-left" width="6%" style="padding:5px">
-                                        <span t-esc="round(data['initial'],2)"/>
                                     </td>
                                     <td class="text-left" width="6%" style="padding:5px">
                                         <span t-esc="round(data['initial'],2) -round(data['current'],2)"/>
