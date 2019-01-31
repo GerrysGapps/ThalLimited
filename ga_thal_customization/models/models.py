@@ -85,7 +85,7 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_opportunities_count(self, company_id):
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
-               and type='opportunity' and won_status='pending' and date_last_stage_update between '%s' and '%s'
+               and type='opportunity' and date_last_stage_update between '%s' and '%s'
                """ % (company_id, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
