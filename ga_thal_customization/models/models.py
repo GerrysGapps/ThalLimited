@@ -339,7 +339,7 @@ class TopmanagementReport(models.TransientModel):
             res['won_opportunities'] = won_count
             res['won_opportunities_initial_revenue'] = won_ini_revenue
             res['won_opportunities_current_revenue'] = won_curr_revenue
-            res['difference_of_won'] = won_curr_revenue - won_ini_revenue
+            res['difference_of_won'] = won_ini_revenue - won_curr_revenue
 
             if open_count > 0 or won_count > 0 or open_ini_revenue > 0 or open_curr_revenue > 0 or won_ini_revenue > 0 or won_curr_revenue > 0:
                 data.append(res)
