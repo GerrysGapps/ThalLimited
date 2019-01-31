@@ -152,7 +152,7 @@
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_lost_count(line['id'],'opportunity','lost')"/>
+                                    <span t-esc="doc.get_lost_count(line['id'],'opportunity','lost') + get_lost_count_spam_email(line['id'],'opportunity','lost')"/>
                                 </td>
                             </t>
                         </tr>
