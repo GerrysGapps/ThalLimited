@@ -202,7 +202,7 @@
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
                                     <td align="center" width="200px" style="padding:5px">
-                                        <span t-esc="round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0)"/>
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
                                     </td>
                                 </t>
                             </t>
@@ -215,7 +215,7 @@
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
                                     <td align="center" width="200px" style="padding:5px">
-                                        <span t-esc="round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0)"/>
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
                                     </td>
                                 </t>
                             </t>
@@ -227,7 +227,7 @@
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
                                     <td align="center" width="200px" style="padding:5px">
-                                        <span t-esc="round(doc.get_open_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0)"/>
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_open_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
                                     </td>
                                 </t>
                             </t>
@@ -239,7 +239,7 @@
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
                                     <td align="center" width="200px" style="padding:5px">
-                                        <span t-esc="round(doc.get_open_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0)"/>
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_open_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
                                     </td>
                                 </t>
                             </t>
@@ -252,7 +252,7 @@
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
                                     <td align="center" width="200px" style="padding:5px">
-                                        <span t-esc="round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0)"/>
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
                                     </td>
                                 </t>
                             </t>
@@ -264,7 +264,7 @@
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
                                     <td align="center" width="200px" style="padding:5px">
-                                        <span t-esc="round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0)"/>
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
                                     </td>
                                 </t>
                             </t>
@@ -498,17 +498,17 @@
                                             <span t-esc="data['lost_reason']"/>
                                         </td>
 
-                                        <td class="text-left" style="padding:5px">
+                                        <td align="center" style="padding:5px">
                                             <span t-esc="data['total']"/>
                                         </td>
-                                        <td class="text-left" width="6%" style="padding:5px">
-                                            <span t-esc="round(data['initial'],2)"/>
+                                        <td align="right" width="6%" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(round(data['initial'],2))"/>
                                         </td>
-                                        <td class="text-left" style="padding:5px">
-                                            <span t-esc="round(data['current'],2)"/>
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(round(data['current'],2))"/>
                                         </td>
-                                        <td class="text-left" width="6%" style="padding:5px">
-                                            <span t-esc="round(data['current'],2) - round(data['initial'],2)"/>
+                                        <td align="right" width="6%" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(round(data['current'],2) - round(data['initial'],2))"/>
                                         </td>
                                     </tr>
 
