@@ -333,11 +333,11 @@
                             <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
                                 <td align="center"
                                     t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
-                                    width="20%">Open
+                                    width="20%">Open Opportunities
                                 </td>
                                 <td align="center"
                                     t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
-                                    width="20%">Won
+                                    width="20%">Won Opportunities
                                 </td>
                             </tr>
                         </thead>
@@ -357,32 +357,32 @@
                                     </td>
                                     <td align="center"
                                         t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                    >Opportunities
+                                    >Count
                                     </td>
                                     <td align="center"
                                         t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                    >Oppor. Ini. Exp. Rev.
+                                    >Ini. Exp. Rev.
                                     </td>
                                     <td align="center"
                                         t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                    >Oppor. Cur. Exp. Rev.
+                                    >Cur. Exp. Rev.
                                     </td>
                                     <td align="center"
                                         t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                    >Opportunties
+                                    >Count
                                     </td>
                                     <td align="center"
                                         t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                    >Oppor. Ini. Exp. Rev.
+                                    >Ini. Exp. Rev.
                                     </td>
 
                                     <td align="center"
                                         t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                    >Oppor. Cur. Exp. Rev.
+                                    >Cur. Exp. Rev.
                                     </td>
                                     <td align="center"
                                         t-attf-style="width:10%; font-weight:bold;color:white;"
-                                    >Diff. Won Oppor.
+                                    >Difference
                                     </td>
                                 </tr>
                             </thead>
