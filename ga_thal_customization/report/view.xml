@@ -152,7 +152,7 @@
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_lost_count(line['id'],'opportunity','lost') + get_lost_count_spam_email(line['id'],'opportunity','lost')"/>
+                                    <span t-esc="doc.get_lost_count(line['id'],'opportunity','lost')"/>
                                 </td>
                             </t>
                         </tr>
@@ -292,8 +292,32 @@
                     <table BORDERCOLOR="#{'#ffffff'}"
                            border="1" cellpadding="0" cellspacing="0"
                            class="table table-bordered"
+                           style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
+                           width="100%">
+                        <thead>
+                            <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
+                                <td align="center"
+                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
+                                    width="20%">Open
+                                </td>
+                                <td align="center"
+                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
+                                    width="20%">Won
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                    
+                    <table BORDERCOLOR="#{'#ffffff'}"
+                           border="1" cellpadding="0" cellspacing="0"
+                           class="table table-bordered"
                            style="max-width:100%; width:100%; border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;">
                         <thead>
+                            
+                            
                             <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color:#595858; color: white};">
                                 <td align="center"
                                     t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
@@ -301,32 +325,32 @@
                                 </td>
                                 <td align="center"
                                     t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Open Opportunities
+                                >Opportunities
                                 </td>
                                 <td align="center"
                                     t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Open Opportunities Initial Expected Revenue
+                                >Oppor. Ini. Exp. Rev.
                                 </td>
                                 <td align="center"
                                     t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Open Opportunities Current Expected Revenue
+                                >Oppor. Cur. Exp. Rev.
                                 </td>
                                 <td align="center"
                                     t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Won Opportunties
+                                >Opportunties
                                 </td>
                                 <td align="center"
                                     t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Won Opportunities Initial Expected Revenue
+                                >Oppor. Ini. Exp. Rev.
                                 </td>
 
                                 <td align="center"
                                     t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Won Opportunities Current Expected Revenue
+                                >Oppor. Cur. Exp. Rev.
                                 </td>
                                 <td align="center"
                                     t-attf-style="width:10%; font-weight:bold;color:white;"
-                                >Difference Won Opportunities
+                                >Diff. Won Oppor.
                                 </td>
                             </tr>
                         </thead>
@@ -337,32 +361,36 @@
                                         <span t-esc="data['sale_person']"/>
                                     </td>
 
-                                    <td class="text-left" style="padding:5px">
+                                    <td align="center" style="padding:5px">
                                         <span t-esc="data['open_opportunities']"/>
                                     </td>
 
-                                    <td class="text-left" style="padding:5px">
-                                        <span t-esc="data['open_opportunities_initial_revenue']"/>
+                                    <td align="right" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(data['open_opportunities_initial_revenue'])"/>
                                     </td>
 
-                                    <td class="text-left" style="padding:5px">
-                                        <span t-esc="data['open_opportunities_current_revenue']"/>
-                                    </td>
+                                    <td align="right" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(data['open_opportunities_current_revenue'])"/>
+                                    </td> 
 
-                                    <td class="text-left" style="padding:5px">
+                                    <td align="center" style="padding:5px">
                                         <span t-esc="data['won_opportunities']"/>
                                     </td>
-
-                                    <td class="text-left" style="padding:5px">
-                                        <span t-esc="data['won_opportunities_initial_revenue']"/>
+                                    
+                                    
+                                    <td align="right" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(data['won_opportunities_initial_revenue'])"/>
                                     </td>
 
-                                    <td class="text-left" style="padding:5px">
-                                        <span t-esc="data['won_opportunities_current_revenue']"/>
+                                    
+                                    <td align="right" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(data['won_opportunities_current_revenue'])"/>
                                     </td>
 
-                                    <td class="text-left" style="padding:5px">
-                                        <span t-esc="data['difference_of_won']"/>
+
+                                    
+                                    <td align="right" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(data['difference_of_won'])"/>
                                     </td>
                                 </tr>
                             </t>
@@ -376,7 +404,7 @@
                            width="100%">
                         <thead>
                             <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
-                                <td align="center"
+                                <td align="left"
                                     t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
                                     width="20%">Lost Reason
                                 </td>
@@ -392,7 +420,7 @@
                                     <td class="text-left" style="padding:5px">
                                         <span t-esc="data['lost_reason']"/>
                                     </td>
-                                    <td class="text-left" style="padding:5px">
+                                    <td align="center" style="padding:5px">
                                         <span t-esc="data['total']"/>
                                     </td>
                                 </tr>
