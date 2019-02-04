@@ -7,7 +7,6 @@
             <p align="center" style="font-weight:bold;font-size:28px;color:#800080">WEEKLY CRM REPORT</p>
         </div>
         <div class="page">
-
             <div class="oe_structure"/>
             <div class="row">
                 <table BORDERCOLOR="#{'#00000'}"
@@ -16,56 +15,59 @@
                     <thead>
                         <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color:#595858; color: white};">
                             <td align="center"
-                                t-attf-style="width:100px; font-weight:bold;color:white;border-right:1px solid white;"
-                            >Description
+                                t-attf-style="width:100px; font-weight:bold;color:white;border-right:1px solid white;">
+                                Description
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                 <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-                                <td align="center"
-                                    t-attf-style="width:60px; font-weight:bold;color:white;border-right:1px solid white;">
-                                    <span t-esc="line['company']"></span>
-                                </td>
-                                 </t>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center"
+                                        t-attf-style="width:60px; font-weight:bold;color:white;border-right:1px solid white;">
+                                        <span t-esc="line['name']"/>
+                                    </td>
+                                </t>
                             </t>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr t-attf-style="background-color:white">
-                            <td class="text-left" width="480px" style="padding:5px">
+                            <td class="text-left" width="480px" style="padding:5px" colspan="4">
                                 <span style="font-weight:bold;font-size:20px">Leads ( Cold)</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-                                <td align="center" width="200px">
-                                    <span ></span>
-                                </td>
-                                </t>
-                            </t>
                         </tr>
-                         <tr t-attf-style="background-color:white">
+                        <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Open Leads (Previous)</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                 <span t-esc="doc.get_open_leads_prev(line['company_id'])"></span>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_open_leads_opportunities_prev(line['id'],'lead')"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Leads Created (Current Week)</span>
+                                <span>Total Leads Created (Current Week)</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                       <span t-esc="doc.get_leads_count(line['company_id'])"></span>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_leads_created_current_week(line['id'])"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Open Leads(Current Week)</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_open_count(line['id'],'lead','pending')"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
@@ -74,25 +76,35 @@
                             <td align="left" width="480px" style="padding:5px">
                                 <span>Leads Lost (Current Week)</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_lost_leads(line['company_id'])"></span>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_lost_count(line['id'],'lead','lost')"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
-                           <tr t-attf-style="background-color:white">
+                        <tr t-attf-style="background-color:white">
+                            <td align="left" width="480px" style="padding:5px">
+                                <span>Leads Lost Due To Spam Email(Current Week)</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_lost_count_spam_email(line['id'],'lead','lost')"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Leads Converted To Opportunities</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_converted_opportunity(line['company_id'])"></span>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_converted_opportunity(line['id'])"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
@@ -101,67 +113,56 @@
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Open Leads ( by end of week )</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_open_leads(line['company_id'])"></span>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_total_open_count(line['id'],'lead','pending')"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
 
-                         <tr t-attf-style="background-color:white;background-color:#add8e6;">
-                            <td class="text-left" width="480px" style="padding:5px">
+                        <tr t-attf-style="background-color:white;background-color:#add8e6;">
+                            <td class="text-left" width="480px" style="padding:5px" colspan="4">
                                 <span style="font-weight:bold;font-size:20px;">Opportunities (Hot)</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-                                <td t-attf-style="background-color:#add8e6;" align="center" width="200px" style="padding:5px">
-                                    <span> </span>
-                                </td>
+                        </tr>
+
+                        <tr t-attf-style="background-color:white;background-color:#add8e6;">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Open opportunities (Previous)</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_open_leads_opportunities_prev(line['id'],'opportunity')"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
 
                         <tr t-attf-style="background-color:white;background-color:#add8e6;">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Open opportunities( Start of the week)</span>
+                                <span>Opportunities converted / created</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_open_opportunities_prev(line['company_id'])"></span>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_opportunities_count(line['id'])"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
-
-                         <tr t-attf-style="background-color:white;background-color:#add8e6;">
-                            <td class="text-left" width="480px" style="padding:5px">
-                                <span>Opportunities converted / created</span>
-                            </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_opportunities_count(line['company_id'])"></span>
-                                </td>
-                                </t>
-                            </t>
-                         </tr>
 
                         <tr t-attf-style="background-color:white;background-color:#add8e6;">
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Won</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_won_opportunities(line['company_id'])"></span>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_won_count(line['id'],'opportunity','won')"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
@@ -169,12 +170,11 @@
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Lost opportunity</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_lost_opportunities(line['company_id'])"></span>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_lost_count(line['id'],'opportunity','lost')"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
@@ -182,40 +182,28 @@
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Open Opportunities ( by end of week)</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_open_opportunities(line['company_id'])"></span>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_total_open_count(line['id'],'opportunity','pending')"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
-                           <tr t-attf-style="background-color:white">
-                            <td class="text-left" width="480px" style="padding:5px">
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px" colspan="4">
                                 <span style="font-weight:bold;font-size:20px;">Revenue</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <span> </span>
-                                </td>
-                                </t>
-                            </t>
                         </tr>
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Won opportunities - Initial Expected revenue</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <t t-if="doc.get_won_opportunities_intial_current_revenue(line['company_id'])[0]['initial']">
-                                        <span t-esc="round(doc.get_won_opportunities_intial_current_revenue(line['company_id'])[0]['initial'],2)"></span>
-                                    </t>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
@@ -224,14 +212,11 @@
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Won opportunities - Current Expected revenue</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <t t-if="doc.get_won_opportunities_intial_current_revenue(line['company_id'])[0]['current']">
-                                        <span t-esc="round(doc.get_won_opportunities_intial_current_revenue(line['company_id'])[0]['current'],2)"></span>
-                                    </t>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
@@ -239,14 +224,11 @@
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Open opportunities - Initial Expected revenue</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <t t-if="doc.get_open_opportunities_intial_current_revenue(line['company_id'])[0]['initial']">
-                                      <span t-esc="round(doc.get_open_opportunities_intial_current_revenue(line['company_id'])[0]['initial'],2)"></span>
-                                    </t>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_open_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
@@ -254,14 +236,11 @@
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Open opportunities - Current Expected revenue</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <t t-if="doc.get_open_opportunities_intial_current_revenue(line['company_id'])[0]['current']">
-                                      <span t-esc="round(doc.get_open_opportunities_intial_current_revenue(line['company_id'])[0]['current'],2)"></span>
-                                    </t>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_open_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
@@ -270,14 +249,11 @@
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Lost opportunities - Initial Expected revenue</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                    <t t-if="doc.get_lost_opportunities_intial_current_revenue(line['company_id'])[0]['initial']">
-                                        <span t-esc="round(doc.get_lost_opportunities_intial_current_revenue(line['company_id'])[0]['initial'],2)"></span>
-                                    </t>
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
@@ -285,282 +261,261 @@
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Lost opportunities - Current Expected revenue</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white;background-color:yellow;">
+                            <td class="text-left" width="480px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px;">Activities aging</span>
+                            </td>
+                        </tr>
+                        <tr t-attf-style="background-color:white;background-color:yellow;">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Overdue 3-7 days</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_overdue_activity(line['id'],3,7)"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
 
-                                <td align="center" width="200px" style="padding:5px">
-                                    <t t-if="doc.get_lost_opportunities_intial_current_revenue(line['company_id'])[0]['current']">
-                                        <span t-esc="round(doc.get_lost_opportunities_intial_current_revenue(line['company_id'])[0]['current'],2)"></span>
-                                    </t>
-                                </td>
+                        <tr t-attf-style="background-color:white;background-color:yellow;">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Overdue 7-15 days</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_overdue_activity(line['id'],7,15)"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
                         <tr t-attf-style="background-color:white;background-color:yellow;">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span style="font-weight:bold;font-size:20px;">Activities aging</span>
+                                <span>Overdue > 15 days</span>
                             </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td t-attf-style="background-color:yellow;" align="center" width="200px" style="padding:5px">
-
-                                </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_overdue_activity(line['id'],15,0)"/>
+                                    </td>
                                 </t>
                             </t>
                         </tr>
-                         <tr t-attf-style="background-color:white;background-color:yellow;">
-                            <td class="text-left" width="480px" style="padding:5px">
-                                <span>Overdue > 3 days</span>
-                            </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-                                <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_overdue_activity_three_days(line['company_id'])"></span>
-                                </td>
-                                </t>
-                            </t>
-                        </tr>
-
-                          <tr t-attf-style="background-color:white;background-color:yellow;">
-                            <td class="text-left" width="480px" style="padding:5px">
-                                <span> Overdue > 7 days</span>
-                            </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                 <span t-esc="doc.get_overdue_activity_seven_days(line['company_id'])"></span>
-                                </td>
-                                </t>
-                            </t>
-                        </tr>
-                         <tr t-attf-style="background-color:white;background-color:yellow;">
-                            <td class="text-left" width="480px" style="padding:5px">
-                                <span> Overdue > 15 days</span>
-                            </td>
-                            <t t-foreach="doc.get_details()" t-as="line">
-                                <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-
-                                <td align="center" width="200px" style="padding:5px">
-                                 <span t-esc="doc.get_overdue_activity_fifteen_days(line['company_id'])"></span>
-                                </td>
-                                </t>
-                            </t>
-                        </tr>
-
-
                     </tbody>
                 </table>
             </div>
-        </div>
-        <p style="page-break-before:always;"></p>
-        <div class="header">
-            <img t-att-src="'/ga_thal_customization/static/src/img/thal.png'"/>
-        </div>
-        <div class="page">
-            <div class="oe_structure"/>
+
             <div class="row">
-                <t t-foreach="doc.get_details()" t-as="line">
-                    <t t-if="line['company']=='PPD - Carrier Bags' or line['company']=='PPD - Cement &amp; Allied'">
-                    <h1 align="center" style="font-weight:bold;" t-esc="line['company']"></h1>
+                <t t-foreach="doc.get_companies()" t-as="line">
+                    <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                        <h1 align="center" style="font-weight:bold;">
+                            <span t-esc="line['name']"/>
+                        </h1>
 
-                    <h2>Opportunities By Sale Person</h2>
-                    <table BORDERCOLOR="#{'#ffffff'}"
+                        <h2>Opportunities By Sale Person</h2>
+                        <table BORDERCOLOR="#{'#ffffff'}"
                            border="1" cellpadding="0" cellspacing="0"
                            class="table table-bordered"
-                           style="max-width:100%; width:100%; border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
-                    >
+                           style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
+                           width="100%">
                         <thead>
-                            <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color:#595858; color: white};">
+                            <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
                                 <td align="center"
-                                    t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Sale Person
+                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
+                                    width="20%">Open Opportunities
                                 </td>
                                 <td align="center"
-                                    t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Open Opportunities
-                                </td>
-                                <td align="center"
-                                    t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Open Opportunities Initial Expected Revenue
-                                </td>
-                                <td align="center"
-                                    t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Open Opportunities Current Expected Revenue
-                                </td>
-                                <td align="center"
-                                    t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Won Opportunties
-                                </td>
-                                <td align="center"
-                                    t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Won Opportunities Initial Expect Revenue
-                                </td>
-
-                                <td align="center"
-                                    t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
-                                >Won Opportunities Current Expected Revenue
-                                </td>
-                                <td align="center"
-                                    t-attf-style="width:10%; font-weight:bold;color:white;"
-                                >Difference Won Opportunities
+                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
+                                    width="20%">Won Opportunities
                                 </td>
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-if="line['sale_person_wise_won_lead']">
-                                <t t-as="data" t-foreach="line['sale_person_wise_won_lead']">
+                            
+                        </tbody>
+                    </table>
+                        <table BORDERCOLOR="#{'#ffffff'}"
+                               border="1" cellpadding="0" cellspacing="0"
+                               class="table table-bordered"
+                               style="max-width:100%; width:100%; border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;">
+                            <thead>
+                                <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color:#595858; color: white};">
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Sale Person
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Count
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Ini. Exp. Rev.
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Cur. Exp. Rev.
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Count
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Ini. Exp. Rev.
+                                    </td>
+
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Cur. Exp. Rev.
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;"
+                                    >Difference
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--<span t-esc="doc.get_opportunities_by_sales_person(line['id'])"/>-->
+                                <t t-foreach="doc.get_opportunities_by_sales_person(line['id'])" t-as="data">
                                     <tr t-attf-style="background-color:white">
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                            <span t-esc="data['sale_person_name']"/>
-                                        </td>
-
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                            <t t-if="open_lead_count in data">
-                                                  <span t-esc="data['open_lead_count']"/>
-                                            </t>
-                                        </td>
-
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                           <t t-if="open_lead_revenue in data">
-                                                  <span t-esc="data['open_lead_revenue']"/>
-                                            </t>
-
-                                        </td>
                                         <td class="text-left" style="padding:5px">
-                                             <t t-if="open_lead_expected_revenue in data">
-                                                   <span t-esc="data['open_lead_expected_revenue']"/>
-                                            </t>
-
+                                            <span t-esc="data['sale_person']"/>
                                         </td>
 
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                            <span t-esc="data['count_opportunity']"/>
-                                        </td>
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                            <span t-esc="round(data['initial_expected_revenue'],2)"/>
+                                        <td align="center" style="padding:5px">
+                                            <span t-esc="data['open_opportunities']"/>
                                         </td>
 
-                                        <td class="text-left" width="6%" style="padding:5px"
-                                        >
-                                            <span t-esc="round(data['current_expected_revenue'],2)"/>
-                                        </td>
-                                        <td class="text-left" width="6%" style="padding:5px"
-                                        >
-                                            <span t-esc="data['difference_amount']"/>
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(data['open_opportunities_initial_revenue'])"/>
                                         </td>
 
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(data['open_opportunities_current_revenue'])"/>
+                                        </td>
+
+                                        <td align="center" style="padding:5px">
+                                            <span t-esc="data['won_opportunities']"/>
+                                        </td>
+
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(data['won_opportunities_initial_revenue'])"/>
+                                        </td>
+
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(data['won_opportunities_current_revenue'])"/>
+                                        </td>
+
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(data['difference_of_won'])"/>
+                                        </td>
                                     </tr>
                                 </t>
-                            </t>
-                        </tbody>
-                    </table>
-                    <h2>Leads Lost By Reasons</h2>
-                    <table BORDERCOLOR="#{'#ffffff'}"
-                           border="1" cellpadding="0" cellspacing="0"
-                           class="table table-bordered"
-                           style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
-                           width="100%">
-                        <thead>
-                            <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
-                                <td align="center"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">Lost Reason
-                                </td>
-                                <td align="center"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">Leads
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-if="line['lost_reason_wise_lead']">
-                                <t t-as="data" t-foreach="line['lost_reason_wise_lead']">
+                            </tbody>
+                        </table>
+                        <h2>Leads Lost By Reasons</h2>
+                        <table BORDERCOLOR="#{'#ffffff'}"
+                               border="1" cellpadding="0" cellspacing="0"
+                               class="table table-bordered"
+                               style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
+                               width="100%">
+                            <thead>
+                                <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
+                                    <td align="left"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Lost Reason
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Leads
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <t t-foreach="doc.count_lost_lead_opportunity_by_reason(line['id'],'lead')" t-as="data">
+
                                     <tr t-attf-style="background-color:white">
-                                        <td class="text-left" style="padding:5px"
-                                        >
+                                        <td class="text-left" style="padding:5px">
                                             <span t-esc="data['lost_reason']"/>
                                         </td>
 
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                            <span t-esc="data['count_opportunity']"/>
+                                        <td align="center" style="padding:5px">
+                                            <span t-esc="data['total']"/>
                                         </td>
                                     </tr>
-                                </t>
-                            </t>
-                        </tbody>
-                    </table>
 
-                    <h2>Opportunities Lost By Reasons</h2>
-                    <table BORDERCOLOR="#{'#ffffff'}"
-                           border="1" cellpadding="0" cellspacing="0"
-                           class="table table-bordered"
-                           style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
-                           width="100%">
-                        <thead>
-                            <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
-                                <td align="center"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">Lost Reason
-                                </td>
-                                <td align="center"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">Opportunities
-                                </td>
-                                <td align="center"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">Initial Expected Revenue
-                                </td>
-                                <td align="center"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
-                                    width="20%">Current Expected Revenue
-                                </td>
-                                <td align="center"
-                                    t-attf-style="font-weight:bold;color:white;"
-                                    width="20%">Difference Amount
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-if="line['lost_reason_wise_opportunities']">
-                                <t t-as="data" t-foreach="line['lost_reason_wise_opportunities']">
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <h2>Opportunities Lost By Reasons</h2>
+                        <table BORDERCOLOR="#{'#ffffff'}"
+                               border="1" cellpadding="0" cellspacing="0"
+                               class="table table-bordered"
+                               style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
+                               width="100%">
+                            <thead>
+                                <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Lost Reason
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Opportunities
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Initial Expected Revenue
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Current Expected Revenue
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;"
+                                        width="20%">Difference Amount
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.count_lost_lead_opportunity_by_reason(line['id'],'opportunity')"
+                                   t-as="data">
                                     <tr t-attf-style="background-color:white">
-                                        <td class="text-left" style="padding:5px"
-                                        >
+                                        <td class="text-left" style="padding:5px">
                                             <span t-esc="data['lost_reason']"/>
                                         </td>
 
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                            <span t-esc="data['count_opportunity']"/>
+                                        <td align="center" style="padding:5px">
+                                            <span t-esc="data['total']"/>
                                         </td>
-                                        <td class="text-left" style="padding:5px"
-                                        >
-                                            <span t-esc="round(data['initial_expected_revenue'],2)"/>
+                                        <td align="right" width="6%" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(round(data['initial'],2))"/>
                                         </td>
-
-                                        <td class="text-left" width="6%" style="padding:5px"
-                                        >
-                                            <span t-esc="round(data['current_expected_revenue'],2)"/>
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(round(data['current'],2))"/>
                                         </td>
-                                        <td class="text-left" width="6%" style="padding:5px"
-                                        >
-                                            <span t-esc="data['difference_amount']"/>
+                                        <td align="right" width="6%" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(round(data['current'],2) - round(data['initial'],2))"/>
                                         </td>
-
                                     </tr>
+
                                 </t>
-                            </t>
-                        </tbody>
-                    </table>
-                </t>
+                            </tbody>
+                        </table>
+                    </t>
                 </t>
             </div>
         </div>
