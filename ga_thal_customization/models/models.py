@@ -31,7 +31,7 @@ class TopmanagementReport(models.TransientModel):
     #It is used to calculate total leads in current week
     @api.model
     def get_leads_created_current_week(self, company_id):
-        self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s and create_date between '%s' and '%s'
+        self.env.cr.execute("""select count(id) from crm_lead type='lead' where company_id=%s and create_date between '%s' and '%s'
             """ % (company_id, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
