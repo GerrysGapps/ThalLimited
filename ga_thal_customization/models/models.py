@@ -21,6 +21,10 @@ class TopmanagementReport(models.TransientModel):
     datetime = fields.Datetime()
 
     @api.model
+    def get_duration(self):
+        return start_date.split(' ')[0], end_date.split(' ')[0]
+
+    @api.model
     def get_open_leads_opportunities_prev(self, company_id,type):
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
             and type='%s' and won_status='pending' and date_last_stage_update<'%s'
