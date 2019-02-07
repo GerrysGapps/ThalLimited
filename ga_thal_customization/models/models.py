@@ -29,7 +29,7 @@ class TopmanagementReport(models.TransientModel):
 
         self.env.cr.execute(""" select create_date from crm_lead where date_closed between '%s' and '%s' 
                and type='%s' and create_date<'%s' and company_id=%s order by create_date asc;
-                           """ % (start_date, end_date, type, company_id, start_date))
+                           """ % (start_date, end_date, type, start_date, company_id))
         lost_count_curr_week = self.env.cr.dictfetchall()  # Leads: lost count in current week but created in prev. week
 
         if type=='lead':
