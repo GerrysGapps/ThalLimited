@@ -25,21 +25,20 @@ class TopmanagementReport(models.TransientModel):
         return start_date.split(' ')[0], end_date.split(' ')[0]
 
     @api.model
+    def get_total_leads_prev_week(self, company_id, type):
+        self.env.cr.execute(""" select count(*) from crm_lead where date_closed between '%s' and '%s' 
+            and type='%s' and create_date<'%s' and company_id=%s;
+                               """ % (start_date, end_date, type, start_date, company_id))
+        lost_count_curr_week = self.env.cr.dictfetchall()  # Leads: lost count in current week but created in prev. week
+        return self.get_open_leads_opportunities_prev(company_id,type) + lost_count_curr_week[0]['count']
+
+    @api.model
     def get_open_leads_opportunities_prev(self, company_id,type):
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
             and type='%s' and won_status='pending' and date_last_stage_update<'%s'
             """ % (company_id,type, start_date))
         open_lead_count = self.env.cr.dictfetchall()
-
-        self.env.cr.execute(""" select count(*) from crm_lead where date_closed between '%s' and '%s' 
-        and type='%s' and create_date<'%s' and company_id=%s;
-                           """ % (start_date, end_date, type, start_date, company_id))
-        lost_count_curr_week = self.env.cr.dictfetchall()  # Leads: lost count in current week but created in prev. week
-
-        if type=='lead':
-            return open_lead_count[0]['count']+lost_count_curr_week[0]['count']
-        else:
-            return open_lead_count[0]['count']
+        return open_lead_count[0]['count']
 
     #It is used to calculate total leads in current week
     @api.model

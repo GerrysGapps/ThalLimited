@@ -6,6 +6,7 @@
             <p align="center" style="font-weight:bold;font-size:40px;color:#003366">THAL LIMITED</p>
             <p align="center" style="font-weight:bold;font-size:28px;color:#800080">WEEKLY CRM REPORT</p>
             <p align="center" style="font-weight:bold;font-size:28px;color:#800080">From <span t-esc="doc.get_duration()[0]"/> To <span t-esc="doc.get_duration()[1]"/> </p>
+            <br/>
         </div>
         <div class="page">
 
@@ -35,6 +36,16 @@
                                 <span style="font-weight:bold;font-size:20px">Leads ( Cold)</span>
                             </td>
                         </tr>
+                         <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Total Leads (Previous Week)</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <td align="center" width="200px" style="padding:5px">
+                                    <span t-esc="doc.get_total_leads_prev_week(line['id'],'lead')"/>
+                                </td>
+                            </t>
+                        </tr>
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
                                 <span>Open Leads (Previous)</span>
@@ -47,7 +58,7 @@
                         </tr>
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Total Leads Created (Current Week)</span>
+                                <span>Total Leads (Current Week)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
