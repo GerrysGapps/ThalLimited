@@ -21,6 +21,10 @@ class TopmanagementReport(models.TransientModel):
     datetime = fields.Datetime()
 
     @api.model
+    def get_duration(self):
+        return start_date.split(' ')[0], end_date.split(' ')[0]
+
+    @api.model
     def get_open_leads_opportunities_prev(self, company_id,type):
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
             and type='%s' and won_status='pending' and date_last_stage_update<'%s'
@@ -109,8 +113,7 @@ class TopmanagementReport(models.TransientModel):
         else:
             self.env.cr.execute("""select count(*) from crm_lead
                                 where company_id=%s and user_id=%s and type='%s' and won_status='%s'
-                                and date_last_stage_update between '%s' and '%s'""" % (
-                company_id, user_id, type, won_status, start_date, end_date))
+                                """ % (company_id, user_id, type, won_status))
         return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
@@ -219,9 +222,8 @@ class TopmanagementReport(models.TransientModel):
             """ % (company_id, start_date,end_date))
         else:
             self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
-                       where active='True' and user_id=%s and company_id=%s and type='opportunity' and won_status='won' and date_last_stage_update between '%s' and '%s'
-                       """ % (
-            user_id, company_id, start_date,end_date))
+                       where active='True' and user_id=%s and company_id=%s and type='opportunity' and won_status='won' """ % (
+            user_id, company_id))
         won_revenue = self.env.cr.dictfetchall()
         return won_revenue
 
@@ -233,10 +235,8 @@ class TopmanagementReport(models.TransientModel):
                     """ % (company_id, start_date,end_date))
         else:
             self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
-                                where active='True' and user_id=%s and company_id=%s and type='opportunity' and won_status='pending' and date_last_stage_update between '%s' and '%s'
-                                """ % (
-            user_id, company_id, start_date, end_date))
-
+                                where active='True' and user_id=%s and company_id=%s and type='opportunity' and won_status='pending'
+                                """ % (user_id, company_id))
         open_revenue = self.env.cr.dictfetchall()
         return open_revenue
 
