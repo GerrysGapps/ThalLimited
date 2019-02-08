@@ -30,7 +30,7 @@ class TopmanagementReport(models.TransientModel):
             and type='%s' and create_date<'%s' and company_id=%s;
                                """ % (start_date, end_date, type, start_date, company_id))
         lost_count_curr_week = self.env.cr.dictfetchall()  # Leads: lost count in current week but created in prev. week
-        return self.get_open_leads_opportunities_prev(company_id,type) + lost_count_curr_week[0]['count']
+        return lost_count_curr_week[0]['count']
 
     @api.model
     def get_open_leads_opportunities_prev(self, company_id,type):
