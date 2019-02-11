@@ -29,8 +29,14 @@ class TopmanagementReport(models.TransientModel):
         self.env.cr.execute(""" select count(*) from crm_lead where date_closed between '%s' and '%s' 
             and type='%s' and create_date<'%s' and company_id=%s;
                                """ % (start_date, end_date, type, start_date, company_id))
-        lost_count_curr_week = self.env.cr.dictfetchall()  # Leads: lost count in current week but created in prev. week
-        return lost_count_curr_week[0]['count']
+        lost_count_curr_week = self.env.cr.dictfetchall()[0]['count']  # Leads: lost count in current week but created in prev. week
+
+        self.env.cr.execute("""select count(*) from crm_lead  where company_id=%s
+                and type='opportunity' and create_date<'%s' and date_conversion between '%s' and '%s'
+                """ % (company_id,start_date, start_date, end_date))
+        convert_oppo_curr_week = self.env.cr.dictfetchall()[0]['count'] # Converted Into Oppor: Convert into Oppor. count in current week but created in prev. week
+
+        return lost_count_curr_week + self.get_open_leads_opportunities_prev(company_id,type) + convert_oppo_curr_week
 
     @api.model
     def get_open_leads_opportunities_prev(self, company_id,type):
@@ -184,7 +190,21 @@ class TopmanagementReport(models.TransientModel):
     def get_leads_count(self, company_id):
         return self.get_converted_opportunity(company_id) + self.get_available_leads(company_id)
 
-    def cal_aging_brackets(self, data, company_id, start, end=0):
+    @api.model
+    def get_sales_person_name(self,user_id):
+        partner_obj = self.env['res.partner']
+        users = self.env['res.users'].search([('id','=',user_id)])
+        for user in users:
+            sales_person_name = partner_obj.search([('id','=',user.partner_id.id)])
+            return sales_person_name.name
+    @api.model
+    def get_activity_type(self,type_id):
+        acitivities = self.env['mail.activity.type'].search([('id','=',type_id)])
+        for activity in acitivities:
+            return activity.name
+
+    def cal_aging_brackets(self, data, company_id, start, end=0, check=True):
+        result = []
         count = 0
         _list = []
         date_format = "%Y-%m-%d"
@@ -192,26 +212,34 @@ class TopmanagementReport(models.TransientModel):
             a = dt.strptime(str(rec['date_deadline']), date_format)
             b = dt.strptime(dt.now().strftime('%Y-%m-%d'), date_format)
             delta = b - a
+            rec['days'] = delta.days
+            rec['sales_person'] = self.get_sales_person_name(rec['user_id'])
+            rec['activity_type'] = self.get_activity_type(rec['activity_type_id'])
+
             if delta.days > start and delta.days < end:
-                rec['days'] = delta.days
                 _list.append(rec)
             elif delta.days > start and end == 0:
-                rec['days'] = delta.days
                 _list.append(rec)
+
         for rec in _list:
             if 'days' in rec:
                 if rec['res_model'] == 'sale.order' and self.env['sale.order'].search_count(
-                        [('id', '=', rec['res_id']), ('company_id', '=', company_id)]) > 0:
+                            [('id', '=', rec['res_id']), ('company_id', '=', company_id)]) > 0:
                     count += 1
+                    result.append(rec)
                 elif rec['res_model'] == 'crm.lead' and self.env['crm.lead'].search_count(
-                        [('id', '=', rec['res_id']), ('company_id', '=', company_id)]) > 0:
+                            [('id', '=', rec['res_id']), ('company_id', '=', company_id)]) > 0:
                     count += 1
-        return count
+                    result.append(rec)
+        if check:
+            return count
+        else:
+            return result
 
-    def get_overdue_activity(self, company_id, start, end):
+    def get_overdue_activity(self, company_id, start, end, check=True):
         self.env.cr.execute(
-            """select date_deadline,res_id,res_model from mail_activity where (res_model ='crm.lead' or res_model='sale.order') and res_id is not null""")
-        return self.cal_aging_brackets(self.env.cr.dictfetchall(), company_id, start, end)
+            """select date_deadline,res_id,res_model,res_name,user_id,activity_type_id from mail_activity where (res_model ='crm.lead' or res_model='sale.order') and res_id is not null""")
+        return self.cal_aging_brackets(self.env.cr.dictfetchall(), company_id, start, end, check)
 
     @api.model
     def get_won_opportunities_intial_current_revenue(self, company_id, user_id=False):

@@ -5,9 +5,14 @@
 
             <p align="center" style="font-weight:bold;font-size:40px;color:#003366">THAL LIMITED</p>
             <p align="center" style="font-weight:bold;font-size:28px;color:#800080">WEEKLY CRM REPORT</p>
-            <p align="center" style="font-weight:bold;font-size:28px;color:#800080">From <span t-esc="doc.get_duration()[0]"/> To <span t-esc="doc.get_duration()[1]"/> </p>
+
         </div>
         <div class="page">
+            <p align="center" style="font-weight:bold;font-size:28px;color:#800080">From
+                <span t-esc="doc.get_duration()[0]"/>
+                To
+                <span t-esc="doc.get_duration()[1]"/>
+            </p>
             <div class="oe_structure"/>
             <div class="row">
                 <table BORDERCOLOR="#{'#00000'}"
@@ -41,9 +46,11 @@
                                 <span>Total Leads (Previous Week)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_total_leads_prev_week(line['id'],'lead')"/>
-                                </td>
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_total_leads_prev_week(line['id'],'lead')"/>
+                                    </td>
+                                </t>
                             </t>
                         </tr>
                         <tr t-attf-style="background-color:white">
@@ -325,6 +332,153 @@
                     </tbody>
                 </table>
             </div>
+            <div class="page">
+                <div class="oe_structure"/>
+                <div class="row">
+                    <table BORDERCOLOR="#{'#00000'}" border="1" cellpadding="0" cellspacing="0" width="1200px">
+                        <thead>
+                            <tr style="font-weight:bold; background-color:#595858; color:white;">
+                                <td class="text-left" width="480px" style="padding:5px" colspan="4">
+                                    Activity Details
+                                </td>
+                            </tr>
+
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <t t-if="len(doc.get_overdue_activity(line['id'],3,7,False))>0">
+                                        <tr style="font-weight:bold; background-color:#875A7B; color:white;">
+                                            <td class="text-left" width="480px" style="padding:5px" colspan="4">
+                                                Overdue 3-7 Days ->
+                                                <span t-esc="line['name']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left" style="padding:5px">
+                                                S.No.
+                                            </td>
+                                            <td class="text-left" style="padding:5px">
+                                                Subject
+                                            </td>
+                                            <td class="text-left" style="padding:5px">
+                                                Sales Person
+                                            </td>
+                                            <td class="text-left" style="padding:5px">
+                                                Activity Type
+                                            </td>
+                                        </tr>
+                                        <t t-foreach="doc.get_overdue_activity(line['id'],3,7,False)" t-as="activity">
+                                            <tr>
+                                                <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                    <span t-esc="activity_index+1"/>
+                                                </td>
+                                                <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                    <span t-esc="activity['res_name']"/>
+                                                </td>
+                                                <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                    <span t-esc="activity['sales_person']"/>
+                                                </td>
+                                                <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                    <span t-esc="activity['activity_type']"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+
+
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <t t-if="len(doc.get_overdue_activity(line['id'],7,15,False))>0">
+                                        <tr style="font-weight:bold; background-color:#875A7B; color:white;">
+                                            <td class="text-left" width="480px" style="padding:5px" colspan="4">
+                                                Overdue 7-15 Days ->
+                                                <span t-esc="line['name']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                S.No.
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                Subject
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                Sales Person
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                Activity Type
+                                            </td>
+                                        </tr>
+                                        <t t-foreach="doc.get_overdue_activity(line['id'],7,15,False)" t-as="activity">
+                                            <tr>
+                                                <td class="text-left" style="padding:5px">
+                                                    <span t-esc="activity_index+1"/>
+                                                </td>
+                                                <td class="text-left" style="padding:5px">
+                                                    <span t-esc="activity['res_name']"/>
+                                                </td>
+                                                <td class="text-left" style="padding:5px">
+                                                    <span t-esc="activity['sales_person']"/>
+                                                </td>
+                                                <td class="text-left" style="padding:5px">
+                                                    <span t-esc="activity['activity_type']"/>
+                                                </td>
+
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+
+
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                    <t t-if="len(doc.get_overdue_activity(line['id'],15,0,False))>0">
+                                        <tr style="font-weight:bold; background-color:#875A7B; color:white;">
+                                            <td class="text-left" width="480px" style="padding:5px" colspan="4">
+                                                Overdue >15 Days ->
+                                                <span t-esc="line['name']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                S.No.
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                Subject
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                Sales Person
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                Activity Type
+                                            </td>
+                                        </tr>
+                                        <t t-foreach="doc.get_overdue_activity(line['id'],15,0,False)" t-as="activity">
+                                            <tr>
+                                                <td class="text-left" style="padding:5px">
+                                                    <span t-esc="activity_index+1"/>
+                                                </td>
+                                                <td class="text-left" style="padding:5px">
+                                                    <span t-esc="activity['res_name']"/>
+                                                </td>
+                                                <td class="text-left" style="padding:5px">
+                                                    <span t-esc="activity['sales_person']"/>
+                                                </td>
+                                                <td class="text-left" style="padding:5px">
+                                                    <span t-esc="activity['activity_type']"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
 
             <div class="row">
                 <t t-foreach="doc.get_companies()" t-as="line">
@@ -335,26 +489,26 @@
 
                         <h2>Opportunities By Sale Person</h2>
                         <table BORDERCOLOR="#{'#ffffff'}"
-                           border="1" cellpadding="0" cellspacing="0"
-                           class="table table-bordered"
-                           style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
-                           width="100%">
-                        <thead>
-                            <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
-                                <td align="center"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
-                                    width="20%">Open Opportunities
-                                </td>
-                                <td align="center"
-                                    t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
-                                    width="20%">Won Opportunities
-                                </td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
+                               border="1" cellpadding="0" cellspacing="0"
+                               class="table table-bordered"
+                               style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
+                               width="100%">
+                            <thead>
+                                <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
+                                        width="20%">Open Opportunities
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
+                                        width="20%">Won Opportunities
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
                         <table BORDERCOLOR="#{'#ffffff'}"
                                border="1" cellpadding="0" cellspacing="0"
                                class="table table-bordered"
