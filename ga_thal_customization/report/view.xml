@@ -5,17 +5,17 @@
 
             <p align="center" style="font-weight:bold;font-size:40px;color:#003366">THAL LIMITED</p>
             <p align="center" style="font-weight:bold;font-size:28px;color:#800080">WEEKLY CRM REPORT</p>
-            <p align="center" style="font-weight:bold;font-size:28px;color:#800080">From
-                <span t-esc="doc.get_duration()[0]"/>
-                To
-                <span t-esc="doc.get_duration()[1]"/>
-            </p>
             <br/>
         </div>
         <div class="page">
 
             <div class="oe_structure"/>
             <div class="row">
+                <p align="center" style="font-weight:bold;font-size:28px;color:#800080">From
+                    <span t-esc="doc.get_duration()[0]"/>
+                    To
+                    <span t-esc="doc.get_duration()[1]"/>
+                </p>
                 <table BORDERCOLOR="#{'#00000'}"
                        border="1" cellpadding="0" cellspacing="0"
                        width="1200px">
@@ -321,7 +321,7 @@
                                     <td class="text-left" style="padding:5px">
                                         Subject
                                     </td>
-                                     <td class="text-left" style="padding:5px">
+                                    <td class="text-left" style="padding:5px">
                                         Sales Person
                                     </td>
                                     <td class="text-left" style="padding:5px">
@@ -339,7 +339,7 @@
                                         <td class="text-left" style="padding:5px; font-weight:bold;">
                                             <span t-esc="activity['sales_person']"/>
                                         </td>
-                                         <td class="text-left" style="padding:5px; font-weight:bold;">
+                                        <td class="text-left" style="padding:5px; font-weight:bold;">
                                             <span t-esc="activity['activity_type']"/>
                                         </td>
                                     </tr>
@@ -366,9 +366,9 @@
                                     <td class="text-left" style="padding:5px; font-weight:bold;">
                                         Sales Person
                                     </td>
-                                     <td class="text-left" style="padding:5px; font-weight:bold;">
-                                         Activity Type
-                                     </td>
+                                    <td class="text-left" style="padding:5px; font-weight:bold;">
+                                        Activity Type
+                                    </td>
                                 </tr>
                                 <t t-foreach="doc.get_overdue_activity(line['id'],7,15,False)" t-as="activity">
                                     <tr>
@@ -409,9 +409,9 @@
                                     <td class="text-left" style="padding:5px; font-weight:bold;">
                                         Sales Person
                                     </td>
-                                     <td class="text-left" style="padding:5px; font-weight:bold;">
-                                         Activity Type
-                                     </td>
+                                    <td class="text-left" style="padding:5px; font-weight:bold;">
+                                        Activity Type
+                                    </td>
                                 </tr>
                                 <t t-foreach="doc.get_overdue_activity(line['id'],15,0,False)" t-as="activity">
                                     <tr>
@@ -424,7 +424,7 @@
                                         <td class="text-left" style="padding:5px">
                                             <span t-esc="activity['sales_person']"/>
                                         </td>
-                                         <td class="text-left" style="padding:5px">
+                                        <td class="text-left" style="padding:5px">
                                             <span t-esc="activity['activity_type']"/>
                                         </td>
                                     </tr>
