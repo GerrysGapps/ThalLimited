@@ -500,13 +500,15 @@
             </div>
 
             <br/>
-            <div class="row">
+            <div>
                 <table BORDERCOLOR="#{'#00000'}" border="1" cellpadding="0" cellspacing="0" width="1200px">
-                    <tbody>
+                    <thead>
                         <tr style="font-weight:bold; background-color:#595858; color:white; padding:5px;"
                             class="text-left" width="480px" colspan="4">
                             Activity Details
                         </tr>
+                    </thead>
+                    <tbody>
                         <t t-foreach="doc.get_companies()" t-as="line">
                             <tr style="font-weight:bold; background-color:#875A7B; color:white;">
                                 <td class="text-left" width="480px" style="padding:5px" colspan="4">
@@ -630,7 +632,10 @@
                         </t>
 
                     </tbody>
+
+
                 </table>
+
             </div>
         </div>
     </template>
