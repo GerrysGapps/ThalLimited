@@ -497,7 +497,7 @@ class InheritSaleOrder(models.Model):
             'type': 'ir.actions.report',
             'report_name': 'ga_thal_customization.report_top_management',
             'report_file': 'ga_thal_customization.report_top_management',
-            'report_type': 'qweb-html'
+            'report_type': 'qweb-pdf'
         }
 
     def send_requesttosap_func(self):
