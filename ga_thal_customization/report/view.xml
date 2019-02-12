@@ -42,7 +42,7 @@
                         </tr>
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Total Leads (Previous Week)</span>
+                                <span>Total Leads (Previous)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
@@ -292,9 +292,6 @@
             </div>
         </div>
         <p style="page-break-before:always;"></p>
-        <div class="header">
-
-        </div>
         <div class="page">
             <div class="oe_structure"/>
             <div class="row">
