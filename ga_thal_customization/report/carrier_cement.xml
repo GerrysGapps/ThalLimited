@@ -5,15 +5,15 @@
 
             <p align="center" style="font-weight:bold;font-size:40px;color:#003366">THAL LIMITED</p>
             <p align="center" style="font-weight:bold;font-size:28px;color:#800080">WEEKLY CRM REPORT</p>
-             <p align="center" style="font-weight:bold;font-size:28px;color:#800080">From
+
+
+        </div>
+        <div class="page">
+            <p align="center" style="font-weight:bold;font-size:28px;color:#800080">From
                 <span t-esc="doc.get_duration()[0]"/>
                 To
                 <span t-esc="doc.get_duration()[1]"/>
             </p>
-
-        </div>
-        <div class="page">
-
             <div class="oe_structure"/>
             <div class="row">
                 <table BORDERCOLOR="#{'#00000'}"
