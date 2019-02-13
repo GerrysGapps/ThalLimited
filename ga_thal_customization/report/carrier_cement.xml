@@ -73,7 +73,7 @@
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
                                     <td align="center" width="200px" style="padding:5px">
-                                        <span t-esc="doc.get_leads_created_current_week(line['id'])"/>
+                                        <span t-esc="doc.get_leads_created_current_week(line['id'])+doc.get_converted_opportunity(line['id'])"/>
                                     </td>
                                 </t>
                             </t>
