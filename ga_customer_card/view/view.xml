@@ -348,7 +348,7 @@
                 </table>
                 <br/>
                 <div style="border:1px solid black;padding:10px;">
-                    <span style="font-weight:bold;font-size:24px;">KEY FEATURE OF BUSINESS</span>
+                    <span style="font-weight:bold;font-size:24px;">KEY FEATURE OF BUSINESS-</span>
                     <p t-field="doc.key_feature_business"/>
                 </div>
 
