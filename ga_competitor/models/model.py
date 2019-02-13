@@ -7,6 +7,9 @@ class InheritCustomer(models.Model):
     suppliers = fields.One2many('current.supplier','partner_id')
     outlet_location  =fields.One2many('outlet.location','partner_id')
     num_of_outlets = fields.Integer('No. Of Outlets')
+    key_feature_business = fields.Html('Key Feature Of Business')
+    challanges = fields.Html('CHALNNAGES IF ANY')
+    business_updates = fields.Html('BUSINESS UPDATES')
 
 
 class OutletLocation(models.Model):
@@ -26,13 +29,6 @@ class current_supplier(models.Model):
     description = fields.Text('Description/Comments')
     city = fields.Char(related='competitor.city',string='City')
 
-
-class InheritLead(models.Model):
-    _inherit = "crm.lead"
-
-    key_feature_business = fields.Html('Key Feature Of Business')
-    challanges = fields.Html('CHALNNAGES IF ANY')
-    business_updates = fields.Html('BUSINESS UPDATES')
 
 class Competitor(models.Model):
     _name = "competitor"
@@ -55,5 +51,4 @@ class Competitor(models.Model):
         help="Medium-sized image of this contact. It is automatically "\
              "resized as a 128x128px image, with aspect ratio preserved. "\
              "Use this field in form views or some kanban views.")
-    
-    
+
