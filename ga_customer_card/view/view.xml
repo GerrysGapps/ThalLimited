@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="report_customer_card"
+                model="res.partner"
+                string="Customer Card"
+                report_type="qweb-pdf"
+                name="ga_customer_card.report_customer_card"
+                file="ga_customer_card.report_customer_card"
+        />
+        <record id="inherited_partner_form" model="ir.ui.view">
+            <field name="name">partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <group>
+                        <field name="brand_name" placeholder="Brand Name" nolabel="1"
+                               attrs="{'invisible': [('customer','=',False)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <template id="report_customer_card_document">
+            <div class="header">
+                <br/>
+                <p align="center" style="font-weight:bold;font-size:40px;color:#003366">Customer Card</p>
+            </div>
+            <div class="page">
+
+                <table BORDERCOLOR="#{'#00000'}"
+                       border="1" cellpadding="0" cellspacing="0"
+                       width="1200px">
+                    <tbody>
+                        <tr>
+                            <td style="font-weight:bold;font-size:24px;background-color:#875A7B; color:white;"
+                                colspan="8">
+                                Customer Details
+                            </td>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px">Company Name</span>
+                            </td>
+                            <td class="text-left" width="800px" style="padding:5px" colspan="4">
+                                <span t-esc="doc.name"/>
+                            </td>
+
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px">Brand Name</span>
+                            </td>
+                            <td class="text-left" width="800px" style="padding:5px" colspan="4">
+                                <span t-esc="doc.brand_name"/>
+                            </td>
+
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px">Address</span>
+                            </td>
+                            <td class="text-left" width="800px" style="padding:5px" colspan="4">
+                                <span t-esc="doc.street"/>
+                            </td>
+
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px">Location</span>
+                            </td>
+                            <td class="text-left" width="800px" style="padding:5px" colspan="4">
+                                <span t-esc="doc.city"/>
+                            </td>
+
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px">Website</span>
+                            </td>
+                            <td class="text-left" width="800px" style="padding:5px" colspan="4">
+                                <span t-esc="doc.website"/>
+                            </td>
+
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px">Email Address</span>
+                            </td>
+                            <td class="text-left" width="800px" style="padding:5px" colspan="4">
+                                <span t-esc="doc.email"/>
+                            </td>
+
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px">Telephone#</span>
+                            </td>
+                            <td class="text-left" width="800px" style="padding:5px" colspan="4">
+                                <span t-esc="doc.phone"/>
+                            </td>
+
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px">Mobile#</span>
+                            </td>
+                            <td class="text-left" width="800px" style="padding:5px" colspan="4">
+                                <span t-esc="doc.mobile"/>
+                            </td>
+
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px">Company Info</span>
+                            </td>
+                            <td class="text-left" width="800px" style="padding:5px" colspan="4">
+                                <span t-esc="doc.comment"/>
+                            </td>
+
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px">No Of Outlets</span>
+                            </td>
+                            <td class="text-left" width="800px" style="padding:5px" colspan="4">
+                                <span t-esc="doc.num_of_outlets"/>
+                            </td>
+
+                        </tr>
+
+                        <!--<tr t-attf-style="background-color:white">-->
+                        <!--<td class="text-left" width="480px" style="padding:5px">-->
+                        <!--<span>Brand Name</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_total_leads_prev_week(line['id'],'lead')"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</tr>-->
+                        <!--<tr t-attf-style="background-color:white">-->
+                        <!--<td class="text-left" width="480px" style="padding:5px">-->
+                        <!--<span>Address</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_open_leads_opportunities_prev(line['id'],'lead')"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</tr>-->
+                        <!--<tr t-attf-style="background-color:white">-->
+                        <!--<td class="text-left" width="480px" style="padding:5px">-->
+                        <!--<span>Location</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_leads_created_current_week(line['id'])"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</tr>-->
+                        <!--<tr t-attf-style="background-color:white">-->
+                        <!--<td class="text-left" width="480px" style="padding:5px">-->
+                        <!--<span>Website</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_open_count(line['id'],'lead','pending')+doc.get_converted_opportunity(line['id'])"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</tr>-->
+
+                        <!--<tr t-attf-style="background-color:white">-->
+                        <!--<td align="left" width="480px" style="padding:5px">-->
+                        <!--<span>Email Address</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_lost_count(line['id'],'lead','lost')"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</tr>-->
+                        <!--<tr t-attf-style="background-color:white">-->
+                        <!--<td align="left" width="480px" style="padding:5px">-->
+                        <!--<span>Telephone#</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_lost_count_spam_email(line['id'],'lead','lost')"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</tr>-->
+                        <!--<tr t-attf-style="background-color:white">-->
+                        <!--<td class="text-left" width="480px" style="padding:5px">-->
+                        <!--<span>Company Info</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_converted_opportunity(line['id'])"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</tr>-->
+
+                        <!--<tr t-attf-style="background-color:white">-->
+                        <!--<td class="text-left" width="480px" style="padding:5px">-->
+                        <!--<span>No Of Outlets</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_total_open_count(line['id'],'lead','pending')"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</tr>-->
+                    </tbody>
+                </table>
+                <br/>
+                <table BORDERCOLOR="#{'#00000'}"
+                       border="1" cellpadding="0" cellspacing="0"
+                       width="1200px">
+                    <tbody>
+                        <tr>
+                            <td style="font-weight:bold;font-size:24px;background-color:#875A7B; color:white;"
+                                colspan="16">
+                                Key Personnels
+                            </td>
+                        </tr>
+                        <t t-if="doc.child_ids">
+                            <t t-foreach="doc.child_ids" t-as="line">
+                                <t t-if="line.type in ['contact']">
+                                    <tr t-attf-style="background-color:white">
+                                        <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                            <span style="font-size:20px" t-esc="line.name"></span>
+                                        </td>
+                                        <td class="text-left" width="800px" style="padding:5px;font-size:20px"
+                                            colspan="4">
+                                            <span t-esc="line.function"/>
+                                        </td>
+                                        <td class="text-left" width="800px" style="padding:5px;font-size:20px"
+                                            colspan="4">
+                                            <t t-if="line.mobile and line.phone">
+                                                <span t-esc="line.phone"/>
+                                                <span>,</span>
+                                                <span t-esc="line.mobile"/>
+                                            </t>
+                                            <t t-if="line.mobile and not line.phone">
+                                                <span t-esc="line.mobile"/>
+                                            </t>
+                                            <t t-if="not line.mobile and line.phone">
+                                                <span t-esc="line.phone"/>
+                                            </t>
+                                        </td>
+                                        <td class="text-left" width="800px" style="padding:5px;font-size:20px"
+                                            colspan="4">
+                                            <span t-esc="line.email"/>
+                                        </td>
+
+                                    </tr>
+                                </t>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+                <br/>
+                <table BORDERCOLOR="#{'#00000'}"
+                       border="1" cellpadding="0" cellspacing="0"
+                       width="1200px">
+                    <tbody>
+                        <tr>
+                            <td style="font-weight:bold;font-size:24px;background-color:#875A7B; color:white;"
+                                colspan="16">
+                                Outlet Locations
+                            </td>
+                        </tr>
+                        <tr t-attf-style="background-color:white;font-weight:bold;font-size:18px;">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                City
+                            </td>
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                Region
+                            </td>
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                No Of Outlets
+                            </td>
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                Tentative Opening Date
+                            </td>
+                        </tr>
+                        <t t-if="doc.outlet_location">
+                            <t t-foreach="doc.outlet_location" t-as="line">
+                                <tr t-attf-style="background-color:white">
+                                    <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                        <span  t-esc="line.city"></span>
+                                    </td>
+                                    <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                        <span  t-esc="line.region"></span>
+                                    </td>
+                                    <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                        <span t-esc="line.no_of_outlets"></span>
+                                    </td>
+                                    <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                        <span  t-esc="line.tentative_opening_date"></span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+                <br/>
+                <table BORDERCOLOR="#{'#00000'}"
+                       border="1" cellpadding="0" cellspacing="0"
+                       width="1200px">
+                    <tbody>
+                        <tr>
+                            <td style="font-weight:bold;font-size:24px;background-color:#875A7B; color:white;"
+                                colspan="12">
+                                Competitors
+                            </td>
+                        </tr>
+                        <tr t-attf-style="background-color:white;font-weight:bold;font-size:18px;">
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                Competitor
+                            </td>
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                City
+                            </td>
+                            <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                Description/Comments
+                            </td>
+                        </tr>
+                        <t t-if="doc.suppliers">
+                            <t t-foreach="doc.suppliers" t-as="line">
+                                <tr t-attf-style="background-color:white">
+                                    <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                        <span  t-esc="line.competitor.name"></span>
+                                    </td>
+                                    <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                        <span t-esc="line.competitor.city"></span>
+                                    </td>
+                                    <td class="text-left" width="400px" style="padding:5px" colspan="4">
+                                        <span  t-esc="line.description"></span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+                <br/>
+                <div style="border:1px solid black;padding:10px;">
+                    <span style="font-weight:bold;font-size:24px;">KEY FEATURE OF BUSINESS</span>
+                    <p t-field="doc.key_feature_business"/>
+                </div>
+
+
+                <br/>
+                <div style="border:1px solid black;padding:10px;">
+                    <span style="font-weight:bold;font-size:24px;">CHALLANGES IF ANY</span>
+                    <p t-field="doc.challanges"/>
+                </div>
+                <br/>
+
+                <div style="border:1px solid black;padding:10px;">
+                    <span style="font-weight:bold;font-size:24px;">BUSINESS UPDATES</span>
+                    <p t-field="doc.business_updates"/>
+                </div>
+            </div>
+        </template>
+
+        <template id="report_customer_card">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="ga_customer_card.report_customer_card_document"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

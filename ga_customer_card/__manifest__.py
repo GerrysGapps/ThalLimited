@@ -3,7 +3,7 @@
 # Copyright 2018 Dreambits Technologies Pvt. Ltd. (<http://dreambits.in>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 {
-    "name": "ga_competitor",
+    "name": "Customer Card",
     "version": "12.0.0.0.1",
     "category": "ga_competitor",
     "author": "GAPPS",
