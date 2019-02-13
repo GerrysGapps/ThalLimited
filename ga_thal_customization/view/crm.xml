@@ -47,45 +47,45 @@
          </xpath>
           </field>
      </record>
-    <!--<record id="inherits_crm_case_form_view_leads" model="ir.ui.view">-->
-        <!--<field name="name">crm.lead.form.lead</field>-->
-        <!--<field name="model">crm.lead</field>-->
-        <!--<field name="inherit_id" ref="crm.crm_case_form_view_leads"></field>-->
-        <!--<field name="arch" type="xml">-->
-           <!--<xpath expr="//sheet/notebook/page[@name='extra']" position="replace">-->
-              <!--<page name="extra" string="Extra Info">-->
-                            <!--<group>-->
-                                <!--<group string="Email" groups="base.group_no_one">-->
-                                    <!--<field name="message_bounce" readonly="1" />-->
-                                <!--</group>-->
-                                <!--<group string="Tracking" groups="base.group_multi_company" name="categorization">-->
-                                    <!--<field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>-->
-                                    <!--<field name="campaign_id"/>-->
-                                    <!--<field name="medium_id"/>-->
-                                    <!--<field name="source_id"/>-->
-                                    <!--<field name="referred"/>-->
-                                <!--</group>-->
-                                <!--<group string="Analysis">-->
-                                    <!--<field name="date_open"/>-->
-                                    <!--<field name="date_closed"/>-->
-                                    <!--<field name="probability"/>-->
-                                <!--</group>-->
-                            <!--</group>-->
-                        <!--</page>-->
-           <!--</xpath>-->
-            <!--<xpath expr="//button[@name='action_set_lost']" position="replace">-->
-                <!--<button name="%(crm.crm_lead_lost_action)d"-->
-                        <!--string="Mark as Lost"-->
-                        <!--type="action"-->
-                        <!--attrs="{'invisible': ['&amp;', ('probability', '=', 0), ('active', '=', False)]}"/>-->
-            <!--</xpath>-->
-            <!--<xpath expr="//field[@name='tag_ids']" position="after">-->
-                <!--<field name="lost_reason" attrs="{'invisible': [('active', '=', True)]}"/>-->
-                <!--<field name="competitor" attrs="{'invisible': [('active', '=', True)]}"/>-->
-                <!--<field name="lost_reason_description" attrs="{'invisible': [('active', '=', True)]}"/>-->
-            <!--</xpath>-->
-        <!--</field>-->
-    <!--</record>-->
+    <record id="inherits_crm_case_form_view_leads" model="ir.ui.view">
+        <field name="name">crm.lead.form.lead</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_leads"></field>
+        <field name="arch" type="xml">
+           <xpath expr="//sheet/notebook/page[@name='extra']" position="replace">
+              <page name="extra" string="Extra Info">
+                            <group>
+                                <group string="Email" groups="base.group_no_one">
+                                    <field name="message_bounce" readonly="1" />
+                                </group>
+                                <group string="Tracking" groups="base.group_multi_company" name="categorization">
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                    <field name="campaign_id"/>
+                                    <field name="medium_id"/>
+                                    <field name="source_id"/>
+                                    <field name="referred"/>
+                                </group>
+                                <group string="Analysis">
+                                    <field name="date_open"/>
+                                    <field name="date_closed"/>
+                                    <field name="probability"/>
+                                </group>
+                            </group>
+                        </page>
+           </xpath>
+            <xpath expr="//button[@name='action_set_lost']" position="replace">
+                <button name="%(crm.crm_lead_lost_action)d"
+                        string="Mark as Lost"
+                        type="action"
+                        attrs="{'invisible': ['&amp;', ('probability', '=', 0), ('active', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="lost_reason" attrs="{'invisible': [('active', '=', True)]}"/>
+                <field name="competitor" attrs="{'invisible': [('active', '=', True)]}"/>
+                <field name="lost_reason_description" attrs="{'invisible': [('active', '=', True)]}"/>
+            </xpath>
+        </field>
+    </record>
     <record id="inherit_crm_lead_lost_form" model="ir.ui.view">
         <field name="name">crm.lead.lost.form</field>
         <field name="model">crm.lead.lost</field>
