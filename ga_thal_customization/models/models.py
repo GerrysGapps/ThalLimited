@@ -62,7 +62,9 @@ class TopmanagementReport(models.TransientModel):
                 company_id, type, won_status, start_date, end_date))
         else:
             self.env.cr.execute("""select count(*) from crm_lead
-                                where company_id=%s and type='%s' and won_status='%s' and user_id=%s""" % (company_id, type, won_status, user_id))
+                                where company_id=%s and type='%s' and won_status='%s' and user_id=%s
+                                and date_open between '%s' and '%s'""" % (
+                company_id, type, won_status, user_id, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
     # This function is used to calculate lost leads/opportunities except 'Spam Email'
@@ -229,7 +231,7 @@ class TopmanagementReport(models.TransientModel):
                             rec['partner_id'] = so.partner_id.name
                             result.append(rec)
                 elif rec['res_model'] == 'crm.lead':
-                        lead = self.env['crm.lead'].search([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
+                        lead = self.env['crm.lead'].search_count([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
                         if len(lead)>0:
                             count += 1
                             rec['partner_id']=lead.partner_id.name
@@ -261,8 +263,8 @@ class TopmanagementReport(models.TransientModel):
     def get_open_opportunities_intial_current_revenue(self, company_id, user_id=False):
         if not user_id:
             self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
-                    where active='True' and company_id=%s and type='opportunity' and won_status='pending' and date_last_stage_update<'%s'
-                    """ % (company_id, start_date))
+                    where active='True' and company_id=%s and type='opportunity' and won_status='pending' and date_last_stage_update between '%s' and '%s'
+                    """ % (company_id, start_date,end_date))
         else:
             self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
                                 where active='True' and user_id=%s and company_id=%s and type='opportunity' and won_status='pending'
