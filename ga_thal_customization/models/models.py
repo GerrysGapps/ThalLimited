@@ -241,7 +241,7 @@ class TopmanagementReport(models.TransientModel):
 
     def get_overdue_activity(self, company_id, start, end, check=True):
         self.env.cr.execute(
-            """select date_deadline,res_id,res_model,res_name,user_id,activity_type_id from mail_activity where (res_model ='crm.lead' or res_model='sale.order') and res_id is not null""")
+            """select date_deadline,res_id,res_model,res_name,user_id,activity_type_id,create_date from mail_activity where (res_model ='crm.lead' or res_model='sale.order') and res_id is not null""")
         return self.cal_aging_brackets(self.env.cr.dictfetchall(), company_id, start, end, check)
 
     @api.model
