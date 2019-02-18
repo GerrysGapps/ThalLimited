@@ -231,7 +231,7 @@ class TopmanagementReport(models.TransientModel):
                             rec['partner_id'] = so.partner_id.name
                             result.append(rec)
                 elif rec['res_model'] == 'crm.lead':
-                        lead = self.env['crm.lead'].search_count([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
+                        lead = self.env['crm.lead'].search([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
                         if len(lead)>0:
                             count += 1
                             rec['partner_id']=lead.partner_id.name
