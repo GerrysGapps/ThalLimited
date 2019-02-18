@@ -226,7 +226,7 @@ class TopmanagementReport(models.TransientModel):
             if 'days' in rec:
                 if rec['res_model'] == 'sale.order':
                         so = self.env['sale.order'].search([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
-                        if len(so)>1:
+                        if len(so)>0:
                             count += 1
                             rec['partner_id'] = so.partner_id.name
                             result.append(rec)
