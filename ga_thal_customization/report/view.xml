@@ -510,14 +510,14 @@
                     <tbody>
                         <t t-foreach="doc.get_companies()" t-as="line">
                             <tr style="font-weight:bold; background-color:#875A7B; color:white;">
-                                <td class="text-left" width="480px" style="padding:5px" colspan="6">
+                                <td class="text-left" width="480px" style="padding:5px" colspan="5">
                                     <span t-esc="line['name']"/>
                                 </td>
                             </tr>
 
                             <t t-if="len(doc.get_overdue_activity(line['id'],3,7,False))>0">
                                 <tr style="font-weight:bold; background-color:#875A7B; color:white;">
-                                    <td class="text-left" width="480px" style="padding:5px" colspan="6">
+                                    <td class="text-left" width="480px" style="padding:5px" colspan="5">
                                         Overdue 3-7 Days
                                     </td>
                                 </tr>
