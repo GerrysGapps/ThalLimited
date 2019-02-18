@@ -55,16 +55,16 @@
                             </t>
                         </tr>
                         <!--<tr t-attf-style="background-color:white">-->
-                            <!--<td class="text-left" width="480px" style="padding:5px">-->
-                                <!--<span>Open Leads (Previous)</span>-->
-                            <!--</td>-->
-                            <!--<t t-foreach="doc.get_companies()" t-as="line">-->
-                                <!--<t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">-->
-                                    <!--<td align="center" width="200px" style="padding:5px">-->
-                                        <!--<span t-esc="doc.get_open_leads_opportunities_prev(line['id'],'lead')"/>-->
-                                    <!--</td>-->
-                                <!--</t>-->
-                            <!--</t>-->
+                        <!--<td class="text-left" width="480px" style="padding:5px">-->
+                        <!--<span>Open Leads (Previous)</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+                        <!--<t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">-->
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_open_leads_opportunities_prev(line['id'],'lead')"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</t>-->
                         <!--</tr>-->
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
@@ -79,16 +79,16 @@
                             </t>
                         </tr>
                         <!--<tr t-attf-style="background-color:white">-->
-                            <!--<td class="text-left" width="480px" style="padding:5px">-->
-                                <!--<span>Open Leads(Current Week)</span>-->
-                            <!--</td>-->
-                            <!--<t t-foreach="doc.get_companies()" t-as="line">-->
-                                <!--<t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">-->
-                                    <!--<td align="center" width="200px" style="padding:5px">-->
-                                        <!--<span t-esc="doc.get_open_count(line['id'],'lead','pending')"/>-->
-                                    <!--</td>-->
-                                <!--</t>-->
-                            <!--</t>-->
+                        <!--<td class="text-left" width="480px" style="padding:5px">-->
+                        <!--<span>Open Leads(Current Week)</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+                        <!--<t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">-->
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_open_count(line['id'],'lead','pending')"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</t>-->
                         <!--</tr>-->
 
                         <tr t-attf-style="background-color:white">
@@ -544,20 +544,20 @@
                     <tbody>
                         <thead>
                             <tr style="font-weight:bold; background-color:#595858; color:white; padding:5px;"
-                                class="text-left" width="480px" colspan="4">
+                                class="text-left" width="480px" colspan="5">
                                 Activity Details
                             </tr>
                         </thead>
                         <t t-foreach="doc.get_companies()" t-as="line">
                             <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
                                 <tr style="font-weight:bold; background-color:#875A7B; color:white;">
-                                    <td class="text-left" width="480px" style="padding:5px" colspan="6">
+                                    <td class="text-left" width="480px" style="padding:5px" colspan="5">
                                         <span t-esc="line['name']"/>
                                     </td>
                                 </tr>
                                 <t t-if="len(doc.get_overdue_activity(line['id'],3,7,False))>0">
                                     <tr style="font-weight:bold; background-color:#875A7B; color:white;">
-                                        <td class="text-left" width="480px" style="padding:5px" colspan="6">
+                                        <td class="text-left" width="480px" style="padding:5px" colspan="5">
                                             Overdue 3-7 Days
                                         </td>
                                     </tr>
@@ -567,9 +567,6 @@
                                         </td>
                                         <td class="text-left" style="padding:5px">
                                             Subject
-                                        </td>
-                                        <td class="text-left" style="padding:5px">
-                                            Customer
                                         </td>
                                         <td class="text-left" style="padding:5px">
                                             Sales Person
@@ -588,9 +585,9 @@
                                             </td>
                                             <td class="text-left" style="padding:5px; font-weight:bold;">
                                                 <span t-esc="activity['res_name']"/>
-                                            </td>
-                                            <td class="text-left" style="padding:5px; font-weight:bold;">
-                                                <span t-esc="activity['partner_id']"/>
+                                                <t t-if="activity['partner_id']">
+                                                    - (<span t-esc="activity['partner_id']"/>)
+                                                </t>
                                             </td>
                                             <td class="text-left" style="padding:5px; font-weight:bold;">
                                                 <span t-esc="activity['sales_person']"/>
@@ -606,7 +603,7 @@
                                 </t>
                                 <t t-if="len(doc.get_overdue_activity(line['id'],7,15,False))>0">
                                     <tr style="font-weight:bold; background-color:#875A7B; color:white;">
-                                        <td class="text-left" width="480px" style="padding:5px" colspan="6">
+                                        <td class="text-left" width="480px" style="padding:5px" colspan="5">
                                             Overdue 7-15 Days
                                         </td>
                                     </tr>
@@ -616,9 +613,6 @@
                                         </td>
                                         <td class="text-left" style="padding:5px; font-weight:bold;">
                                             Subject
-                                        </td>
-                                         <td class="text-left" style="padding:5px; font-weight:bold;">
-                                            Customer
                                         </td>
                                         <td class="text-left" style="padding:5px; font-weight:bold;">
                                             Sales Person
@@ -637,9 +631,9 @@
                                             </td>
                                             <td class="text-left" style="padding:5px; font-weight:bold;">
                                                 <span t-esc="activity['res_name']"/>
-                                            </td>
-                                            <td class="text-left" style="padding:5px; font-weight:bold;">
-                                                <span t-esc="activity['partner_id']"/>
+                                                <t t-if="activity['partner_id']">
+                                                    - (<span t-esc="activity['partner_id']"/>)
+                                                </t>
                                             </td>
                                             <td class="text-left" style="padding:5px; font-weight:bold;">
                                                 <span t-esc="activity['sales_person']"/>
@@ -656,7 +650,7 @@
                                 </t>
                                 <t t-if="len(doc.get_overdue_activity(line['id'],15,0,False))>0">
                                     <tr style="font-weight:bold; background-color:#875A7B; color:white;">
-                                        <td class="text-left" width="480px" style="padding:5px" colspan="4">
+                                        <td class="text-left" width="480px" style="padding:5px" colspan="5">
                                             Overdue >15 Days
                                         </td>
                                     </tr>
@@ -666,9 +660,6 @@
                                         </td>
                                         <td class="text-left" style="padding:5px; font-weight:bold;">
                                             Subject
-                                        </td>
-                                        <td class="text-left" style="padding:5px; font-weight:bold;">
-                                            Customer
                                         </td>
                                         <td class="text-left" style="padding:5px; font-weight:bold;">
                                             Sales Person
@@ -681,15 +672,15 @@
                                         </td>
                                     </tr>
                                     <t t-foreach="doc.get_overdue_activity(line['id'],15,0,False)" t-as="activity">
-                                         <tr>
+                                        <tr>
                                             <td class="text-left" style="padding:5px; font-weight:bold;">
                                                 <span t-esc="activity_index+1"/>
                                             </td>
                                             <td class="text-left" style="padding:5px; font-weight:bold;">
                                                 <span t-esc="activity['res_name']"/>
-                                            </td>
-                                            <td class="text-left" style="padding:5px; font-weight:bold;">
-                                                <span t-esc="activity['partner_id']"/>
+                                                <t t-if="activity['partner_id']">
+                                                    - (<span t-esc="activity['partner_id']"/>)
+                                                </t>
                                             </td>
                                             <td class="text-left" style="padding:5px; font-weight:bold;">
                                                 <span t-esc="activity['sales_person']"/>
