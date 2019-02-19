@@ -62,9 +62,7 @@ class TopmanagementReport(models.TransientModel):
                 company_id, type, won_status, start_date, end_date))
         else:
             self.env.cr.execute("""select count(*) from crm_lead
-                                where company_id=%s and type='%s' and won_status='%s' and user_id=%s
-                                and date_open between '%s' and '%s'""" % (
-                company_id, type, won_status, user_id, start_date, end_date))
+                                where company_id=%s and type='%s' and won_status='%s' and user_id=%s""" % (company_id, type, won_status, user_id))
         return self.env.cr.dictfetchall()[0]['count']
 
     # This function is used to calculate lost leads/opportunities except 'Spam Email'
