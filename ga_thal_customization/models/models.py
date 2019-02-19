@@ -65,7 +65,7 @@ class TopmanagementReport(models.TransientModel):
                                 where company_id=%s and type='%s' and won_status='%s' and user_id=%s""" % (company_id, type, won_status, user_id))
         return self.env.cr.dictfetchall()[0]['count']
 
-    # This function is used to calculate lost leads/opportunities except 'Spam Email'
+    # This function is used to calculate lost leads/opportunities except 'Spam Email'.
     @api.model
     def get_lost_count(self, company_id, type, won_status):
         self.env.cr.execute("""select count(*) from crm_lead as crml 
