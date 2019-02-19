@@ -115,8 +115,8 @@ class TopmanagementReport(models.TransientModel):
                 company_id, type, won_status, start_date, end_date))
         else:
             self.env.cr.execute("""select count(*) from crm_lead
-                                where company_id=%s and user_id=%s and type='%s' and won_status='%s'
-                                """ % (company_id, user_id, type, won_status))
+                                where company_id=%s and user_id=%s and type='%s' and won_status='%s' and date_last_stage_update between '%s' and '%s'
+                                """ % (company_id, user_id, type, won_status,start_date,end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
@@ -195,6 +195,7 @@ class TopmanagementReport(models.TransientModel):
         for user in users:
             sales_person_name = partner_obj.search([('id','=',user.partner_id.id)])
             return sales_person_name.name
+
     @api.model
     def get_activity_type(self,type_id):
         acitivities = self.env['mail.activity.type'].search([('id','=',type_id)])
@@ -213,6 +214,7 @@ class TopmanagementReport(models.TransientModel):
             rec['days'] = delta.days
             rec['sales_person'] = self.get_sales_person_name(rec['user_id'])
             rec['activity_type'] = self.get_activity_type(rec['activity_type_id'])
+            rec['create_date'] = str(rec['create_date']).split(' ')[0]
 
 
             if delta.days > start and delta.days < end:
@@ -252,8 +254,8 @@ class TopmanagementReport(models.TransientModel):
             """ % (company_id, start_date,end_date))
         else:
             self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
-                       where active='True' and user_id=%s and company_id=%s and type='opportunity' and won_status='won' """ % (
-            user_id, company_id))
+                       where active='True' and user_id=%s and company_id=%s and type='opportunity' and won_status='won' and date_last_stage_update between '%s' and '%s' """ % (
+            user_id, company_id,start_date,end_date))
         won_revenue = self.env.cr.dictfetchall()
         return won_revenue
 
@@ -261,8 +263,8 @@ class TopmanagementReport(models.TransientModel):
     def get_open_opportunities_intial_current_revenue(self, company_id, user_id=False):
         if not user_id:
             self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
-                    where active='True' and company_id=%s and type='opportunity' and won_status='pending' and date_last_stage_update < '%s'
-                    """ % (company_id, start_date))
+                    where active='True' and company_id=%s and type='opportunity' and won_status='pending'
+                    """ % (company_id))
         else:
             self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
                                 where active='True' and user_id=%s and company_id=%s and type='opportunity' and won_status='pending'
