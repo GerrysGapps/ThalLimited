@@ -22,7 +22,7 @@ class TopmanagementReport(models.TransientModel):
 
     @api.model
     def get_duration(self):
-        return start_date.split(' ')[0], end_date.split(' ')[0]
+        return datetime.datetime.strptime(start_date.split(' ')[0], '%Y-%m-%d').strftime('%d-%m-%y%y%y%y'), datetime.datetime.strptime(end_date.split(' ')[0], '%Y-%m-%d').strftime('%d-%m-%y%y%y%y')
 
     @api.model
     def get_total_leads_prev_week(self, company_id, type):
@@ -214,7 +214,7 @@ class TopmanagementReport(models.TransientModel):
             rec['days'] = delta.days
             rec['sales_person'] = self.get_sales_person_name(rec['user_id'])
             rec['activity_type'] = self.get_activity_type(rec['activity_type_id'])
-            rec['create_date'] = str(rec['create_date']).split(' ')[0]
+            rec['create_date'] = datetime.datetime.strptime(str(rec['create_date']).split(' ')[0], '%Y-%m-%d').strftime('%d-%m-%y%y%y%y')
 
 
             if delta.days > start and delta.days < end:

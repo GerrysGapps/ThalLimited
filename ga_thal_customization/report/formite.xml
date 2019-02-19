@@ -574,6 +574,9 @@
                                         <td class="text-left" style="padding:5px">
                                             Activity Type
                                         </td>
+                                        <td class="text-left" style="padding:5px; width:105px;">
+                                            Create Date
+                                        </td>
                                     </tr>
                                     <t t-foreach="doc.get_overdue_activity(line['id'],3,7,False)" t-as="activity">
 
@@ -618,7 +621,7 @@
                                         <td class="text-left" style="padding:5px; font-weight:bold;">
                                             Activity Type
                                         </td>
-                                        <td class="text-left" style="padding:5px; font-weight:bold;">
+                                        <td class="text-left" style="padding:5px; font-weight:bold;width:105px;">
                                             Create Date
                                         </td>
                                     </tr>
@@ -665,7 +668,7 @@
                                         <td class="text-left" style="padding:5px; font-weight:bold;">
                                             Activity Type
                                         </td>
-                                        <td class="text-left" style="padding:5px; font-weight:bold;">
+                                        <td class="text-left" style="padding:5px; font-weight:bold;width:105px;">
                                             Create Date
                                         </td>
                                     </tr>
