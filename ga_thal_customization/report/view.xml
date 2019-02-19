@@ -534,7 +534,7 @@
                                     <td class="text-left" style="padding:5px">
                                         Activity Type
                                     </td>
-                                    <td class="text-left" style="padding:5px">
+                                    <td class="text-left" style="padding:5px; width:35px;">
                                         Create Date
                                     </td>
                                 </tr>
