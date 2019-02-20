@@ -48,7 +48,7 @@ class TopmanagementReport(models.TransientModel):
             and type='%s' and won_status='pending' and date_last_stage_update<'%s'
             """ % (company_id,type, start_date))
         open_lead_count = self.env.cr.dictfetchall()[0]['count']
-        return open_lead_count + (lost_count_curr_week if lost_count else 0)
+        return open_lead_count + (0 if lost_count else lost_count_curr_week)
 
     #It is used to calculate total leads in current week
     @api.model
