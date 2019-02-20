@@ -41,11 +41,11 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_open_leads_opportunities_prev(self, company_id,type):
         self.env.cr.execute(""" select count(*) from crm_lead where date_closed between '%s' and '%s' 
-                    and type='%s' and create_date<'%s' and company_id=%s;
-                                       """ % (start_date, end_date, type, start_date, company_id))
+                    and type='%s' and company_id=%s;
+                                       """ % (start_date, end_date, type, company_id))
         lost_count_curr_week = self.env.cr.dictfetchall()[0]['count']
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
-            and type='%s' and won_status='pending' and create_date<'%s'
+            and type='%s' and won_status='pending' and date_last_stage_update<'%s'
             """ % (company_id,type, start_date))
         open_lead_count = self.env.cr.dictfetchall()[0]['count']
         return open_lead_count + lost_count_curr_week
