@@ -98,11 +98,18 @@ class TopmanagementReport(models.TransientModel):
                 company_id, type, won_status))
         return self.env.cr.dictfetchall()[0]['count']
 
+    # @api.model
+    # def get_opportunities_count(self, company_id):
+    #     self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
+    #            and type='opportunity' and date_last_stage_update between '%s' and '%s'
+    #            """ % (company_id, start_date, end_date))
+    #     return self.env.cr.dictfetchall()[0]['count']
+
     @api.model
-    def get_opportunities_count(self, company_id):
+    def get_direct_opportunities_count(self, company_id):
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
-               and type='opportunity' and date_last_stage_update between '%s' and '%s'
-               """ % (company_id, start_date, end_date))
+                   and type='opportunity' and create_date between '%s' and '%s'
+                   """ % (company_id, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
     # This function is used to calculate won opportunities
