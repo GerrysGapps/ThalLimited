@@ -36,10 +36,10 @@ class TopmanagementReport(models.TransientModel):
                 """ % (company_id,start_date, start_date, end_date))
         convert_oppo_curr_week = self.env.cr.dictfetchall()[0]['count'] # Converted Into Oppor: Convert into Oppor. count in current week but created in prev. week
 
-        return lost_count_curr_week + self.get_open_leads_opportunities_prev(company_id,type) + convert_oppo_curr_week
+        return lost_count_curr_week + self.get_open_leads_opportunities_prev(company_id,type,True) + convert_oppo_curr_week
 
     @api.model
-    def get_open_leads_opportunities_prev(self, company_id,type):
+    def get_open_leads_opportunities_prev(self, company_id,type, lost_count=False):
         self.env.cr.execute(""" select count(*) from crm_lead where date_closed between '%s' and '%s' 
                     and type='%s' and company_id=%s;
                                        """ % (start_date, end_date, type, company_id))
@@ -48,7 +48,7 @@ class TopmanagementReport(models.TransientModel):
             and type='%s' and won_status='pending' and date_last_stage_update<'%s'
             """ % (company_id,type, start_date))
         open_lead_count = self.env.cr.dictfetchall()[0]['count']
-        return open_lead_count + lost_count_curr_week
+        return open_lead_count + (lost_count_curr_week if lost_count else 0)
 
     #It is used to calculate total leads in current week
     @api.model
