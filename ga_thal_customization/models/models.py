@@ -112,7 +112,7 @@ class TopmanagementReport(models.TransientModel):
                    """ % (company_id, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
-    # This function is used to calculate won opportunities
+    # This function is used to calculate won opportunities.
     @api.model
     def get_won_count(self, company_id, type, won_status, user_id=False):
         if not user_id:
