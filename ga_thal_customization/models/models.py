@@ -236,16 +236,16 @@ class TopmanagementReport(models.TransientModel):
         for rec in _list:
             if 'days' in rec:
                 if rec['res_model'] == 'sale.order':
-                    so = self.env['sale.order'].search([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
+                    so = self.env['sale.order'].sudo().search([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
                     if len(so)>0:
                         count += 1
-                        rec['partner_id'] = so.partner_id.name
+                        rec['partner_id'] = so.sudo().partner_id.name
                         result.append(rec)
                 elif rec['res_model'] == 'crm.lead':
-                    lead = self.env['crm.lead'].search([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
+                    lead = self.env['crm.lead'].sudo().search([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
                     if len(lead)>0:
                         count += 1
-                        rec['partner_id']=lead.partner_id.name
+                        rec['partner_id']=lead.sudo().partner_id.name
                         result.append(rec)
         if check:
             return count
