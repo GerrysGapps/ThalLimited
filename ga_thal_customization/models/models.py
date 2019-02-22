@@ -10,9 +10,8 @@ import datetime
 from odoo.tools.misc import clean_context
 from datetime import datetime as dt
 
-
-start_date = str(fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))).split(' ')[0]+" 00:00:00"
-end_date = str(fields.Datetime.to_string(datetime.datetime.now())).split(' ')[0]+" 23:59:59"
+start_date = str(fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))).split(' ')[0] + " 00:00:00"
+end_date = str(fields.Datetime.to_string(datetime.datetime.now())).split(' ')[0] + " 23:59:59"
 
 
 class TopmanagementReport(models.TransientModel):
@@ -22,35 +21,39 @@ class TopmanagementReport(models.TransientModel):
 
     @api.model
     def get_duration(self):
-        return datetime.datetime.strptime(start_date.split(' ')[0], '%Y-%m-%d').strftime('%d-%m-%Y'), datetime.datetime.strptime(end_date.split(' ')[0], '%Y-%m-%d').strftime('%d-%m-%Y')
+        return datetime.datetime.strptime(start_date.split(' ')[0], '%Y-%m-%d').strftime(
+            '%d-%m-%Y'), datetime.datetime.strptime(end_date.split(' ')[0], '%Y-%m-%d').strftime('%d-%m-%Y')
 
     @api.model
     def get_total_leads_prev_week(self, company_id, type):
         self.env.cr.execute(""" select count(*) from crm_lead where date_closed between '%s' and '%s' 
             and type='%s' and create_date<'%s' and company_id=%s;
                                """ % (start_date, end_date, type, start_date, company_id))
-        lost_count_curr_week = self.env.cr.dictfetchall()[0]['count']  # Leads: lost count in current week but created in prev. week
+        lost_count_curr_week = self.env.cr.dictfetchall()[0][
+            'count']  # Leads: lost count in current week but created in prev. week
 
         self.env.cr.execute("""select count(*) from crm_lead  where company_id=%s
                 and type='opportunity' and create_date<'%s' and date_conversion between '%s' and '%s'
-                """ % (company_id,start_date, start_date, end_date))
-        convert_oppo_curr_week = self.env.cr.dictfetchall()[0]['count'] # Converted Into Oppor: Convert into Oppor. count in current week but created in prev. week
+                """ % (company_id, start_date, start_date, end_date))
+        convert_oppo_curr_week = self.env.cr.dictfetchall()[0][
+            'count']  # Converted Into Oppor: Convert into Oppor. count in current week but created in prev. week
 
-        return lost_count_curr_week + self.get_open_leads_opportunities_prev(company_id,type,True) + convert_oppo_curr_week
+        return lost_count_curr_week + self.get_open_leads_opportunities_prev(company_id, type,
+                                                                             True) + convert_oppo_curr_week
 
     @api.model
-    def get_open_leads_opportunities_prev(self, company_id,type, lost_count=False):
+    def get_open_leads_opportunities_prev(self, company_id, type, lost_count=False):
         self.env.cr.execute(""" select count(*) from crm_lead where date_closed between '%s' and '%s' 
                     and type='%s' and company_id=%s;
                                        """ % (start_date, end_date, type, company_id))
         lost_count_curr_week = self.env.cr.dictfetchall()[0]['count']
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
             and type='%s' and won_status='pending' and date_last_stage_update<'%s'
-            """ % (company_id,type, start_date))
+            """ % (company_id, type, start_date))
         open_lead_count = self.env.cr.dictfetchall()[0]['count']
         return open_lead_count + (0 if lost_count else lost_count_curr_week)
 
-    #It is used to calculate total leads in current week
+    # It is used to calculate total leads in current week
     @api.model
     def get_leads_created_current_week(self, company_id):
         self.env.cr.execute("""select count(id) from crm_lead where company_id=%s and type='lead' and create_date between '%s' and '%s'
@@ -66,7 +69,8 @@ class TopmanagementReport(models.TransientModel):
                 company_id, type, won_status, start_date, end_date))
         else:
             self.env.cr.execute("""select count(*) from crm_lead
-                                where company_id=%s and type='%s' and won_status='%s' and user_id=%s""" % (company_id, type, won_status, user_id))
+                                where company_id=%s and type='%s' and won_status='%s' and user_id=%s""" % (
+            company_id, type, won_status, user_id))
         return self.env.cr.dictfetchall()[0]['count']
 
     # This function is used to calculate lost leads/opportunities except 'Spam Email'.
@@ -91,7 +95,7 @@ class TopmanagementReport(models.TransientModel):
     def get_converted_opportunity(self, company_id):
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
         and type='opportunity' and date_conversion between '%s' and '%s'
-        """%(company_id,start_date,end_date))
+        """ % (company_id, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
     # This function is used to calculate total open leads/opportunities by the end of week
@@ -127,7 +131,7 @@ class TopmanagementReport(models.TransientModel):
         else:
             self.env.cr.execute("""select count(*) from crm_lead
                                 where company_id=%s and user_id=%s and type='%s' and won_status='%s' and date_last_stage_update between '%s' and '%s'
-                                """ % (company_id, user_id, type, won_status,start_date,end_date))
+                                """ % (company_id, user_id, type, won_status, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
@@ -200,16 +204,16 @@ class TopmanagementReport(models.TransientModel):
         return self.get_converted_opportunity(company_id) + self.get_available_leads(company_id)
 
     @api.model
-    def get_sales_person_name(self,user_id):
+    def get_sales_person_name(self, user_id):
         partner_obj = self.env['res.partner']
-        users = self.env['res.users'].search([('id','=',user_id)])
+        users = self.env['res.users'].search([('id', '=', user_id)])
         for user in users:
-            sales_person_name = partner_obj.search([('id','=',user.partner_id.id)])
+            sales_person_name = partner_obj.search([('id', '=', user.partner_id.id)])
             return sales_person_name.name
 
     @api.model
-    def get_activity_type(self,type_id):
-        acitivities = self.env['mail.activity.type'].search([('id','=',type_id)])
+    def get_activity_type(self, type_id):
+        acitivities = self.env['mail.activity.type'].search([('id', '=', type_id)])
         for activity in acitivities:
             return activity.name
 
@@ -218,35 +222,33 @@ class TopmanagementReport(models.TransientModel):
         count = 0
         _list = []
         date_format = "%Y-%m-%d"
-        for rec in data:
-            a = dt.strptime(str(rec['date_deadline']), date_format)
+        for res in data:
+            a = dt.strptime(str(res['date_deadline']), date_format)
             b = dt.strptime(dt.now().strftime('%Y-%m-%d'), date_format)
             delta = b - a
-            rec['days'] = delta.days
-            rec['sales_person'] = self.get_sales_person_name(rec['user_id'])
-            rec['activity_type'] = self.get_activity_type(rec['activity_type_id'])
-            rec['create_date'] = datetime.datetime.strptime(str(rec['create_date']).split(' ')[0], '%Y-%m-%d').strftime('%d-%m-%Y')
+            res['days'] = delta.days
+            res['sales_person'] = self.get_sales_person_name(res['user_id'])
+            res['activity_type'] = self.get_activity_type(res['activity_type_id'])
+            res['create_date'] = datetime.datetime.strptime(str(res['create_date']).split(' ')[0], '%Y-%m-%d').strftime(
+                '%d-%m-%Y')
 
-
-            if delta.days > start and delta.days < end:
-                _list.append(rec)
+            if delta.days > start and delta.days <= end:
+                _list.append(res)
             elif delta.days > start and end == 0:
-                _list.append(rec)
+                _list.append(res)
 
         for rec in _list:
             if 'days' in rec:
-                if rec['res_model'] == 'sale.order':
-                    so = self.env['sale.order'].sudo().search([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
-                    if len(so)>0:
-                        count += 1
-                        rec['partner_id'] = so.sudo().partner_id.name
-                        result.append(rec)
-                elif rec['res_model'] == 'crm.lead':
-                    lead = self.env['crm.lead'].sudo().search([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
-                    if len(lead)>0:
-                        count += 1
-                        rec['partner_id']=lead.sudo().partner_id.name
-                        result.append(rec)
+                if rec['res_model'] == 'sale.order' or rec['res_model'] == 'crm.lead':
+                    obj = self.env[rec['res_model']].sudo().search([('id', '=', rec['res_id']), ('company_id', '=', company_id)])
+                    if len(obj) > 0:
+                        if check:
+                            count += 1
+                        else:
+                            rec['partner_id'] = obj.sudo().partner_id.name
+                            result.append(rec)
+                    else:
+                        continue
         if check:
             return count
         else:
@@ -254,19 +256,20 @@ class TopmanagementReport(models.TransientModel):
 
     def get_overdue_activity(self, company_id, start, end, check=True):
         self.env.cr.execute(
-            """select date_deadline,res_id,res_model,res_name,user_id,activity_type_id,create_date from mail_activity where (res_model ='crm.lead' or res_model='sale.order') and res_id is not null""")
-        return self.cal_aging_brackets(self.env.cr.dictfetchall(), company_id, start, end, check)
+            """select date_deadline,res_id,res_model,res_name,user_id,activity_type_id,create_date from mail_activity where (res_model ='crm.lead' or res_model='sale.order') and res_id is not null order by res_id desc""")
+        activities = self.env.cr.dictfetchall()
+        return self.cal_aging_brackets(activities, company_id, start, end, check)
 
     @api.model
     def get_won_opportunities_intial_current_revenue(self, company_id, user_id=False):
         if not user_id:
             self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
             where active='True' and company_id=%s and type='opportunity' and won_status='won' and date_last_stage_update between '%s' and '%s'
-            """ % (company_id, start_date,end_date))
+            """ % (company_id, start_date, end_date))
         else:
             self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
                        where active='True' and user_id=%s and company_id=%s and type='opportunity' and won_status='won' and date_last_stage_update between '%s' and '%s' """ % (
-            user_id, company_id,start_date,end_date))
+                user_id, company_id, start_date, end_date))
         won_revenue = self.env.cr.dictfetchall()
         return won_revenue
 
@@ -287,7 +290,7 @@ class TopmanagementReport(models.TransientModel):
     def get_lost_opportunities_intial_current_revenue(self, company_id):
         self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
                         where company_id=%s and type='opportunity' and won_status='lost' and date_last_stage_update between '%s' and '%s'
-                        """ % (company_id, start_date,end_date))
+                        """ % (company_id, start_date, end_date))
         lost_revenue = self.env.cr.dictfetchall()
         return lost_revenue
 
