@@ -30,7 +30,7 @@ class TopmanagementReport(models.TransientModel):
             and type='%s' and create_date<'%s' and company_id=%s;
                                """ % (start_date, end_date, type, start_date, company_id))
         lost_count_curr_week = self.env.cr.dictfetchall()[0][
-            'count']  # Leads: lost count in current week but created in prev. week
+            'count']  # Leads Count: lost leads in current week but created in prev. week
 
         self.env.cr.execute("""select count(*) from crm_lead  where company_id=%s
                 and type='opportunity' and create_date<'%s' and date_conversion between '%s' and '%s'
@@ -38,20 +38,24 @@ class TopmanagementReport(models.TransientModel):
         convert_oppo_curr_week = self.env.cr.dictfetchall()[0][
             'count']  # Converted Into Oppor: Convert into Oppor. count in current week but created in prev. week
 
-        return lost_count_curr_week + self.get_open_leads_opportunities_prev(company_id, type,
-                                                                             True) + convert_oppo_curr_week
+        self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
+                    and type='%s' and won_status='pending' and date_last_stage_update<'%s'
+                    """ % (company_id, type, start_date))
+        open_lead_count = self.env.cr.dictfetchall()[0]['count']
+
+        return lost_count_curr_week + open_lead_count + convert_oppo_curr_week
 
     @api.model
-    def get_open_leads_opportunities_prev(self, company_id, type, lost_count=False):
+    def get_open_leads_opportunities_prev(self, company_id, type):
         self.env.cr.execute(""" select count(*) from crm_lead where date_closed between '%s' and '%s' 
-                    and type='%s' and company_id=%s;
-                                       """ % (start_date, end_date, type, company_id))
+                    and create_date<'%s' and type='%s' and company_id=%s;
+                                       """ % (start_date, end_date,start_date,type, company_id))
         lost_count_curr_week = self.env.cr.dictfetchall()[0]['count']
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
-            and type='%s' and won_status='pending' and date_last_stage_update<'%s'
+            and type='%s' and won_status='pending' and create_date<'%s'
             """ % (company_id, type, start_date))
         open_lead_count = self.env.cr.dictfetchall()[0]['count']
-        return open_lead_count + (0 if lost_count else lost_count_curr_week)
+        return open_lead_count + lost_count_curr_week
 
     # It is used to calculate total leads in current week
     @api.model
