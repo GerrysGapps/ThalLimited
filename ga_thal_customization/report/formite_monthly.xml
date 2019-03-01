@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_monthly_formite_main">
+        <div class="header">
+
+            <p align="center" style="font-weight:bold;font-size:40px;color:#003366">THAL LIMITED</p>
+            <p align="center" style="font-weight:bold;font-size:28px;color:#800080">MONTHLY CRM REPORT</p>
+
+        </div>
+        <div class="page">
+            <t t-esc="doc.report_status('Monthly')"/>
+            <p align="center" style="font-weight:bold;font-size:28px;color:#800080">From
+                <span t-esc="doc.get_duration()[0]"/>
+                To
+                <span t-esc="doc.get_duration()[1]"/>
+            </p>
+
+            <div class="oe_structure"/>
+            <div class="row">
+                <table BORDERCOLOR="#{'#00000'}"
+                       border="1" cellpadding="0" cellspacing="0"
+                       width="1200px">
+                    <thead>
+                        <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color:#595858; color: white};">
+                            <td align="center"
+                                t-attf-style="width:100px; font-weight:bold;color:white;border-right:1px solid white;">
+                                Description
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center"
+                                        t-attf-style="width:60px; font-weight:bold;color:white;border-right:1px solid white;"
+                                        colspan="3">
+                                        <span t-esc="line['name']"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px">Leads ( Cold)</span>
+                            </td>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Open Leads (Previous Week)</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px" colspan="3">
+                                        <span t-esc="doc.get_total_leads_prev_week(line['id'],'lead')"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <!--<tr t-attf-style="background-color:white">-->
+                        <!--<td class="text-left" width="480px" style="padding:5px">-->
+                        <!--<span>Open Leads (Previous)</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+                        <!--<t t-if="line['name']=='BLD - Formite'">-->
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_open_leads_opportunities_prev(line['id'],'lead')"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</t>-->
+                        <!--</tr>-->
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Leads Created (Current Week)</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_leads_created_current_week(line['id'])+doc.get_converted_opportunity(line['id'])"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <!--<tr t-attf-style="background-color:white">-->
+                        <!--<td class="text-left" width="480px" style="padding:5px">-->
+                        <!--<span>Open Leads(Current Week)</span>-->
+                        <!--</td>-->
+                        <!--<t t-foreach="doc.get_companies()" t-as="line">-->
+                        <!--<t t-if="line['name']=='BLD - Formite'">-->
+                        <!--<td align="center" width="200px" style="padding:5px">-->
+                        <!--<span t-esc="doc.get_open_count(line['id'],'lead','pending')"/>-->
+                        <!--</td>-->
+                        <!--</t>-->
+                        <!--</t>-->
+                        <!--</tr>-->
+
+                        <tr t-attf-style="background-color:white">
+                            <td align="left" width="480px" style="padding:5px">
+                                <span>Leads Lost (Current Week)</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_lost_count(line['id'],'lead','lost')"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td align="left" width="480px" style="padding:5px">
+                                <span>Leads Lost Due To Spam Email(Current Week)</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_lost_count_spam_email(line['id'],'lead','lost')"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Leads Converted To Opportunities</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_converted_opportunity(line['id'])"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Open Leads ( by end of week )</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_total_open_count(line['id'],'lead','pending')"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+
+                        <tr t-attf-style="background-color:white;background-color:#add8e6;">
+                            <td class="text-left" width="480px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px;">Opportunities (Hot)</span>
+                            </td>
+                        </tr>
+
+                        <tr t-attf-style="background-color:white;background-color:#add8e6;">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Open opportunities (Previous)</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_open_leads_opportunities_prev(line['id'],'opportunity')"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+
+                        <tr t-attf-style="background-color:white;background-color:#add8e6;">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Opportunities converted / created</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_direct_opportunities_count(line['id'])+doc.get_converted_opportunity(line['id'])"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+
+                        <tr t-attf-style="background-color:white;background-color:#add8e6;">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Won</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_won_count(line['id'],'opportunity','won')"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white;background-color:#add8e6;">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Lost opportunity</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_lost_count(line['id'],'opportunity','lost')"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white;background-color:#add8e6;">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Open Opportunities ( by end of week)</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_total_open_count(line['id'],'opportunity','pending')"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px;">Revenue</span>
+                            </td>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Won opportunities - Initial Expected revenue</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Won opportunities - Current Expected revenue</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Open opportunities - Initial Expected revenue</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_open_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Open opportunities - Current Expected revenue</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_open_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Lost opportunities - Initial Expected revenue</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Lost opportunities - Current Expected revenue</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="'{0:,.2f}'.format(round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white;background-color:yellow;">
+                            <td class="text-left" width="480px" style="padding:5px" colspan="4">
+                                <span style="font-weight:bold;font-size:20px;">Activities aging</span>
+                            </td>
+                        </tr>
+                        <tr t-attf-style="background-color:white;background-color:yellow;">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Overdue 3-7 days</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_overdue_activity(line['id'],3,7)"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+
+                        <tr t-attf-style="background-color:white;background-color:yellow;">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Overdue 7-15 days</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_overdue_activity(line['id'],7,15)"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white;background-color:yellow;">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Overdue > 15 days</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px">
+                                        <span t-esc="doc.get_overdue_activity(line['id'],15,0)"/>
+                                    </td>
+                                </t>
+                            </t>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <t t-foreach="doc.get_companies()" t-as="line">
+                    <t t-if="line['name']=='BLD - Formite'">
+                        <h1 align="center" style="font-weight:bold;">
+                            <span t-esc="line['name']"/>
+                        </h1>
+
+                        <h2>Opportunities By Sale Person</h2>
+                        <table BORDERCOLOR="#{'#ffffff'}"
+                               border="1" cellpadding="0" cellspacing="0"
+                               class="table table-bordered"
+                               style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
+                               width="100%">
+                            <thead>
+                                <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
+                                        width="20%">Open Opportunities
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;padding: 8px;"
+                                        width="20%">Won Opportunities
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <table BORDERCOLOR="#{'#ffffff'}"
+                               border="1" cellpadding="0" cellspacing="0"
+                               class="table table-bordered"
+                               style="max-width:100%; width:100%; border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;">
+                            <thead>
+                                <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color:#595858; color: white};">
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Sale Person
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Count
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Ini. Exp. Rev.
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Cur. Exp. Rev.
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Count
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Ini. Exp. Rev.
+                                    </td>
+
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;border-right:1px solid white;"
+                                    >Cur. Exp. Rev.
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="width:10%; font-weight:bold;color:white;"
+                                    >Difference
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--<span t-esc="doc.get_opportunities_by_sales_person(line['id'])"/>-->
+                                <t t-foreach="doc.get_opportunities_by_sales_person(line['id'])" t-as="data">
+                                    <tr t-attf-style="background-color:white">
+                                        <td class="text-left" style="padding:5px">
+                                            <span t-esc="data['sale_person']"/>
+                                        </td>
+
+                                        <td align="center" style="padding:5px">
+                                            <span t-esc="data['open_opportunities']"/>
+                                        </td>
+
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(data['open_opportunities_initial_revenue'])"/>
+                                        </td>
+
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(data['open_opportunities_current_revenue'])"/>
+                                        </td>
+
+                                        <td align="center" style="padding:5px">
+                                            <span t-esc="data['won_opportunities']"/>
+                                        </td>
+
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(data['won_opportunities_initial_revenue'])"/>
+                                        </td>
+
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(data['won_opportunities_current_revenue'])"/>
+                                        </td>
+
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(data['difference_of_won'])"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <h2>Leads Lost By Reasons</h2>
+                        <table BORDERCOLOR="#{'#ffffff'}"
+                               border="1" cellpadding="0" cellspacing="0"
+                               class="table table-bordered"
+                               style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
+                               width="100%">
+                            <thead>
+                                <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
+                                    <td align="left"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Lost Reason
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Leads
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <t t-foreach="doc.count_lost_lead_opportunity_by_reason(line['id'],'lead')" t-as="data">
+
+                                    <tr t-attf-style="background-color:white">
+                                        <td class="text-left" style="padding:5px">
+                                            <span t-esc="data['lost_reason']"/>
+                                        </td>
+
+                                        <td align="center" style="padding:5px">
+                                            <span t-esc="data['total']"/>
+                                        </td>
+                                    </tr>
+
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <h2>Opportunities Lost By Reasons</h2>
+                        <table BORDERCOLOR="#{'#ffffff'}"
+                               border="1" cellpadding="0" cellspacing="0"
+                               class="table table-bordered"
+                               style="border:0.5px solid #ccc;  border-collapse: collapse; text-transform:capitalize; padding:15px;border-bottom:1px solid #ccc;"
+                               width="100%">
+                            <thead>
+                                <tr t-attf-style="page-break-inside: avoid !important;padding:5px 10px; border:1px solid #{'#595858'}; font-weight:bold; background-color: #595858; color: white};">
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Lost Reason
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Opportunities
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Initial Expected Revenue
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;border-right:1px solid white;"
+                                        width="20%">Current Expected Revenue
+                                    </td>
+                                    <td align="center"
+                                        t-attf-style="font-weight:bold;color:white;"
+                                        width="20%">Difference Amount
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.count_lost_lead_opportunity_by_reason(line['id'],'opportunity')"
+                                   t-as="data">
+                                    <tr t-attf-style="background-color:white">
+                                        <td class="text-left" style="padding:5px">
+                                            <span t-esc="data['lost_reason']"/>
+                                        </td>
+
+                                        <td align="center" style="padding:5px">
+                                            <span t-esc="data['total']"/>
+                                        </td>
+                                        <td align="right" width="6%" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(round(data['initial'],2))"/>
+                                        </td>
+                                        <td align="right" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(round(data['current'],2))"/>
+                                        </td>
+                                        <td align="right" width="6%" style="padding:5px">
+                                            <span t-esc="'{0:,.2f}'.format(round(data['current'],2) - round(data['initial'],2))"/>
+                                        </td>
+                                    </tr>
+
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </t>
+            </div>
+            <br/>
+            <div class="row">
+                <table BORDERCOLOR="#{'#00000'}" border="1" cellpadding="0" cellspacing="0" width="1200px">
+                    <tbody>
+                        <thead>
+                            <tr style="font-weight:bold; background-color:#595858; color:white; padding:5px;"
+                                class="text-left" width="480px" colspan="5">
+                                Activity Details
+                            </tr>
+                        </thead>
+                        <t t-foreach="doc.get_companies()" t-as="line">
+                            <t t-if="line['name']=='BLD - Formite'">
+                                <tr style="font-weight:bold; background-color:#875A7B; color:white;">
+                                    <td class="text-left" width="480px" style="padding:5px" colspan="5">
+                                        <span t-esc="line['name']"/>
+                                    </td>
+                                </tr>
+                                <t t-if="len(doc.get_overdue_activity(line['id'],3,7,False))>0">
+                                    <tr style="font-weight:bold; background-color:#875A7B; color:white;">
+                                        <td class="text-left" width="480px" style="padding:5px" colspan="5">
+                                            Overdue 3-7 Days
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="padding:5px">
+                                            S.No.
+                                        </td>
+                                        <td class="text-left" style="padding:5px">
+                                            Subject
+                                        </td>
+                                        <td class="text-left" style="padding:5px">
+                                            Sales Person
+                                        </td>
+                                        <td class="text-left" style="padding:5px">
+                                            Activity Type
+                                        </td>
+                                        <td class="text-left" style="padding:5px; width:105px;">
+                                            Create Date
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="doc.get_overdue_activity(line['id'],3,7,False)" t-as="activity">
+
+                                        <tr>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity_index+1"/>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['res_name']"/>
+                                                <t t-if="activity['partner_id']">
+                                                    - (<span t-esc="activity['partner_id']"/>)
+                                                </t>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['sales_person']"/>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['activity_type']"/>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['create_date']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                                <t t-if="len(doc.get_overdue_activity(line['id'],7,15,False))>0">
+                                    <tr style="font-weight:bold; background-color:#875A7B; color:white;">
+                                        <td class="text-left" width="480px" style="padding:5px" colspan="6">
+                                            Overdue 7-15 Days
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="padding:5px; font-weight:bold;">
+                                            S.No.
+                                        </td>
+                                        <td class="text-left" style="padding:5px; font-weight:bold;">
+                                            Subject
+                                        </td>
+                                        <td class="text-left" style="padding:5px; font-weight:bold;">
+                                            Sales Person
+                                        </td>
+                                        <td class="text-left" style="padding:5px; font-weight:bold;">
+                                            Activity Type
+                                        </td>
+                                        <td class="text-left" style="padding:5px; font-weight:bold;width:105px;">
+                                            Create Date
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="doc.get_overdue_activity(line['id'],7,15,False)" t-as="activity">
+                                        <tr>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity_index+1"/>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['res_name']"/>
+                                                <t t-if="activity['partner_id']">
+                                                    - (<span t-esc="activity['partner_id']"/>)
+                                                </t>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['sales_person']"/>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['activity_type']"/>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['create_date']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+
+                                </t>
+                                <t t-if="len(doc.get_overdue_activity(line['id'],15,0,False))>0">
+                                    <tr style="font-weight:bold; background-color:#875A7B; color:white;">
+                                        <td class="text-left" width="480px" style="padding:5px" colspan="6">
+                                            Overdue >15 Days
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left" style="padding:5px; font-weight:bold;">
+                                            S.No.
+                                        </td>
+                                        <td class="text-left" style="padding:5px; font-weight:bold;">
+                                            Subject
+                                        </td>
+                                        <td class="text-left" style="padding:5px; font-weight:bold;">
+                                            Sales Person
+                                        </td>
+                                        <td class="text-left" style="padding:5px; font-weight:bold;">
+                                            Activity Type
+                                        </td>
+                                        <td class="text-left" style="padding:5px; font-weight:bold;width:105px;">
+                                            Create Date
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="doc.get_overdue_activity(line['id'],15,0,False)" t-as="activity">
+                                        <tr>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity_index+1"/>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['res_name']"/>
+                                                <t t-if="activity['partner_id']">
+                                                    - (<span t-esc="activity['partner_id']"/>)
+                                                </t>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['sales_person']"/>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['activity_type']"/>
+                                            </td>
+                                            <td class="text-left" style="padding:5px; font-weight:bold;">
+                                                <span t-esc="activity['create_date']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_formite_monthly">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="ga_thal_customization.report_monthly_formite_main"/>
+            </t>
+        </t>
+    </template>
+</odoo>
