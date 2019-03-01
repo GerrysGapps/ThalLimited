@@ -32,4 +32,20 @@
         name="ga_thal_customization.report_carrierbag_cement"
         file="ga_thal_customization.report_carrierbag_cement"
     />
+    <report
+        id="report_formite_monthly"
+        model="topmanagement.report"
+        string="Formite Monthly Report"
+        report_type="qweb-pdf"
+        name="ga_thal_customization.report_formite_monthly"
+        file="ga_thal_customization.report_formite_monthly"
+    />
+    <report
+        id="report_carrierbag_cement_monthly"
+        model="topmanagement.report"
+        string="Carrier Bag and Cement Allied Monthly Report"
+        report_type="qweb-pdf"
+        name="ga_thal_customization.report_carrierbag_cement_monthly"
+        file="ga_thal_customization.report_carrierbag_cement_monthly"
+    />
 </odoo>
