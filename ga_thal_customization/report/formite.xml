@@ -8,6 +8,7 @@
 
         </div>
         <div class="page">
+            <t t-esc="doc.report_status('Weekly')"/>
             <p align="center" style="font-weight:bold;font-size:28px;color:#800080">From
                 <span t-esc="doc.get_duration()[0]"/>
                 To

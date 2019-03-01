@@ -21,6 +21,7 @@
         "view/groups.xml",
         "report/report.xml",
         "report/view.xml",
+        "report/monthly_crm.xml",
         "report/formite.xml",
         "report/carrier_cement.xml",
 
