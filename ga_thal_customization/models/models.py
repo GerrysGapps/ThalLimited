@@ -112,11 +112,18 @@ class TopmanagementReport(models.TransientModel):
         return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
-    def get_converted_opportunity(self, company_id):
-        self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
-        and type='opportunity' and date_conversion between '%s' and '%s'
-        """ % (company_id, start_date, end_date))
-        return self.env.cr.dictfetchall()[0]['count']
+    def get_converted_opportunity(self, company_id, oppo=True):
+        if oppo:
+            self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
+            and type='opportunity' and date_conversion between '%s' and '%s' and create_date between '%s' and '%s'
+            """ % (company_id, start_date, end_date,start_date,end_date))
+            return self.env.cr.dictfetchall()[0]['count']
+
+        else:
+            self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
+                       and type='opportunity' and date_conversion between '%s' and '%s'
+                       """ % (company_id, start_date, end_date))
+            return self.env.cr.dictfetchall()[0]['count']
 
     # This function is used to calculate total open leads/opportunities by the end of week
     @api.model
