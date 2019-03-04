@@ -112,7 +112,7 @@ class TopmanagementReport(models.TransientModel):
         return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
-    def get_converted_opportunity(self, company_id, oppo=True):
+    def get_converted_opportunity(self, company_id, oppo=False):
         if oppo:
             self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
             and type='opportunity' and date_conversion between '%s' and '%s' and create_date between '%s' and '%s'
