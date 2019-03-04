@@ -9,6 +9,14 @@
         file="ga_thal_customization.report_top_management"
     />
     <report
+        id="report_topmanagement_monthly"
+        model="topmanagement.report"
+        string="Top Management Monthly Report"
+        report_type="qweb-pdf"
+        name="ga_thal_customization.report_top_management_monthly"
+        file="ga_thal_customization.report_top_management_monthly"
+    />
+    <report
         id="report_formite"
         model="topmanagement.report"
         string="Formite Report"
@@ -23,5 +31,21 @@
         report_type="qweb-pdf"
         name="ga_thal_customization.report_carrierbag_cement"
         file="ga_thal_customization.report_carrierbag_cement"
+    />
+    <report
+        id="report_formite_monthly"
+        model="topmanagement.report"
+        string="Formite Monthly Report"
+        report_type="qweb-pdf"
+        name="ga_thal_customization.report_formite_monthly"
+        file="ga_thal_customization.report_formite_monthly"
+    />
+    <report
+        id="report_carrierbag_cement_monthly"
+        model="topmanagement.report"
+        string="Carrier Bag and Cement Allied Monthly Report"
+        report_type="qweb-pdf"
+        name="ga_thal_customization.report_carrierbag_cement_monthly"
+        file="ga_thal_customization.report_carrierbag_cement_monthly"
     />
 </odoo>

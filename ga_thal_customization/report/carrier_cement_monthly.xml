@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="report_carrier_cement_main">
+    <template id="report_monthly_carrier_cement_main">
         <div class="header">
 
             <p align="center" style="font-weight:bold;font-size:40px;color:#003366">THAL LIMITED</p>
-            <p align="center" style="font-weight:bold;font-size:28px;color:#800080">WEEKLY CRM REPORT</p>
+            <p align="center" style="font-weight:bold;font-size:28px;color:#800080">MONTHLY CRM REPORT</p>
 
 
         </div>
         <div class="page">
-            <t t-esc="doc.report_status('Weekly')"/>
+            <t t-esc="doc.report_status('Monthly')"/>
             <p align="center" style="font-weight:bold;font-size:28px;color:#800080">From
                 <span t-esc="doc.get_duration()[0]"/>
                 To
@@ -45,7 +45,7 @@
                         </tr>
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Open Leads (Previous Week)</span>
+                                <span>Open Leads (Previous Month)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
@@ -69,7 +69,7 @@
                         <!--</tr>-->
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Leads Created (Current Week)</span>
+                                <span>Leads Created (Current Month)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
@@ -81,7 +81,7 @@
                         </tr>
                         <!--<tr t-attf-style="background-color:white">-->
                         <!--<td class="text-left" width="480px" style="padding:5px">-->
-                        <!--<span>Open Leads(Current Week)</span>-->
+                        <!--<span>Open Leads(Current Month)</span>-->
                         <!--</td>-->
                         <!--<t t-foreach="doc.get_companies()" t-as="line">-->
                         <!--<t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">-->
@@ -94,7 +94,7 @@
 
                         <tr t-attf-style="background-color:white">
                             <td align="left" width="480px" style="padding:5px">
-                                <span>Leads Lost (Current Week)</span>
+                                <span>Leads Lost (Current Month)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
@@ -106,7 +106,7 @@
                         </tr>
                         <tr t-attf-style="background-color:white">
                             <td align="left" width="480px" style="padding:5px">
-                                <span>Leads Lost Due To Spam Email(Current Week)</span>
+                                <span>Leads Lost Due To Spam Email(Current Month)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
@@ -131,7 +131,7 @@
 
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Open Leads ( by end of week )</span>
+                                <span>Open Leads ( by end of Month )</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
@@ -200,7 +200,7 @@
                         </tr>
                         <tr t-attf-style="background-color:white;background-color:#add8e6;">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Open Opportunities ( by end of week)</span>
+                                <span>Open Opportunities ( by end of Month)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
@@ -703,10 +703,10 @@
         </div>
     </template>
 
-    <template id="report_carrierbag_cement">
+    <template id="report_carrierbag_cement_monthly">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="ga_thal_customization.report_carrier_cement_main"/>
+                <t t-call="ga_thal_customization.report_monthly_carrier_cement_main"/>
             </t>
         </t>
     </template>

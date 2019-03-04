@@ -10,6 +10,14 @@ import datetime
 from odoo.tools.misc import clean_context
 from datetime import datetime as dt
 
+from dateutil.relativedelta import relativedelta
+
+
+one_month_ago = datetime.datetime.now() - relativedelta(months=1)
+start_previous_month = str((one_month_ago.replace(day=1)).date())+ " 00:00:00"
+end_previous_month = str((one_month_ago+relativedelta(day=31)).date())+" 23:59:59"
+
+
 start_date = str(fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))).split(' ')[0] + " 00:00:00"
 end_date = str(fields.Datetime.to_string(datetime.datetime.now())).split(' ')[0] + " 23:59:59"
 
@@ -18,6 +26,14 @@ class TopmanagementReport(models.TransientModel):
     _name = 'topmanagement.report'
 
     datetime = fields.Datetime()
+    status = fields.Char('Status')
+
+    @api.model
+    def report_status(self,status):
+        if status=='Monthly':
+           global start_date,end_date
+           start_date =start_previous_month
+           end_date = end_previous_month
 
     @api.model
     def get_duration(self):
@@ -96,11 +112,18 @@ class TopmanagementReport(models.TransientModel):
         return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
-    def get_converted_opportunity(self, company_id):
-        self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
-        and type='opportunity' and date_conversion between '%s' and '%s'
-        """ % (company_id, start_date, end_date))
-        return self.env.cr.dictfetchall()[0]['count']
+    def get_converted_opportunity(self, company_id, oppo=True):
+        if oppo:
+            self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
+            and type='opportunity' and date_conversion between '%s' and '%s' and create_date between '%s' and '%s'
+            """ % (company_id, start_date, end_date,start_date,end_date))
+            return self.env.cr.dictfetchall()[0]['count']
+
+        else:
+            self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
+                       and type='opportunity' and date_conversion between '%s' and '%s'
+                       """ % (company_id, start_date, end_date))
+            return self.env.cr.dictfetchall()[0]['count']
 
     # This function is used to calculate total open leads/opportunities by the end of week
     @api.model
@@ -139,8 +162,12 @@ class TopmanagementReport(models.TransientModel):
         return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
+    def send_monthly_report(self):
+        self.env['topmanagement.report'].sudo().create({'status': 'Monthly'})
+
+    @api.model
     def send_report_to_topmanagement(self):
-        self.env['topmanagement.report'].sudo().create({'datetime': datetime.datetime.now()})
+        self.env['topmanagement.report'].sudo().create({'status': 'Weekly'})
         # template = self.env['mail.template'].search([('name','=','Send report')])
         # template.send_mail(self.id, force_send=True)
 

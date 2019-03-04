@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="report_carrier_cement_main">
+    <template id="report_monthly_formite_main">
         <div class="header">
 
             <p align="center" style="font-weight:bold;font-size:40px;color:#003366">THAL LIMITED</p>
-            <p align="center" style="font-weight:bold;font-size:28px;color:#800080">WEEKLY CRM REPORT</p>
-
+            <p align="center" style="font-weight:bold;font-size:28px;color:#800080">MONTHLY CRM REPORT</p>
 
         </div>
         <div class="page">
-            <t t-esc="doc.report_status('Weekly')"/>
+            <t t-esc="doc.report_status('Monthly')"/>
             <p align="center" style="font-weight:bold;font-size:28px;color:#800080">From
                 <span t-esc="doc.get_duration()[0]"/>
                 To
                 <span t-esc="doc.get_duration()[1]"/>
             </p>
+
             <div class="oe_structure"/>
             <div class="row">
                 <table BORDERCOLOR="#{'#00000'}"
@@ -27,9 +27,10 @@
                                 Description
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center"
-                                        t-attf-style="width:60px; font-weight:bold;color:white;border-right:1px solid white;">
+                                        t-attf-style="width:60px; font-weight:bold;color:white;border-right:1px solid white;"
+                                        colspan="3">
                                         <span t-esc="line['name']"/>
                                     </td>
                                 </t>
@@ -45,11 +46,11 @@
                         </tr>
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Open Leads (Previous Week)</span>
+                                <span>Open Leads(Previous Month)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
-                                    <td align="center" width="200px" style="padding:5px">
+                                <t t-if="line['name']=='BLD - Formite'">
+                                    <td align="center" width="200px" style="padding:5px" colspan="3">
                                         <span t-esc="doc.get_total_leads_prev_week(line['id'],'lead')"/>
                                     </td>
                                 </t>
@@ -60,7 +61,7 @@
                         <!--<span>Open Leads (Previous)</span>-->
                         <!--</td>-->
                         <!--<t t-foreach="doc.get_companies()" t-as="line">-->
-                        <!--<t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">-->
+                        <!--<t t-if="line['name']=='BLD - Formite'">-->
                         <!--<td align="center" width="200px" style="padding:5px">-->
                         <!--<span t-esc="doc.get_open_leads_opportunities_prev(line['id'],'lead')"/>-->
                         <!--</td>-->
@@ -69,10 +70,10 @@
                         <!--</tr>-->
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Leads Created (Current Week)</span>
+                                <span>Leads Created (Current Month)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_leads_created_current_week(line['id'])+doc.get_converted_opportunity(line['id'])"/>
                                     </td>
@@ -81,10 +82,10 @@
                         </tr>
                         <!--<tr t-attf-style="background-color:white">-->
                         <!--<td class="text-left" width="480px" style="padding:5px">-->
-                        <!--<span>Open Leads(Current Week)</span>-->
+                        <!--<span>Open Leads(Current Month)</span>-->
                         <!--</td>-->
                         <!--<t t-foreach="doc.get_companies()" t-as="line">-->
-                        <!--<t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">-->
+                        <!--<t t-if="line['name']=='BLD - Formite'">-->
                         <!--<td align="center" width="200px" style="padding:5px">-->
                         <!--<span t-esc="doc.get_open_count(line['id'],'lead','pending')"/>-->
                         <!--</td>-->
@@ -94,10 +95,10 @@
 
                         <tr t-attf-style="background-color:white">
                             <td align="left" width="480px" style="padding:5px">
-                                <span>Leads Lost (Current Week)</span>
+                                <span>Leads Lost (Current Month)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_lost_count(line['id'],'lead','lost')"/>
                                     </td>
@@ -106,10 +107,10 @@
                         </tr>
                         <tr t-attf-style="background-color:white">
                             <td align="left" width="480px" style="padding:5px">
-                                <span>Leads Lost Due To Spam Email(Current Week)</span>
+                                <span>Leads Lost Due To Spam Email(Current Month)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_lost_count_spam_email(line['id'],'lead','lost')"/>
                                     </td>
@@ -121,7 +122,7 @@
                                 <span>Leads Converted To Opportunities</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_converted_opportunity(line['id'])"/>
                                     </td>
@@ -131,10 +132,10 @@
 
                         <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Open Leads ( by end of week )</span>
+                                <span>Open Leads ( by end of Month )</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_total_open_count(line['id'],'lead','pending')"/>
                                     </td>
@@ -153,7 +154,7 @@
                                 <span>Open opportunities (Previous)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_open_leads_opportunities_prev(line['id'],'opportunity')"/>
                                     </td>
@@ -166,7 +167,7 @@
                                 <span>Opportunities converted / created</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_direct_opportunities_count(line['id'])+doc.get_converted_opportunity(line['id'])"/>
                                     </td>
@@ -179,7 +180,7 @@
                                 <span>Won</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_won_count(line['id'],'opportunity','won')"/>
                                     </td>
@@ -191,7 +192,7 @@
                                 <span>Lost opportunity</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_lost_count(line['id'],'opportunity','lost')"/>
                                     </td>
@@ -200,10 +201,10 @@
                         </tr>
                         <tr t-attf-style="background-color:white;background-color:#add8e6;">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Open Opportunities ( by end of week)</span>
+                                <span>Open Opportunities ( by end of Month)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_total_open_count(line['id'],'opportunity','pending')"/>
                                     </td>
@@ -220,7 +221,7 @@
                                 <span>Won opportunities - Initial Expected revenue</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="'{0:,.2f}'.format(round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
                                     </td>
@@ -233,7 +234,7 @@
                                 <span>Won opportunities - Current Expected revenue</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="'{0:,.2f}'.format(round(doc.get_won_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
                                     </td>
@@ -245,7 +246,7 @@
                                 <span>Open opportunities - Initial Expected revenue</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="'{0:,.2f}'.format(round(doc.get_open_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
                                     </td>
@@ -257,7 +258,7 @@
                                 <span>Open opportunities - Current Expected revenue</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="'{0:,.2f}'.format(round(doc.get_open_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
                                     </td>
@@ -270,7 +271,7 @@
                                 <span>Lost opportunities - Initial Expected revenue</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="'{0:,.2f}'.format(round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['initial'] or 0.0))"/>
                                     </td>
@@ -282,7 +283,7 @@
                                 <span>Lost opportunities - Current Expected revenue</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="'{0:,.2f}'.format(round(doc.get_lost_opportunities_intial_current_revenue(line['id'])[0]['current'] or 0.0))"/>
                                     </td>
@@ -299,7 +300,7 @@
                                 <span>Overdue 3-7 days</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_overdue_activity(line['id'],3,7)"/>
                                     </td>
@@ -312,7 +313,7 @@
                                 <span>Overdue 7-15 days</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_overdue_activity(line['id'],7,15)"/>
                                     </td>
@@ -324,7 +325,7 @@
                                 <span>Overdue > 15 days</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
-                                <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                                <t t-if="line['name']=='BLD - Formite'">
                                     <td align="center" width="200px" style="padding:5px">
                                         <span t-esc="doc.get_overdue_activity(line['id'],15,0)"/>
                                     </td>
@@ -337,7 +338,7 @@
 
             <div class="row">
                 <t t-foreach="doc.get_companies()" t-as="line">
-                    <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                    <t t-if="line['name']=='BLD - Formite'">
                         <h1 align="center" style="font-weight:bold;">
                             <span t-esc="line['name']"/>
                         </h1>
@@ -538,7 +539,6 @@
                     </t>
                 </t>
             </div>
-
             <br/>
             <div class="row">
                 <table BORDERCOLOR="#{'#00000'}" border="1" cellpadding="0" cellspacing="0" width="1200px">
@@ -550,7 +550,7 @@
                             </tr>
                         </thead>
                         <t t-foreach="doc.get_companies()" t-as="line">
-                            <t t-if="line['name']=='PPD - Carrier Bags' or line['name']=='PPD - Cement &amp; Allied'">
+                            <t t-if="line['name']=='BLD - Formite'">
                                 <tr style="font-weight:bold; background-color:#875A7B; color:white;">
                                     <td class="text-left" width="480px" style="padding:5px" colspan="5">
                                         <span t-esc="line['name']"/>
@@ -575,11 +575,12 @@
                                         <td class="text-left" style="padding:5px">
                                             Activity Type
                                         </td>
-                                        <td class="text-left" style="padding:5px width:105px;">
+                                        <td class="text-left" style="padding:5px; width:105px;">
                                             Create Date
                                         </td>
                                     </tr>
                                     <t t-foreach="doc.get_overdue_activity(line['id'],3,7,False)" t-as="activity">
+
                                         <tr>
                                             <td class="text-left" style="padding:5px; font-weight:bold;">
                                                 <span t-esc="activity_index+1"/>
@@ -604,7 +605,7 @@
                                 </t>
                                 <t t-if="len(doc.get_overdue_activity(line['id'],7,15,False))>0">
                                     <tr style="font-weight:bold; background-color:#875A7B; color:white;">
-                                        <td class="text-left" width="480px" style="padding:5px" colspan="5">
+                                        <td class="text-left" width="480px" style="padding:5px" colspan="6">
                                             Overdue 7-15 Days
                                         </td>
                                     </tr>
@@ -621,7 +622,7 @@
                                         <td class="text-left" style="padding:5px; font-weight:bold;">
                                             Activity Type
                                         </td>
-                                        <td class="text-left" style="padding:5px; font-weight:bold; width:105px;">
+                                        <td class="text-left" style="padding:5px; font-weight:bold;width:105px;">
                                             Create Date
                                         </td>
                                     </tr>
@@ -651,7 +652,7 @@
                                 </t>
                                 <t t-if="len(doc.get_overdue_activity(line['id'],15,0,False))>0">
                                     <tr style="font-weight:bold; background-color:#875A7B; color:white;">
-                                        <td class="text-left" width="480px" style="padding:5px" colspan="5">
+                                        <td class="text-left" width="480px" style="padding:5px" colspan="6">
                                             Overdue >15 Days
                                         </td>
                                     </tr>
@@ -668,7 +669,7 @@
                                         <td class="text-left" style="padding:5px; font-weight:bold;">
                                             Activity Type
                                         </td>
-                                        <td class="text-left" style="padding:5px; font-weight:bold; width:105px;">
+                                        <td class="text-left" style="padding:5px; font-weight:bold;width:105px;">
                                             Create Date
                                         </td>
                                     </tr>
@@ -703,13 +704,11 @@
         </div>
     </template>
 
-    <template id="report_carrierbag_cement">
+    <template id="report_formite_monthly">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
-                <t t-call="ga_thal_customization.report_carrier_cement_main"/>
+                <t t-call="ga_thal_customization.report_monthly_formite_main"/>
             </t>
         </t>
     </template>
-
-
 </odoo>
