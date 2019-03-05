@@ -68,7 +68,7 @@
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_leads_created_current_week(line['id'])+doc.get_converted_opportunity(line['id'])"/>
+                                    <span t-esc="doc.get_leads_created_current_week(line['id'])+doc.get_converted_leads_to_opportunity(line['id'])"/>
                                 </td>
                             </t>
                         </tr>
@@ -149,7 +149,7 @@
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_direct_opportunities_count(line['id'])+doc.get_converted_opportunity(line['id'],'True')"/>
+                                    <span t-esc="doc.get_direct_opportunities_count(line['id'])+doc.get_converted_opportunity(line['id'])"/>
                                 </td>
                             </t>
                         </tr>
