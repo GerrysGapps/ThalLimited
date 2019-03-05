@@ -128,7 +128,7 @@ class TopmanagementReport(models.TransientModel):
                    """ % (company_id, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
-    # This function is used to calculate total open leads/opportunities by the end of week
+    # This function is used to calculate total open leads/opportunities by the end of week.
     @api.model
     def get_total_open_count(self, company_id, type, won_status):
         self.env.cr.execute(
