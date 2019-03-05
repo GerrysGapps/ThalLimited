@@ -128,7 +128,7 @@ class TopmanagementReport(models.TransientModel):
                    """ % (company_id, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
-    # This function is used to calculate total open leads/opportunities by the end of week
+    # This function is used to calculate total open leads/opportunities by the end of week.
     @api.model
     def get_total_open_count(self, company_id, type, won_status):
         self.env.cr.execute(
@@ -323,7 +323,7 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_lost_opportunities_intial_current_revenue(self, company_id):
         self.env.cr.execute(""" select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  
-                        where company_id=%s and type='opportunity' and won_status='lost' and date_last_stage_update between '%s' and '%s'
+                        where company_id=%s and type='opportunity' and won_status='lost' and date_closed between '%s' and '%s'
                         """ % (company_id, start_date, end_date))
         lost_revenue = self.env.cr.dictfetchall()
         return lost_revenue
@@ -332,7 +332,7 @@ class TopmanagementReport(models.TransientModel):
     def get_lost_opportunities_intial_current_revenue_prev(self, company_id):
         self.env.cr.execute(
             "select sum(planned_revenue) as Current,sum(actual_revenue) as Initial from crm_lead  where company_id=" + str(
-                company_id) + " and type ='opportunity' and won_status = 'lost' and date_last_stage_update<" + "'" + fields.Datetime.to_string(
+                company_id) + " and type ='opportunity' and won_status = 'lost' and date_closed<" + "'" + fields.Datetime.to_string(
                 datetime.datetime.now() - datetime.timedelta(
                     6)) + "'")
         lost_count = self.env.cr.dictfetchall()
