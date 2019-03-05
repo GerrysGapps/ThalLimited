@@ -63,11 +63,11 @@ class TopmanagementReport(models.TransientModel):
 
     @api.model
     def get_open_leads_opportunities_prev(self, company_id, type):
-        self.env.cr.execute(""" select count from crm_lead where date_closed between '%s' and '%s' 
+        self.env.cr.execute(""" select count(*) from crm_lead where date_closed between '%s' and '%s' 
                             and create_date<'%s' and type='%s' and company_id=%s;
                                                """ % (start_date, end_date, start_date, type, company_id))
         lost_count_curr_week = self.env.cr.dictfetchall()[0]['count']
-        self.env.cr.execute("""select count from crm_lead  where company_id=%s
+        self.env.cr.execute("""select count(*) from crm_lead  where company_id=%s
                 and type='%s' and won_status='pending' and create_date<'%s' and id not in 
                 (select id from crm_lead  where company_id=%s
                 and type='%s' and date_conversion between '%s' and '%s'
@@ -112,6 +112,14 @@ class TopmanagementReport(models.TransientModel):
                and crml.date_closed between '%s' and '%s'""" % (
             company_id, type, won_status, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
+
+    @api.model
+    def get_converted_leads_to_opportunity(self, company_id):
+        self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
+                and type='opportunity' and create_date between '%s' and '%s' and  date_conversion between '%s' and '%s'
+                """ % (company_id, start_date, end_date, start_date, end_date))
+        return self.env.cr.dictfetchall()[0]['count']
+
 
     @api.model
     def get_converted_opportunity(self, company_id):
