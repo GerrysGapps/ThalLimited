@@ -17,9 +17,9 @@ class IncomingMailServer(models.AbstractModel):
     def _extract_email(self, email,mail_server):
         email_servers = mail_server.search([])
         emails = re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", email, re.IGNORECASE)
-        for email in emails:
-            if email in email_servers:
-                return email
+        for email in email_servers:
+            if email.user in emails:
+                return email.user
 
     @api.model
     def message_new(self, msg_dict, custom_values=None):
