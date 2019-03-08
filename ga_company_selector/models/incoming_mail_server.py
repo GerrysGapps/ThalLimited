@@ -7,6 +7,7 @@ class crmlead(models.Model):
     _inherit = 'crm.lead'
 
     incoming_mail_server = fields.Char(string='Incoming Mail Server')
+    email_text = fields.Text(string='Email Body')
 
 
 class IncomingMailServer(models.AbstractModel):
@@ -53,4 +54,3 @@ class FetchMailServer(models.Model):
     _inherit = "fetchmail.server"
 
     company_id = fields.Many2one('res.company', string='Company', required=True)
-    email_text = fields.Text(string='Email Body')
