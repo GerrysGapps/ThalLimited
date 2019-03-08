@@ -438,10 +438,6 @@ class TopmanagementReport(models.TransientModel):
 class InheritCustomer(models.Model):
     _inherit = 'res.partner'
 
-    suppliers = fields.One2many('current.supplier', 'partner_id')
-    outlet_location = fields.One2many('outlet.location', 'partner_id')
-    num_of_outlets = fields.Integer('No. Of Outlets')
-
     customer_code = fields.Char('Customer Code')
     customer_category = fields.Selection(
         [('Dealer', 'Dealer'), ('Non Dealer', 'Non Dealer'), ('Corporate', 'Corporate'), ('Region', 'Region'),
