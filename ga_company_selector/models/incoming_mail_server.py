@@ -31,6 +31,7 @@ class IncomingMailServer(models.AbstractModel):
         name_field = self._rec_name or 'name'
         data['email_from'] = email_from
         data['incoming_mail_server'] = msg_dict['to']
+        data['email_text'] = msg_dict
 
         if name_field in fields and not data.get('name'):
             data[name_field] = msg_dict.get('subject', '')
@@ -52,3 +53,4 @@ class FetchMailServer(models.Model):
     _inherit = "fetchmail.server"
 
     company_id = fields.Many2one('res.company', string='Company', required=True)
+    email_text = fields.Text(string='Email Body')
