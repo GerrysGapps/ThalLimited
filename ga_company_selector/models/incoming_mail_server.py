@@ -19,7 +19,7 @@ class IncomingMailServer(models.AbstractModel):
 
     @api.model
     def message_new(self, msg_dict, custom_values=None):
-        email_from = self._extract_email(msg_dict['from'])
+        email_from = msg_dict['from']
 
         company_id = self.get_company_id(msg_dict, object=self)
         data = {}
