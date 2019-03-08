@@ -18,6 +18,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='company_id']" position="after">
                     <field name="incoming_mail_server" readonly="1"/>
+                    <field name="email_text" readonly="1"/>
                 </xpath>
             </field>
         </record>
