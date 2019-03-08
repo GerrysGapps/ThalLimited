@@ -14,9 +14,12 @@ class IncomingMailServer(models.AbstractModel):
     _inherit = "mail.thread"
 
     @api.multi
-    def _extract_email(self, email):
-        email = re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", email, re.IGNORECASE)
-        return email[0]
+    def _extract_email(self, email,mail_server):
+        email_servers = mail_server.search([])
+        emails = re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", email, re.IGNORECASE)
+        for email in emails:
+            if email in email_servers:
+                return email
 
     @api.model
     def message_new(self, msg_dict, custom_values=None):
@@ -32,7 +35,7 @@ class IncomingMailServer(models.AbstractModel):
         name_field = self._rec_name or 'name'
         data['email_from'] = email_from
         data['incoming_mail_server'] = msg_dict['to']
-        data['email_text'] = msg_dict
+        data['email_text'] = msg_dict['to'] + ' ' + str(company_id.id)+" "+str(self._name)
 
         if name_field in fields and not data.get('name'):
             data[name_field] = msg_dict.get('subject', '')
@@ -44,9 +47,9 @@ class IncomingMailServer(models.AbstractModel):
 
     @api.multi
     def get_company_id(self, msg_dict, object):
-        to_email = self._extract_email(msg_dict['to'])
-        company_id = self.env['fetchmail.server'].search(
-            [('user', '=', to_email), ('object_id', '=', object._name)]).company_id
+        mail_server = self.env['fetchmail.server']
+        to_email = self._extract_email(msg_dict['to'],mail_server)
+        company_id = mail_server.search([('user', '=', to_email), ('object_id', '=', object._name)]).company_id
         return company_id
 
 
