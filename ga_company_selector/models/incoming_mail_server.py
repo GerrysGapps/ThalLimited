@@ -19,7 +19,8 @@ class IncomingMailServer(models.AbstractModel):
         emails = re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", email, re.IGNORECASE)
         for email in email_servers:
             if email.user in emails:
-                return email.user
+                user_email = email.user
+                return user_email.lower()
 
     @api.model
     def message_new(self, msg_dict, custom_values=None):
@@ -48,7 +49,7 @@ class IncomingMailServer(models.AbstractModel):
     @api.multi
     def get_company_id(self, msg_dict, object):
         mail_server = self.env['fetchmail.server']
-        to_email = str(self._extract_email(msg_dict['to'],mail_server)).lower()
+        to_email = self._extract_email(msg_dict['to'],mail_server)
         object_model = self.env['ir.model'].search([('model','=',object._name)])
         company_id = mail_server.search([('user', '=', to_email), ('object_id', '=',object_model.id)]).company_id
         return company_id
