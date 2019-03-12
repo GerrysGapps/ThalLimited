@@ -1,6 +1,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 import re
+from copy import deepcopy
 
 
 class crmlead(models.Model):
@@ -16,9 +17,9 @@ class IncomingMailServer(models.AbstractModel):
     @api.multi
     def _extract_email(self, email,mail_server):
         email_servers = mail_server.search([])
-        emails = re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", email, re.IGNORECASE)
+        emails = [e.lower() for e in deepcopy(re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", email, re.IGNORECASE))]
         for email in email_servers:
-            if email.user in emails:
+            if email.user.lower() in emails:
                 user_email = email.user
                 return user_email.lower()
 
@@ -36,7 +37,7 @@ class IncomingMailServer(models.AbstractModel):
         name_field = self._rec_name or 'name'
         data['email_from'] = email_from
         data['incoming_mail_server'] = msg_dict['to']
-        data['email_text'] = msg_dict['to'] + ' ' + str(company_id.id)+" "+str(self._name) + " " +self._extract_email(msg_dict['to'])
+        data['email_text'] = msg_dict['to'] + ' ' + str(company_id.id)+" "+str(self._name)
 
         if name_field in fields and not data.get('name'):
             data[name_field] = msg_dict.get('subject', '')
