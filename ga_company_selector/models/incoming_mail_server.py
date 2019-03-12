@@ -48,7 +48,7 @@ class IncomingMailServer(models.AbstractModel):
     @api.multi
     def get_company_id(self, msg_dict, object):
         mail_server = self.env['fetchmail.server']
-        to_email = self._extract_email(msg_dict['to'],mail_server)
+        to_email = (self._extract_email(msg_dict['to'],mail_server)).lower()
         object_model = self.env['ir.model'].search([('model','=',object._name)])
         company_id = mail_server.search([('user', '=', to_email), ('object_id', '=',object_model.id)]).company_id
         return company_id

@@ -17,9 +17,8 @@ one_month_ago = datetime.datetime.now() - relativedelta(months=1)
 start_previous_month = str((one_month_ago.replace(day=1)).date())+ " 00:00:00"
 end_previous_month = str((one_month_ago+relativedelta(day=31)).date())+" 23:59:59"
 
-
-start_date = str(fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(6))).split(' ')[0] + " 00:00:00"
-end_date = str(fields.Datetime.to_string(datetime.datetime.now())).split(' ')[0] + " 23:59:59"
+start_date = str(fields.Datetime.to_string(datetime.datetime.now() - datetime.timedelta(7))).split(' ')[0] + " 00:00:00"
+end_date = str(fields.Datetime.to_string(datetime.datetime.now()-datetime.timedelta(1))).split(' ')[0] + " 23:59:59"
 
 
 class TopmanagementReport(models.TransientModel):
