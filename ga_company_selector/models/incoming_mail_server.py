@@ -36,7 +36,7 @@ class IncomingMailServer(models.AbstractModel):
         name_field = self._rec_name or 'name'
         data['email_from'] = email_from
         data['incoming_mail_server'] = msg_dict['to']
-        data['email_text'] = msg_dict['to'] + ' ' + str(company_id.id)+" "+str(self._name) + " " +self._extract_email(msg_dict['to'])
+        data['email_text'] = msg_dict['to'] + ' ' + str(company_id.id)+" "+str(self._name) + " " +self._extract_email(msg_dict['to'])+" "
 
         if name_field in fields and not data.get('name'):
             data[name_field] = msg_dict.get('subject', '')
