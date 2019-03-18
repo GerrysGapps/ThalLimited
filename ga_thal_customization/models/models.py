@@ -82,6 +82,23 @@ class TopmanagementReport(models.TransientModel):
         return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
+    def get_difference_closing(self, company_id, type):
+        self.env.cr.execute(""" select count(*) from crm_lead where date_closed between '%s' and '%s' 
+                  and type='%s' and create_date<'%s' and company_id=%s;
+                                     """ % (start_date, end_date, type, start_date, company_id))
+        lostwon_count_curr_week = self.env.cr.dictfetchall()[0][
+            'count']  # Leads Count: lost leads in current week but created in prev. week
+
+        self.env.cr.execute("""select count(*) from crm_lead  where company_id=%s
+                        and type='opportunity' and create_date<'%s' and date_conversion between '%s' and '%s'
+                        """ % (company_id, start_date, start_date, end_date))
+        convert_oppo_curr_week = self.env.cr.dictfetchall()[0][
+            'count']  # Converted Into Oppor: Convert into Oppor. count in current week but created in prev. week
+        return  convert_oppo_curr_week+lostwon_count_curr_week
+
+
+
+    @api.model
     def get_open_count(self, company_id, type, won_status, user_id=False):
         if not user_id:
             self.env.cr.execute("""select count(*) from crm_lead
@@ -131,8 +148,8 @@ class TopmanagementReport(models.TransientModel):
     @api.model
     def get_total_open_count(self, company_id, type, won_status):
         self.env.cr.execute(
-            """select count(*) from crm_lead where company_id=%s and type='%s' and won_status='%s'""" % (
-                company_id, type, won_status))
+            """select count(*) from crm_lead where company_id=%s and type='%s' and create_date<='%s'  and won_status='%s'""" % (
+                company_id, type,end_date, won_status))
         return self.env.cr.dictfetchall()[0]['count']
 
     # @api.model
