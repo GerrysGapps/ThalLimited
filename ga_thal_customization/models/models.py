@@ -54,7 +54,7 @@ class TopmanagementReport(models.TransientModel):
             'count']  # Converted Into Oppor: Convert into Oppor. count in current week but created in prev. week
 
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
-                    and type='%s' and won_status='pending' and date_last_stage_update<'%s'
+                    and type='%s' and won_status='pending' and create_date<'%s'
                     """ % (company_id, type, start_date))
         open_lead_count = self.env.cr.dictfetchall()[0]['count']
 
@@ -79,6 +79,20 @@ class TopmanagementReport(models.TransientModel):
     def get_leads_created_current_week(self, company_id):
         self.env.cr.execute("""select count(id) from crm_lead where company_id=%s and type='lead' and create_date between '%s' and '%s'
             """ % (company_id, start_date, end_date))
+        return self.env.cr.dictfetchall()[0]['count']
+
+    # It is used to calculate total leads in auto current week
+    @api.model
+    def get_leads_created_current_week_auto(self, company_id):
+        self.env.cr.execute("""select count(id) from crm_lead where company_id=%s and incoming_mail_server is not null and type='lead' and create_date between '%s' and '%s' and 
+                """ % (company_id, start_date, end_date))
+        return self.env.cr.dictfetchall()[0]['count']
+
+    # It is used to calculate total leads in manual current week
+    @api.model
+    def get_leads_created_current_week_manual(self, company_id):
+        self.env.cr.execute("""select count(id) from crm_lead where company_id=%s and incoming_mail_server is null and type='lead' and create_date between '%s' and '%s' and 
+                   """ % (company_id, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
@@ -130,12 +144,18 @@ class TopmanagementReport(models.TransientModel):
         return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
-    def get_converted_leads_to_opportunity(self, company_id):
+    def get_converted_leads_to_opportunity_auto(self, company_id):
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
-                and type='opportunity' and create_date between '%s' and '%s' and  date_conversion between '%s' and '%s'
+                and type='opportunity' and incoming_mail_server is not null and create_date between '%s' and '%s' and  date_conversion between '%s' and '%s'
                 """ % (company_id, start_date, end_date, start_date, end_date))
         return self.env.cr.dictfetchall()[0]['count']
 
+    @api.model
+    def get_converted_leads_to_opportunity_manual(self, company_id):
+        self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
+                   and type='opportunity' and incoming_mail_server is null and create_date between '%s' and '%s' and  date_conversion between '%s' and '%s'
+                   """ % (company_id, start_date, end_date, start_date, end_date))
+        return self.env.cr.dictfetchall()[0]['count']
 
     @api.model
     def get_converted_opportunity(self, company_id):
