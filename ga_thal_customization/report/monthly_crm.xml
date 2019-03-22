@@ -62,13 +62,23 @@
                         <!--</td>-->
                         <!--</t>-->
                         <!--</tr>-->
-                        <tr t-attf-style="background-color:white">
+                       <tr t-attf-style="background-color:white">
                             <td class="text-left" width="480px" style="padding:5px">
-                                <span>Leads Created (Current Month)</span>
+                                <span>Auto Leads Created (Current Month)</span>
                             </td>
                             <t t-foreach="doc.get_companies()" t-as="line">
                                 <td align="center" width="200px" style="padding:5px">
-                                    <span t-esc="doc.get_leads_created_current_week(line['id'])+doc.get_converted_leads_to_opportunity(line['id'])"/>
+                                    <span t-esc="doc.get_leads_created_current_week_auto(line['id'])+doc.get_converted_leads_to_opportunity_auto(line['id'])"/>
+                                </td>
+                            </t>
+                        </tr>
+                        <tr t-attf-style="background-color:white">
+                            <td class="text-left" width="480px" style="padding:5px">
+                                <span>Manual Leads Created (Current Month)</span>
+                            </td>
+                            <t t-foreach="doc.get_companies()" t-as="line">
+                                <td align="center" width="200px" style="padding:5px">
+                                    <span t-esc="doc.get_leads_created_current_week_manual(line['id'])+doc.get_converted_leads_to_opportunity_manual(line['id'])"/>
                                 </td>
                             </t>
                         </tr>
