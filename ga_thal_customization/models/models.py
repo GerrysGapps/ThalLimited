@@ -54,7 +54,7 @@ class TopmanagementReport(models.TransientModel):
             'count']  # Converted Into Oppor: Convert into Oppor. count in current week but created in prev. week
 
         self.env.cr.execute("""select count(id) from crm_lead  where company_id=%s
-                    and type='%s' and won_status='pending' and date_last_stage_update<'%s'
+                    and type='%s' and won_status='pending' and create_date<'%s'
                     """ % (company_id, type, start_date))
         open_lead_count = self.env.cr.dictfetchall()[0]['count']
 
