@@ -1,140 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<data>
-		<record id="inherited_partner_form" model="ir.ui.view">
-        <field name="name">partner.form</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>
-        <field name="arch" type="xml">
+    <data>
+        <record id="inherit_crm_lead_lost_form" model="ir.ui.view">
+            <field name="name">crm.lead.lost.form</field>
+            <field name="model">crm.lead.lost</field>
+            <field name="inherit_id" ref="crm.crm_lead_lost_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lost_reason_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='lost_reason_id']" position="after">
+                    <field name="competitor"/>
+                    <field name="description"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="inherited_partner_form" model="ir.ui.view">
+            <field name="name">partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
 
-			<xpath expr="//field[@name='vat']" position="after">
-				<field name="num_of_outlets"/>
-			</xpath>
-			<xpath expr="//page[@name='sales_purchases']" position="after">
-                <page string="OUTLET LOCATIONS">
-                    <group>
-                        <field name="outlet_location" nolabel="1">
-                            <tree  editable="bottom">
-                             <field name="city"/>
-                                 <field name="region"/>
-                                 <field name="no_of_outlets"/>
-                                 <field name="tentative_opening_date"/>
-                            </tree>
-                        </field>
-                    </group>
-                </page>
-                 <page string="CURRENT SUPPLIERS">
-                    <group>
-                        <field name="suppliers" nolabel="1">
-                            <tree  editable="bottom">
-                             <field name="competitor"/>
-                                 <field name="city"/>
-                                 <field name="description"/>
-                            </tree>
-                        </field>
-                    </group>
-                </page>
-				<page string="KEY FEATURES OF BUSINESS">
-                    <group>
-                        <field name="key_feature_business" nolabel="1" />
-                    </group>
-                </page>
-                  <page string="CHALLNAGES IF ANY" >
-                    <group>
-                        <field name="challanges" nolabel="1"/>
-                    </group>
-                </page>
-                  <page string="BUSINESS UPDATES">
-                    <group>
-                        <field name="business_updates" nolabel="1"/>
-                    </group>
-                </page>
-            </xpath>
-        </field>
-    </record>
-		<record id="view_competitor_form" model="ir.ui.view">
-			<field name="name">competitor.form</field>
-			<field name="model">competitor</field>
-			<field name="arch" type="xml">
-				<form string="Competitor">
-					<sheet>
-						<div class="oe_button_box" name="button_box">
-							<button name="toggle_active" type="object"
-								class="oe_stat_button" icon="fa-archive">
-								<field name="active" widget="boolean_button"
-									options='{"terminology": "archive"}' />
-							</button>
-						</div>
-						<field name="image" widget='image' class="oe_avatar"
-							options='{"preview_image": "image_medium", "size": [90, 90]}' />
-						<div class="oe_title">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="num_of_outlets"/>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="after">
+                    <page string="OUTLET LOCATIONS">
+                        <group>
+                            <field name="outlet_location" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="city"/>
+                                    <field name="region"/>
+                                    <field name="no_of_outlets"/>
+                                    <field name="tentative_opening_date"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                    <page string="CURRENT SUPPLIERS">
+                        <group>
+                            <field name="suppliers" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="competitor"/>
+                                    <field name="city"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                    <page string="KEY FEATURES OF BUSINESS">
+                        <group>
+                            <field name="key_feature_business" nolabel="1"/>
+                        </group>
+                    </page>
+                    <page string="CHALLNAGES IF ANY">
+                        <group>
+                            <field name="challanges" nolabel="1"/>
+                        </group>
+                    </page>
+                    <page string="BUSINESS UPDATES">
+                        <group>
+                            <field name="business_updates" nolabel="1"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_competitor_form" model="ir.ui.view">
+            <field name="name">competitor.form</field>
+            <field name="model">competitor</field>
+            <field name="arch" type="xml">
+                <form string="Competitor">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object"
+                                    class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                       options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <field name="image" widget='image' class="oe_avatar"
+                               options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                        <div class="oe_title">
 
-							<h1>
-								<field name="name" default_focus="1" placeholder="Name"
-									required="1" />
-							</h1>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name"
+                                       required="1"/>
+                            </h1>
 
-						</div>
+                        </div>
 
-						<group>
-							<group>
-								<label for="street" string="Address" />
-								<div class="o_address_format">
-									<div class="oe_edit_only">
-										<b>Company Address:</b>
-									</div>
-									<field name="street" placeholder="Street..."
-										class="o_address_street" />
-									<field name="street2" placeholder="Street 2..."
-										class="o_address_street" />
-									<field name="city" placeholder="City"
-										class="o_address_city" />
-									<field name="state_id" class="o_address_state"
-										placeholder="State" options='{"no_open": True}'/>
-									<field name="zip" placeholder="ZIP" class="o_address_zip" />
-									<field name="country_id" placeholder="Country"
-										class="o_address_country"
-										options='{"no_open": True, "no_create": True}' />
-								</div>
-							</group>
-							<group>
-								<field name="phone" widget="phone" />
-								<field name="mobile" widget="phone" />
-								
-								<field name="email" widget="email"/>
-								<field name="website" widget="url"
-									placeholder="e.g. www.odoo.com" />
-							</group>
-						</group>
-					</sheet>
-				</form>
-			</field>
-		</record>
-		<record id="view_competitor_tree" model="ir.ui.view">
-			<field name="name">competitor.tree</field>
-			<field name="model">competitor</field>
-			<field name="arch" type="xml">
-				<tree string="Contacts">
-					<field name="display_name" string="Name" />
-					<field name="phone" />
-					<field name="email" />
-					<field name="website" />
-				</tree>
-			</field>
-		</record>
-		<record id="action_competitor_window"
-			model="ir.actions.act_window">
-			<field name="name">Competitor</field>
-			<field name="res_model">competitor</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-		</record>
+                        <group>
+                            <group>
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <div class="oe_edit_only">
+                                        <b>Company Address:</b>
+                                    </div>
+                                    <field name="street" placeholder="Street..."
+                                           class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..."
+                                           class="o_address_street"/>
+                                    <field name="city" placeholder="City"
+                                           class="o_address_city"/>
+                                    <field name="state_id" class="o_address_state"
+                                           placeholder="State" options='{"no_open": True}'/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="country_id" placeholder="Country"
+                                           class="o_address_country"
+                                           options='{"no_open": True, "no_create": True}'/>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="phone" widget="phone"/>
+                                <field name="mobile" widget="phone"/>
 
-		<menuitem id="res_partner_menu_competitor" name='Competitor'
-			parent="sale.sale_order_menu" action="action_competitor_window"
-			sequence="6" groups="sales_team.group_sale_salesman" />
-		<menuitem id="crm_menu_competitor" name='Competitor'
-			parent="crm.crm_menu_sales" action="action_competitor_window"
-			sequence="5" />
-	</data>
+                                <field name="email" widget="email"/>
+                                <field name="website" widget="url"
+                                       placeholder="e.g. www.odoo.com"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_competitor_tree" model="ir.ui.view">
+            <field name="name">competitor.tree</field>
+            <field name="model">competitor</field>
+            <field name="arch" type="xml">
+                <tree string="Contacts">
+                    <field name="display_name" string="Name"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="website"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_competitor_window"
+                model="ir.actions.act_window">
+            <field name="name">Competitor</field>
+            <field name="res_model">competitor</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="res_partner_menu_competitor" name='Competitor'
+                  parent="sale.sale_order_menu" action="action_competitor_window"
+                  sequence="6" groups="sales_team.group_sale_salesman"/>
+        <menuitem id="crm_menu_competitor" name='Competitor'
+                  parent="crm.crm_menu_sales" action="action_competitor_window"
+                  sequence="5"/>
+    </data>
 </odoo>
